@@ -8,18 +8,27 @@
 %token EQUAL UNEQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH NOTMATCH CONDITION
 
-%token <int> LITERAL
+%token <int> LITERAL VARIABLE
 %token <string> ID
 %token EOF
 
+%nonassoc ELSE
 %right ASSIGN
 %left OR
 %left AND
-%left EQ NEQ
+%left EQUAL UNEQUAL
+%left MATCH NOTMATCH
 %left LESS GREAT LESSEQ GREATEQ
-
+%left PLUS MINUS
+%left PLUSEQ MINUSEQ
+%left INCREMENT DECREMENT
+%left TIMES DIVIDE
+%left TIMESEQ DIVIDEEQ
+%right NEG
 
 %start program
 %type <Ast.program> program
 
 %%
+
+
