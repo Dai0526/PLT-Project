@@ -1,6 +1,6 @@
 %{ open Ast %}
 
-%token SEMI LFPAR RTPAR CLFPAR CRTPAR SLFPAR SRTPAR
+%token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
 %token ADD MINUS TIMES ASSIGN
@@ -39,7 +39,7 @@ decls: /* nothing */ { [], [] }
 		 | decls fdecl { fst $1, ($2 :: snd $1) }
 
 fdecl: 
-	type ID LFPAR formals_opt RTPAR LBRACE vdecl_list stmt_list RBRACE
+	type ID LPAREN formals_opt RPAREN LBRACE vdecl_list stmt_list RBRACE
 		{ { type = $1; fname = $2; formals = $4; 
 				locals = List.rev $7; body = List.rev $8 } } 
 
@@ -65,10 +65,9 @@ stmt: expr SEMI 																							{ Expr $1 }
 		| RETURN SEMI 																						{ Return Noexpr }
 		| RETURN expr SEMI 																				{ Return $2 }
 		| LBRACE stmt_list BRACE 																	{ Block(List.rev $2) }
-		| IF LFPAR expr RTPAR stmt ELSE stmt 											{ If ($3, $5, $7) }
-		| FOR LFPAR expr_opt SEMI expr SEMI expr_opt RTPAR stmt 	{ For($3, $5, $7, $9) }
-		| WHILE LFPAR expr RTPAR stmt 														{ While( $3, $5) }
+		| IF LPAREN expr RPAREN stmt ELSE stmt 											{ If ($3, $5, $7) }
+		| FOR LPAREN expr_opt SEMI expr SEMI expr_opt RPAREN stmt 	{ For($3, $5, $7, $9) }
+		| WHILE LPAREN expr RPAREN stmt 														{ While( $3, $5) }
 
 
 
-		

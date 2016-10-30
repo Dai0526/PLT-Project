@@ -2,12 +2,12 @@
  
 rule token = parse
   [' ' '\t' '\r' '\n' '\\' ] {token lexbuf} (* Whitespace *)
-| "(" {LFPAR}
-| ")" {RTPAR}
-| "{" {CLFPAR}
-| "}" {CRTPAR}
-| "[" {SLFPAR}
-| "]" {SRTPAR}
+| "(" {LPAREN}
+| ")" {RPAREN}
+| "{" {LBRACE}
+| "}" {RBRACE}
+| "[" {LBRACKET}
+| "]" {RBRACKET}
 | "file" {FILE}
 | "int" {INT}
 | "float" {FLOAT}
@@ -32,6 +32,7 @@ rule token = parse
 | "write" {WRITE}
 | "replace" {REPLACE}
 | "delete" {DELETE}
+| ';' {SEMI}
 | '+' {ADD}
 | '-' {MINUS}
 | '*' {TIMES}
