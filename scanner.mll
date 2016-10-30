@@ -7,6 +7,9 @@ rule token = parse
 | "float" {FLOAT}
 | "char" {CHAR}
 | "string" {STRING}
+| "void" {VOID}
+| "true" {TRUE}
+| "false" {FALSE}
 | "if" {IF}
 | "else" {ELSE}
 | "while" {WHILE}
@@ -23,24 +26,39 @@ rule token = parse
 | "write" {WRITE}
 | "replace" {REPLACE}
 | "delete" {DELETE}
-| '+' {MERGE}
-| '/' {CHECK}
+| '+' {ADD}
+| '-' {MINUS}
+| '*' {TIMES}
+(* | '/' {DIVIDE} *)
+| '/' { search lexbuf } (* search pattern *)
 | "++" {INCREMENT}
 | "--" {DECREMENT}
+| "+=" {PLUSEQ}
+| "-=" {MINUSEQ}
+| "*=" {TIMESEQ}
+| "/=" {DIVIDEEQ}
 | "==" {EQUAL}
 | "!=" {UNEQUAL}
 | '<' {LESS}
 | "<=" {LESSEQ}
 | '>' {GREAT}
 | ">=" {GREATEQ}
+| "&&" {AND}
+| "||" {OR}
 | '~' {MATCH}
 | "!~" {NOTMATCH}
+| "?:" {CONDITION}
+| '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) }
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { ID(lxm)}
 | eof {EOF}
 | "#" { comment lexbuf } (* Comments *)
 
 and comment = parse
-  "#" { token lexbuf }
+  "\n" { token lexbuf }
 | _ { comment lexbuf }
 
+and search = parese
+  '/' { token lexbuf }
+| ['a' - 'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { ID(lxm)}
+(* Implement the /cat/ first, test first before adding the rest *)
