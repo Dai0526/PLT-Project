@@ -1,6 +1,6 @@
-type op = Merge | Check | Increment | Decrement | Equal | UnEqaul | Less | LessEQ | Great | GreatEQ | Match | NotMatch
+type op =  Increment | Decrement | Equal | UnEqaul | Less | LessEQ | Great | GreatEQ | Match | NotMatch
 
-type typ = Int | Float | Char | String | File
+type typ = Int | Float | Char | String | File | 
 
 type bind = typ * string
 

@@ -59,7 +59,7 @@ and comment = parse
   "\n" { token lexbuf }
 | _ { comment lexbuf }
 
-and search = parese
+and search = parse
   '/' { token lexbuf }
-| ['a' - 'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { ID(lxm)}
+| ['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { ID(lxm)}
 (* Implement the /cat/ first, test first before adding the rest *)
