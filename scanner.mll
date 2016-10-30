@@ -30,6 +30,7 @@ rule token = parse
 | '-' {MINUS}
 | '*' {TIMES}
 (* | '/' {DIVIDE} *)
+| '=' {ASSIGN}
 | "//" { search lexbuf } (* search pattern *)
 | "++" {INCREMENT}
 | "--" {DECREMENT}
