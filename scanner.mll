@@ -2,6 +2,12 @@
  
 rule token = parse
   [' ' '\t' '\r' '\n' '\\' ] {token lexbuf} (* Whitespace *)
+| "(" {LFPAR}
+| ")" {RTPAR}
+| "{" {CLFPAR}
+| "}" {CRTPAR}
+| "[" {SLFPAR}
+| "]" {SRTPAR}
 | "file" {FILE}
 | "int" {INT}
 | "float" {FLOAT}
