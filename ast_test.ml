@@ -7,3 +7,4 @@ type genop = Equal | UnEqual | Less | LessEQ | Great | GreatEQ | Match | NotMatc
 type mathexpr = Literal of int
               | FloatLit of float
               | Binop of mathexpr * mathop * mathexpr
+              | Assign of string * mathexpr
