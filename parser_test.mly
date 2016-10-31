@@ -40,9 +40,7 @@ decls: /* nothing */ { [], [] }
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
-vdecl: typ ID SEMI { ($1,$2) } 
-
-
+vdecl: typ STRING SEMI { ($1,$2) } 
 
 typ: INT { Int }
    | VOID { Void }
@@ -51,26 +49,26 @@ typ: INT { Int }
 mathexpr:
     LITERAL { Literal($1) }
   | FLOAT { FloatLit($1) }
-  | mathexpr ADD mathexpr { Binop($1, Add, $3) }
-  | mathexpr MINUS mathexpr { Binop($1, Minus, $3) }
-  | mathexpr TIMES mathexpr { Binop($1, Times, $3) }
-  | ID ASSIGN mathexpr { Assign($1, $3) }
+  | mathexpr ADD mathexpr { Mathop($1, Add, $3) }
+  | mathexpr MINUS mathexpr { Mathop($1, Minus, $3) }
+  | mathexpr TIMES mathexpr { Mathop($1, Times, $3) }
+  | STRING ASSIGN mathexpr { Assign($1, $3) }
   | mathexpr EQUAL mathexpr { Binop($1, Equal, $3) }
   | mathexpr LESS mathexpr { Binop($1, Less, $3) }
-  | mathexpr GREATER mathexpr { Binop($1, Great, $3) }
+  | mathexpr GREAT mathexpr { Binop($1, Great, $3) }
   | mathexpr LESSEQ mathexpr { Binop($1, LessEQ, $3) }
   | mathexpr GREATEQ mathexpr { Binop($1, GreatEQ, $3) }
   | NOT mathexpr { Unop(Not, $2) }
 
 stringexpr:
     STRING { StringLit($1) }
-  | stringexpr ADD stringexpr { Binop($1, Add, $3) }
-  | stringexpr MINUS stringexpr { Binop($1, Minus, $3) }
-  | stringexpr TIMES stringexpr { Binop($1, Times, $3) }
-  | ID ASSIGN stringexpr { Assign($1, $3) }
+  | stringexpr ADD stringexpr { Stringop($1, Add, $3) }
+  | stringexpr MINUS stringexpr { Stringop($1, Minus, $3) }
+  | stringexpr TIMES stringexpr { Stringop($1, Times, $3) }
+  | STRING ASSIGN stringexpr { Assign($1, $3) }
   | stringexpr EQUAL stringexpr { Binop($1, Equal, $3) }
   | stringexpr LESS stringexpr { Binop($1, Less, $3) }
-  | stringexpr GREATER stringexpr { Binop($1, Great, $3) }
+  | stringexpr GREAT stringexpr { Binop($1, Great, $3) }
   | stringexpr LESSEQ stringexpr { Binop($1, LessEQ, $3) }
   | stringexpr GREATEQ stringexpr { Binop($1, GreatEQ, $3) }
   | NOT stringexpr { Unop(Not, $2) }
