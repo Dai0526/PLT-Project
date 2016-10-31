@@ -1,4 +1,4 @@
-%{ open Ast %}
+%{ open Ast_test %}
 
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
@@ -29,9 +29,21 @@
 %right NEG
 
 %start program
-%type <Ast.program> program
+%type <Ast_test.program> program
 
 %%
+program: decls EOF  { $1 }
+
+decls: /* nothing */ { [], [] }
+   | decls vdecl { ($2 :: fst $1), snd $1 }
+   
+vdecl_list: /*nothing*/ {[]}
+   | vdecl_list vdecl {$2 :: $1}
+
+vdecl: typ ID SEMI { ($1,$2) } 
+
+
+
 typ: INT { Int }
    | VOID { Void }
    | FLOAT { Float }

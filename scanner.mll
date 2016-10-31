@@ -1,4 +1,4 @@
-{ open Parser }
+{ open Parser_test }
  
 rule token = parse
   [' ' '\t' '\r' '\n' '\\' ] {token lexbuf} (* Whitespace *)
@@ -9,10 +9,6 @@ rule token = parse
 | "[" {LBRACKET}
 | "]" {RBRACKET}
 | "file" {FILE}
-| "int" {INT}
-| "float" {FLOAT}
-| "char" {CHAR}
-| "string" {STRING}
 | "void" {VOID}
 | "true" {TRUE}
 | "false" {FALSE}
