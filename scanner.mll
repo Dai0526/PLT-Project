@@ -29,7 +29,7 @@ rule token = parse
 | "replace" {REPLACE}
 | "delete" {DELETE}
 | ';' {SEMI}
-| '+' {ADD}
+| '+' {PLUS}
 | '-' {MINUS}
 | '*' {TIMES}
 (* | '/' {DIVIDE} *)

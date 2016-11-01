@@ -1,6 +1,6 @@
 type typ = Int | Float | Char | String | File | Void | True | Fasle
 
-type op = Add | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ
+type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ
 
 type uop = Not
 

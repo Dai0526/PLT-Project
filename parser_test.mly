@@ -3,7 +3,7 @@
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
-%token ADD MINUS TIMES ASSIGN
+%token PLUS MINUS TIMES ASSIGN
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ TIMESEQ DIVIDEEQ 
 %token EQUAL UNEQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH NOTMATCH CONDITION
@@ -24,7 +24,7 @@
 %left PLUS MINUS
 %left PLUSEQ MINUSEQ
 %left INCREMENT DECREMENT
-%left TIMES DIVIDE
+%left TIMES
 %left TIMESEQ DIVIDEEQ
 %right NEG NOT
 
@@ -72,7 +72,7 @@ stmt:
 expr:
     LITERAL { Literal($1) }
   | FLOAT { FloatLit($1) }
-  | expr ADD expr { Binop($1, Add, $3) }
+  | expr PLUS expr { Binop($1, Plus, $3) }
   | expr MINUS expr { Binop($1, Minus, $3) }
   | expr TIMES expr { Binop($1, Times, $3) }
   | STRING ASSIGN expr { Assign($1, $3) }
