@@ -16,6 +16,7 @@ type expr = Literal of int
           | Binop of expr * op * expr
           | Assign of string * expr
           | Unop of uop * expr
+          | Noexpr
 
 type stmt = Block of stmt list
    | Expr of expr
