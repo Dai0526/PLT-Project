@@ -1,8 +1,6 @@
 type typ = Int | Float | Char | String | File | Void | True | Fasle
 
-type op = Add | Minus | Times 
-
-type genop = Equal | Less | LessEQ | Great | GreatEQ
+type op = Add | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ
 
 type uop = Not
 
@@ -12,21 +10,15 @@ type matching = Match
 
 type bind = typ * string
 
-type mathexpr = Literal of int
-              | FloatLit of float
-              | Mathop of mathexpr * op * mathexpr
-              | Assign of string * mathexpr
-              | Binop of mathexpr * genop * mathexpr
-              | Unop of uop * mathexpr
-
-type stringexpr = StringLit of string
-                | Stringop of stringexpr * op * stringexpr
-                | Binop of stringexpr * genop * stringexpr
-                | Assign of string * stringexpr
-                | Unop of uop * stringexpr
+type expr = Literal of int
+          | FloatLit of float
+          | StringLit of string
+          | Binop of expr * op * expr
+          | Assign of string * expr
+          | Unop of uop * expr
 
 type stmt = Block of stmt list
-   | Mathexpr of mathexpr
+   | Expr of expr
    
 
 type func_decl = {
