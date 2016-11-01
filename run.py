@@ -3,7 +3,7 @@ import os
 os.system('ocamllex scanner.mll')
 print 'run scanner.mll\n'
 os.system('ocamlyacc parser_test.mly')
-print 'run parser.mly\n'
+print 'run parser_test\n'
 os.system('ocamlc -c ast_test.mli')
 print 'run ast_test.mli\n'
 os.system('ocamlc -c parser_test.mli')
