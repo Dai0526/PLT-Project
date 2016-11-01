@@ -20,6 +20,10 @@ type expr = Literal of int
 
 type stmt = Block of stmt list
    | Expr of expr
+   | If of expr * stmt * stmt
+   | For of expr * expr * expr * stmt
+   | While of expr * stmt
+   | Return of expr
    
 
 type func_decl = {
