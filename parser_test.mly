@@ -3,14 +3,14 @@
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
-%token PLUS MINUS TIMES ASSIGN
-%token INCREMENT DECREMENT PLUSEQ MINUSEQ TIMESEQ DIVIDEEQ 
-%token EQUAL UNEQUAL LESS LESSEQ GREAT GREATEQ 
-%token AND OR MATCH NOTMATCH CONDITION
-%token FILE INT FLOAT CHAR STRING VOID TRUE FALSE RETURN
+%token PLUS MINUS TIMES ASSIGN TRUE FALSE
+%token INCREMENT DECREMENT PLUSEQ MINUSEQ
+%token EQUAL LESS LESSEQ GREAT GREATEQ 
+%token AND OR MATCH CONDITION NOT
+%token FILE INT CHAR VOID RETURN
 
 %token <int> LITERAL VARIABLE
-%token <float> FLOAT
+%token <float> FLOAT FLITERAL
 %token <string> STRING
 %token EOF
 
@@ -18,14 +18,13 @@
 %right ASSIGN
 %left OR
 %left AND
-%left EQUAL UNEQUAL
-%left MATCH NOTMATCH
+%left EQUAL
+%left MATCH
 %left LESS GREAT LESSEQ GREATEQ
 %left PLUS MINUS
 %left PLUSEQ MINUSEQ
 %left INCREMENT DECREMENT
 %left TIMES
-%left TIMESEQ DIVIDEEQ
 %right NEG NOT
 
 %start program
@@ -47,15 +46,14 @@ formals_opt: /* nothing */ { [] }
 formal_list: typ STRING { [($1,$2)] } 
            | formal_list COMMA typ STRING { ($3,$4) :: $1 }
    
+typ: INT { Int }
+   | VOID { Void }
+   | FLOAT { Float }
+
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
 vdecl: typ STRING SEMI { ($1,$2) } 
-
-typ: INT { Int }
-   | VOID { Void }
-   | FLOAT { Float }
-   | STRING { String }
 
 stmt_list: /* nothing */ { [] }
          | stmt_list stmt { $2 :: $1 }
@@ -69,19 +67,20 @@ stmt:
     | FOR LPAREN expr_opt SEMI expr SEMI expr_opt RPAREN stmt {For($3,$5,$7,$9)}
     | WHILE LPAREN expr RPAREN stmt {While($3,$5)}
 
-expr:
-    LITERAL { Literal($1) }
-  | FLOAT { FloatLit($1) }
-  | expr PLUS expr { Binop($1, Plus, $3) }
-  | expr MINUS expr { Binop($1, Minus, $3) }
-  | expr TIMES expr { Binop($1, Times, $3) }
-  | STRING ASSIGN expr { Assign($1, $3) }
-  | expr EQUAL expr { Binop($1, Equal, $3) }
-  | expr LESS expr { Binop($1, Less, $3) }
-  | expr GREAT expr { Binop($1, Great, $3) }
-  | expr LESSEQ expr { Binop($1, LessEQ, $3) }
-  | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
-  | NOT expr { Unop(Not, $2) }
+expr: LITERAL { Literal($1) }
+    | FLITERAL { FloatLit($1) }
+    | STRING { StringLit($1) }
+    | STRING ASSIGN expr { Assign($1, $3) }
+    | expr PLUS expr { Binop($1, Plus, $3) }
+    | expr MINUS expr { Binop($1, Minus, $3) }
+    | expr TIMES expr { Binop($1, Times, $3) }
+    | expr EQUAL expr { Binop($1, Equal, $3) }
+    | expr LESS expr { Binop($1, Less, $3) }
+    | expr GREAT expr { Binop($1, Great, $3) }
+    | expr LESSEQ expr { Binop($1, LessEQ, $3) }
+    | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
+    | NOT expr { Unop(Not, $2) }
+
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
