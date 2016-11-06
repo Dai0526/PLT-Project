@@ -40,7 +40,7 @@ rule token = parse
 | "+=" {PLUSEQ}
 | "-=" {MINUSEQ}
 | "*=" {TIMESEQ}
-| "/=" {DIVIDEEQ}
+(*| "/=" {DIVIDEEQ}*)
 | "==" {EQUAL}
 | "!=" {UNEQUAL}
 | '<' {LESS}

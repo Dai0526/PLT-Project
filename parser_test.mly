@@ -1,10 +1,9 @@
 %{ open Ast_test %}
 
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
+%token PLUS MINUS TIMES ASSIGN INCREMENT DECREMENT PLUSEQ MINUSEQ TIMESEQ 
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
-%token PLUS MINUS TIMES ASSIGN
-%token INCREMENT DECREMENT PLUSEQ MINUSEQ TIMESEQ DIVIDEEQ 
 %token EQUAL UNEQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH NOTMATCH CONDITION
 %token FILE INT FLOAT CHAR STRING VOID TRUE FALSE RETURN
@@ -47,15 +46,16 @@ formals_opt: /* nothing */ { [] }
 formal_list: typ STRING { [($1,$2)] } 
            | formal_list COMMA typ STRING { ($3,$4) :: $1 }
    
-vdecl_list: /*nothing*/ {[]}
-   | vdecl_list vdecl {$2 :: $1}
-
-vdecl: typ STRING SEMI { ($1,$2) } 
 
 typ: INT { Int }
    | VOID { Void }
    | FLOAT { Float }
    | STRING { String }
+
+vdecl_list: /*nothing*/ {[]}
+   | vdecl_list vdecl {$2 :: $1}
+
+vdecl: typ STRING SEMI { ($1,$2) } 
 
 stmt_list: /* nothing */ { [] }
          | stmt_list stmt { $2 :: $1 }
