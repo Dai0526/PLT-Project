@@ -1,8 +1,10 @@
 type typ = Int | Float | Char | String | File | Void | True | Fasle
 
-type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ
+type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
 
 type uop = Not
+
+type crement = INCREMENT | DECREMENT
 
 type matching = Match
 
@@ -36,3 +38,21 @@ type func_decl = {
 
 type program = bind list * func_decl list
 
+type index = { 
+   key : string;
+   tar : string;
+}
+
+type substr = {
+   tar : string;
+   start : int;
+   fin : int;
+}
+
+type tolower = {
+   tar : string;
+}
+
+type toupper = {
+   tar : string;
+}
