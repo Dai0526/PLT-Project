@@ -94,7 +94,7 @@ let check (globals, functoins) =
 	Literal _ -> Int
       | FloatLit _ -> Float
       | Noexpr _ -> Void
-      | Id s -> type_of_identifier s
+      | String s -> type_of_identifier s
       | Assign(var, e) as ex -> let lt=type_of_identifier var 
 				and rt=expr e in
         check_assign lt rt
@@ -105,11 +105,14 @@ let check (globals, functoins) =
 			     and t2 = expr e2 in
     (match op with
       Add | Sub | Mult when t1 = Int && t2 = Int
+    | Equal  when t1=t2 -> Int
+    | Less | Greater when t1 = Int && t2 = Int -> Int
     | _ -> raise(Failure ("illegal binary operator "^ 
 		   string_of_type t1 ^ " " ^ string_of_op op ^ " " ^
 		   string_of_type t2 ^ " in " ^ string_of_expr e))
     )
 
+  
     (*need to add some more expr and unop follow with function call*)
 
 
