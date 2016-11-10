@@ -34,7 +34,6 @@ rule token = parse
 | '*' {TIMES}
 (* | '/' {DIVIDE} *)
 | '=' {ASSIGN}
-| "//" { search lexbuf } (* search pattern *)
 | "++" {INCREMENT}
 | "--" {DECREMENT}
 | "+=" {PLUSEQ}
@@ -55,14 +54,10 @@ rule token = parse
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRING(lxm)}
 | ['0'-'9']*'.'['0'-'9']* as lxm { FLOAT(float_of_string lxm) }
+| '/'['a'-'z' 'A'-'Z' '0'-'9' '|' '!']* as lxm {SEARCHSTRING(lxm) }
 | eof {EOF}
 | "#" { comment lexbuf } (* Comments *)
 
 and comment = parse
   "\n" { token lexbuf }
 | _ { comment lexbuf }
-
-and search = parse
-  '/' { token lexbuf }
-| ['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRING(lxm)}
-(* Implement the /cat/ first, test first before adding the rest *)

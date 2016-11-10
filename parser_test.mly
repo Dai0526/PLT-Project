@@ -7,12 +7,12 @@
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH CONDITION NOT
-%token FILE INT CHAR VOID RETURN
+%token FILE INT CHAR VOID
 %token INDEX SUBSTR TOUPPER TOLOWER
 
 %token <int> LITERAL VARIABLE
 %token <float> FLOAT FLITERAL
-%token <string> STRING
+%token <string> STRING SEARCHSTRING
 %token EOF
 
 %nonassoc ELSE
@@ -83,15 +83,8 @@ expr: LITERAL { Literal($1) }
     | expr LESSEQ expr { Binop($1, LessEQ, $3) }
     | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
     | NOT expr { Unop(Not, $2) }
+    | SEARCHSTRING { Searchstring($1) }
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
 
-
-index: INDEX LPAREN STRING COMMA STRING RPAREN { {key = $3; tar = $5} }
-
-substr: SUBSTR LPAREN STRING COMMA LITERAL COMMA LITERAL RPAREN { {tar = $3; start = $5; fin = $7} }
-
-tolower: TOLOWER LPAREN STRING RPAREN { {tar = $3} }
-
-toupper: TOUPPER LPAREN STRING RPAREN { {tar = $3} }

@@ -10,6 +10,7 @@ type matching = Match
 
 
 
+
 type bind = typ * string
 
 type expr = Literal of int
@@ -19,6 +20,7 @@ type expr = Literal of int
           | Assign of string * expr
           | Unop of uop * expr
           | Noexpr
+          | Searchstring of string
 
 type stmt = Block of stmt list
    | Expr of expr
@@ -37,22 +39,3 @@ type func_decl = {
 }
 
 type program = bind list * func_decl list
-
-type index = { 
-   key : string;
-   tar : string;
-}
-
-type substr = {
-   tar : string;
-   start : int;
-   fin : int;
-}
-
-type tolower = {
-   tar : string;
-}
-
-type toupper = {
-   tar : string;
-}
