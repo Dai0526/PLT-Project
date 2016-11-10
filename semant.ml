@@ -39,6 +39,11 @@ let check (globals, functoins) =
   let built_in_decls = StringMap.add "index"
      { typ = int; fname = "index"; formals = [(String, "x"),(String, "y")];
        locals = []; body = [] }
+     StringMap.add "substr" { typ = string; fname = "substring"; formals = [(String, "x"),(int, "a"),(int, "b")]; locals = []; body = []}
+     StringMap.add "tolower" { typ = string; fname = "tolower"; formals = [(String, "x")]; locals = []; body = []}
+     StringMap.add "toupper" { typ = string; fname = "upper"; formals = [(String, "x")]; locals = []; body = []}
+     StringMap.add "TAPE" { typ = string; fname = "TAPE"; formals = [(String, "x"), (String, "y")]; locals = []; body = []}
+
   in
 
   let function_decls = 
