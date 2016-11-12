@@ -39,3 +39,10 @@ let translate (globals, function) =
 	    List.fold_left function_decl StringMap.empty functions
     in
 
+    (*file open and close*)
+    let open_file_t = L.function_type ptr_t [| L.pointer_type i8_t |] in
+    let open_file_func = L.declare_function "fopen" open_file_t the_module in
+
+    let close_file_t = L.function_type i32_t [| i32_t |] in
+    let close_file_func = L.declare_function "fclose" close_file_t the_module in
+
