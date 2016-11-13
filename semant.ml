@@ -35,8 +35,8 @@ let check (globals, functoins) =
      (List.map (fun fd -> fd.fname) functions);
 
   (* Function declaratoin for a named function (build in function) *)
-  (* Not fin *)
-  let built_in_decls = StringMap.add "index"
+  (* Just comment the way in the ppt + myown thought*)
+  (*let built_in_decls = StringMap.add "index"
      { typ = int; fname = "index"; formals = [(String, "x"),(String, "y")];
        locals = []; body = [] }
      StringMap.add "substr" { typ = string; fname = "substring"; formals = [(String, "x"),(int, "a"),(int, "b")]; locals = []; body = []}
@@ -44,7 +44,41 @@ let check (globals, functoins) =
      StringMap.add "toupper" { typ = string; fname = "upper"; formals = [(String, "x")]; locals = []; body = []}
      StringMap.add "TAPE" { typ = string; fname = "TAPE"; formals = [(String, "x"), (String, "y")]; locals = []; body = []}
 
+  in*)
+  
+  (* Use 2 array to hold the details then throw to the built_in_decls by list.fold *)
+  let built_in_decls_funcs = [
+      { typ = Int; fname = "index"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      
+      { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
+
+      { typ = String; fname = "tolower"; formals = [(String, "x")]; locals = []; body = []};
+  
+      { typ = String; fname = "toupper"; formals = [(String, "x")]; locals = []; body = []};
+
+      { typ = String; fname = "TAPE"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+ 
+      { typ = Void; fname = "print_i"; formals = [(Int, "x")] ; locals = []; body = [] };
+
+      { typ = Void; fname = "print_f"; formals = [(Float, "x")]; locals = []; body = [] };
+
+      { typ = String; fname = "open_read"; formals = [(String, "x")]; locals = []; body = [] };
+
+      { typ = Int; fname = "write"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+
+  ]
+
   in
+
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open_read"; "write"];
+  
+  in
+
+  let built_in_decls = List.fold_right2 (StringMap.add)
+                        built_in_decls_names
+                        built_in_decls_func
+                        (StringMap.singleton "print_s"
+                                 { typ = Void; fname = "print_s"; formal = [(String, "x")]; locals = []; body = [] })
 
   let function_decls = 
      List.fold_left (fun m fd -> StringMap.add fd.fname fd m)
