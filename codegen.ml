@@ -1,6 +1,6 @@
 module L = Llvm
 module A = Ast
-
+module Fcmp = Llvm.Fcmp
 module StringMap = Map.Make(Stringi)
 
 let translate (globals, function) =
@@ -26,7 +26,6 @@ let translate (globals, function) =
 	    let init = L.const_int (ltype_of_typ t) 0
 	    in StringMap.add n (L.define_global n init the_module) m in
 	List.fold_left global_var StringMap.empty globals in
- 
 
     let function_decls = 
 	let function_decl m fdecl = 
@@ -39,6 +38,12 @@ let translate (globals, function) =
 	    List.fold_left function_decl StringMap.empty functions
     in
 
+ 
+    (*declare external function printf*)
+    let printf_t = L.var_arg_function_type i32_t [|L.pointer_type i8_t |] in  
+    let print_func = L.declare_function "printf" printf_t the_module in
+
+
     (*file open and close*)
     let open_file_t = L.function_type ptr_t [| L.pointer_type i8_t |] in
     let open_file_func = L.declare_function "fopen" open_file_t the_module in
@@ -46,3 +51,92 @@ let translate (globals, function) =
     let close_file_t = L.function_type i32_t [| i32_t |] in
     let close_file_func = L.declare_function "fclose" close_file_t the_module in
 
+    let write_t = L.function_type i32_t [| i32_t; ptr_t |] in 
+    let write_func = L.declare_function "fputs" write_t the_module in
+
+    let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
+    let write_func = L.declare_function "fgets" get_t the_module in
+
+   
+    (*build function body - fill in the body of the given function*)
+    let build_function_body fdecl = 
+	let (the_function, _) = 
+	    StringMap.find fdecl.A.fname function_decls in
+	let builder = (*create an instruction builder*)
+	    L.builder_at_end context (L.entry_block the_function) in 
+	let int_formal_str = (*Format string for printf calls*)
+	    L.build_global_stringptr "%d\n" "fmt" builder in 
+
+    (* formals and locals  *)
+    let local_vars = 
+	let add_formal m (t,n) p = L.set_value_name n p;
+	    let local = L.build_alloca (ltype_of_typ t) n builder in
+	    ignore (L.build_store p local builder); 
+	    StringMap.add n local_var m in
+
+        let formals = List.fold_left2 add_formal StringMap.empty
+	    fdecl.A.formals (Array.to_list (L.params the_function)) in 
+	List.fold_left add_local formals fdecl.A.locals in
+
+    (*look up  for a variable among locals/formal arguments, then the golbals*)
+    let lookup n = try StringMap.find n local_vars
+		   with Not_found -> StringMap.find n global_vars
+    in
+
+     
+    (*expression*)
+    let rec expr builder = function
+	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
+	| A.FloatLit f -> L.const_float flt_t f
+	| A.Noexpr ->	L.const_int i32_t 0
+        | A.String s -> L.build_load (lookup s) s builder
+	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
+	| A.Assign (s,e) -> let e' = expr builder e in
+		ignore (L.build_store e' (lookup s) builder); e'
+	| A.Binop (e1, op, e2) ->
+	    let e1' = expr builder e1
+	    and e2' = expr builder e2 in
+	    (match op with 
+		A.Plus -> L.build_plus
+	      | A.Minus -> L.build_minus
+	      | A.Times -> L.build_times
+              | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
+	      | A.Less  -> L.build_fcmp L.Fcmp.Ols
+	      | A.Great -> L.build_fcmp L.Fcmp.Pgt
+	      | A.Lesseq -> L.build_fcmp L.Fcmp.le
+	      | A.Greateq -> L.build_fcmp L.Fcmp.ge
+	    ) e1' e2' "tmp" builder
+
+	| A.Unop(op, e) ->
+	    let e' = expr builder e in
+	    (match op with
+		A.Not -> L.build_not) e' "tmp" builder
+
+	(*build in function filled below*)
+
+
+
+	| A.Call (f, act) ->
+	    let (fdef, fdecl) = StringMap.find f function_decls in 
+	    let actuals =
+		List.rev (List.map (expr builder) (List.rev act)) in
+	    let result = (match fdecl.A.typ with A.Void -> ""
+						| _ -> f ^ "_result") in
+	    L.build_call fdef (Array.of_list actuals) result builder
+
+    (*statements*)	
+    let add_terminal builder f = 
+	match L.block_terminator (L.inseartion_block builder) with
+	    Some _ -> ()
+	  | None -> ignore (f builder) in
+    let rec stmt builder = function
+	A.Block sl -> List.fold_left stmt builder sl
+
+      | A.Expr e -> ignore (expr builder e); builder
+
+      | A.Return e -> ignore (match fdecl.A.typ with 
+	   A.Void -> L.build_ret_void builder
+	 | _ -> L.build_ret (expr builder e) builder); builder
+
+    
+	
