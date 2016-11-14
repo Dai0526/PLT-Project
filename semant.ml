@@ -31,6 +31,7 @@ let check (globals, functoins) =
   if List.mem "print" (List.map (fun fd -> fd.fname) functions)
   then raise (Failure ("function print may not be defined")) else ();
 
+  (*Check for duplicate. 2 functions cannot have same name, therefore also does not allow overload*)
   report_duplicate (fun n -> "duplicate function " ^ n)
      (List.map (fun fd -> fd.fname) functions);
 
@@ -128,6 +129,7 @@ let check (globals, functoins) =
 	Literal _ -> Int
       | FloatLit _ -> Float
       | Noexpr _ -> Void
+      | BoolLit _ -> Bool
       | String s -> type_of_identifier s
       | Assign(var, e) as ex -> let lt=type_of_identifier var 
 				and rt=expr e in
@@ -139,8 +141,8 @@ let check (globals, functoins) =
 			     and t2 = expr e2 in
     (match op with
       Add | Sub | Mult when t1 = Int && t2 = Int
-    | Equal  when t1=t2 -> Int
-    | Less | Greater when t1 = Int && t2 = Int -> Int
+    | Equal  when t1=t2 -> Bool
+    | Less | Greater when t1 = Int && t2 = Int -> Bool
     | _ -> raise(Failure ("illegal binary operator "^ 
 		   string_of_type t1 ^ " " ^ string_of_op op ^ " " ^
 		   string_of_type t2 ^ " in " ^ string_of_expr e))
@@ -148,11 +150,21 @@ let check (globals, functoins) =
 
   
     (*need to add some more expr and unop follow with function call*)
-
+  | Unop(op, e) as ex -> let t = expr e in
+    (match op with
+      Not when t = Bool -> Bool 
+    | _ -> raise (Failure ("illegal unary operator " ^
+                  string_of_uop op ^ string_of_typ t ^
+                  " in " ^ string_of_expr ex)))
 
     (*statment*)
+    let check_bool_expr e = if expr e != Bool
+      then raise (Failure ("expected Boolean expression in " ^
+                  string_of_expr e))
+      else () in
+
     let rec stmt = function
-	Expr e -> ignore (expr e)
+	     Expr e -> ignore (expr e)
 
       | If(p,b1,b2)-> check_bool_expr p; stmt b1; stmt b2
       | For(e1,e2,e3,st)-> ignore(expr e1); check_bool_expr e2;

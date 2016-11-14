@@ -3,7 +3,7 @@
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
 %token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
-%token PLUS MINUS TIMES ASSIGN TRUE FALSE
+%token PLUS MINUS TIMES ASSIGN BOOL TRUE FALSE
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH CONDITION NOT
@@ -51,6 +51,7 @@ formal_list: typ STRING { [($1,$2)] }
 typ: INT { Int }
    | VOID { Void }
    | FLOAT { Float }
+   | BOOL { Bool }
 
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
@@ -84,6 +85,8 @@ expr: LITERAL { Literal($1) }
     | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
     | NOT expr { Unop(Not, $2) }
     | SEARCHSTRING { Searchstring($1) }
+    | TRUE { BoolLit(true)}
+    | FALSE { BoolLit(false)}
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}

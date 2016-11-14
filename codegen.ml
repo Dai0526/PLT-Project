@@ -9,6 +9,7 @@ let translate (globals, function) =
     let the_module = L.create_module context "tape"
 	and i32_t  = L.i32_type context
 	and i8_t   = L.i8_type context
+	and i1_t   = L.il_type context (*bool*)
 	and flt_t  = L.double_type context
 	and str_t  = L.pointer_type (L.i8_type context)
 	and void_t = L.void_type context in
@@ -17,7 +18,8 @@ let translate (globals, function) =
 	  A.Int -> i32_t
 	| A.Float -> flt_t
 	| A.String -> str_t
-	| A.None -> void_t       
+	| A.None -> void_t
+	| A.Bool -> i1_t       
     (*There may have more things need to be put*)
     in
     (*global variable*)
@@ -136,7 +138,7 @@ let translate (globals, function) =
 
       | A.Return e -> ignore (match fdecl.A.typ with 
 	   A.Void -> L.build_ret_void builder
-	 | _ -> L.build_ret (expr builder e) builder); builder
+	  | _ -> L.build_ret (expr builder e) builder); builder
 
     
 	

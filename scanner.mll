@@ -28,6 +28,7 @@ rule token = parse
 | "write" {WRITE}
 | "replace" {REPLACE}
 | "delete" {DELETE}
+| "bool" {BOOL}
 | ';' {SEMI}
 | '+' {PLUS}
 | '-' {MINUS}

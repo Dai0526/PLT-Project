@@ -1,4 +1,4 @@
-type typ = Int | Float | Char | String | File | Void | True | Fasle
+type typ = Int | Float | Char | String | File | Void | Bool
 
 type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
 
@@ -21,6 +21,7 @@ type expr = Literal of int
           | Unop of uop * expr
           | Noexpr
           | Searchstring of string
+          | BoolLit of bool
 
 type stmt = Block of stmt list
    | Expr of expr
