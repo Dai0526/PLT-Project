@@ -140,5 +140,51 @@ let translate (globals, function) =
 	   A.Void -> L.build_ret_void builder
 	  | _ -> L.build_ret (expr builder e) builder); builder
 
-    
-	
+   
+      (*If Statement*)
+      | A.If (predicate, then_stmt, else_stmt) ->
+        let bool_val = expr builder predicate in
+        let merge_bb = L.append_block context
+        "merge" the_function in
+        let then_bb = L.append_block context
+        "then" the_function in
+        add_terminal
+        (stmt (L.builder_at_end context then_bb)
+        then_stmt)
+        (L.build_br merge_bb);
+        let else_bb = L.append_block context
+        "else" the_function in
+        add_terminal
+        (stmt (L.builder_at_end context else_bb)
+        else_stmt)
+        (L.build_br merge_bb);
+        ignore (L.build_cond_br bool_val
+        then_bb else_bb builder);
+        L.builder_at_end context merge_bb
+      (*While Statement *)
+      | A.While (predicate, body) ->
+        let pred_bb = L.append_block context
+        "while" the_function in
+        ignore (L.build_br pred_bb builder);
+        let body_bb = L.append_block context
+        "while_body" the_function in
+        add_terminal (stmt (L.builder_at_end
+        context body_bb)
+        body)
+        (L.build_br pred_bb);
+        let pred_builder =
+        L.builder_at_end context pred_bb in
+        let bool_val =
+        expr pred_builder predicate in
+        let merge_bb = L.append_block context
+        "merge" the_function in
+        ignore (L.build_cond_br bool_val
+        body_bb merge_bb pred_builder);
+        L.builder_at_end context merge_bb
+      (*For Statements*)
+      | A.For (e1, e2, e3, body) -> stmt builder
+        ( A.Block [A.Expr e1 ;
+        A.While (e2, A.Block [body ;
+        A.Expr e3]) ] )
+        in
+
