@@ -1,0 +1,12 @@
+### Starting build.
+# Target: tape.ml.depends, tags: { extension:ml, file:tape.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
+ocamlfind ocamldep -package llvm.analysis -package llvm -modules tape.ml > tape.ml.depends # cached
+# Target: ast.ml.depends, tags: { extension:ml, file:ast.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
+ocamlfind ocamldep -package llvm.analysis -package llvm -modules ast.ml > ast.ml.depends # cached
+# Target: codegen.ml.depends, tags: { extension:ml, file:codegen.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
+ocamlfind ocamldep -package llvm.analysis -package llvm -modules codegen.ml > codegen.ml.depends
++ ocamlfind ocamldep -package llvm.analysis -package llvm -modules codegen.ml > codegen.ml.depends
+File "codegen.ml", line 6, characters 22-30:
+Error: Syntax error: pattern expected.
+Command exited with code 2.
+# Compilation unsuccessful.
