@@ -9,7 +9,7 @@ let translate(globals,functions) =
 	
     and i32_t  = L.i32_type context
 	and i8_t   = L.i8_type context
-	and i1_t   = L.il_type context (*bool*)
+	and i1_t   = L.i1_type context (*bool*)
 	and flt_t  = L.double_type context
 	and str_t  = L.pointer_type (L.i8_type context)
 	and void_t = L.void_type context in

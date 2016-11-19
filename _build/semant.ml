@@ -80,7 +80,7 @@ let check (globals, functoins) =
                         built_in_decls_func
                         (StringMap.singleton "print_s"
                                  { typ = Void; fname = "print_s"; formal = [(String, "x")]; locals = []; body = [] })
-
+    in
   let function_decls = 
      List.fold_left (fun m fd -> StringMap.add fd.fname fd m)
                     built_in_decls functions
@@ -137,10 +137,9 @@ let check (globals, functoins) =
 		(Failure ("illegal assignment "^ string_of_typ lt ^
 		 " =" ^ string_of_type rt ^" in " ^ string_of_expr ex))
 
-  | Binop(e1, op, e2) as e-> let t1 = expr e1
-			     and t2 = expr e2 in
+      | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
-      Add | Sub | Mult when t1 = Int && t2 = Int
+        Add | Sub | Mult when t1 = Int && t2 = Int -> Int
     | Equal  when t1=t2 -> Bool
     | Less | Greater when t1 = Int && t2 = Int -> Bool
     | _ -> raise(Failure ("illegal binary operator "^ 
@@ -150,13 +149,13 @@ let check (globals, functoins) =
 
   
     (*need to add some more expr and unop follow with function call*)
-  | Unop(op, e) as ex -> let t = expr e in
+      | Unop(op, e) as ex -> let t = expr e in
     (match op with
-      Not when t = Bool -> Bool 
-    | _ -> raise (Failure ("illegal unary operator " ^
-                  string_of_uop op ^ string_of_typ t ^
-                  " in " ^ string_of_expr ex)))
+       Not when t = Bool -> Bool 
+    | _ -> raise (Failure ("illegal unary operator " ^ string_of_uop op ^ 
+                string_of_typ t ^ " in " ^ string_of_expr ex)))
 
+    in
     (*statment*)
     let check_bool_expr e = if expr e != Bool
       then raise (Failure ("expected Boolean expression in " ^
