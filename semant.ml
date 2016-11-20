@@ -2,8 +2,8 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (globals, functoins) = 
-  let report_duplicate excetf list =
+let check (globals, functions) = 
+  let report_duplicate exceptf list =
     let rec helper = function
         n1 :: n2 :: _ when n1 = n2 -> raise (Failure (exceptf n1))
       | _ :: t -> helper t
@@ -49,7 +49,7 @@ let check (globals, functoins) =
   
   (* Use 2 array to hold the details then throw to the built_in_decls by list.fold *)
   let built_in_decls_funcs = [
-      { typ = Int; fname = "index"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = Int; fname = "index"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
       
       { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
 
@@ -57,7 +57,7 @@ let check (globals, functoins) =
   
       { typ = String; fname = "toupper"; formals = [(String, "x")]; locals = []; body = []};
 
-      { typ = String; fname = "TAPE"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = String; fname = "TAPE"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
  
       { typ = Void; fname = "print_i"; formals = [(Int, "x")] ; locals = []; body = [] };
 
@@ -65,7 +65,7 @@ let check (globals, functoins) =
 
       { typ = String; fname = "open_read"; formals = [(String, "x")]; locals = []; body = [] };
 
-      { typ = Int; fname = "write"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
 
   ]
 
@@ -77,21 +77,21 @@ let check (globals, functoins) =
 
   let built_in_decls = List.fold_right2 (StringMap.add)
                         built_in_decls_names
-                        built_in_decls_func
+                        built_in_decls_funcs
                         (StringMap.singleton "print_s"
-                                 { typ = Void; fname = "print_s"; formal = [(String, "x")]; locals = []; body = [] })
+                                 { typ = Void; fname = "print_s"; formals = [(String, "x")]; locals = []; body = [] })
     in
   let function_decls = 
      List.fold_left (fun m fd -> StringMap.add fd.fname fd m)
                     built_in_decls functions
   in
 
-  let functoin_decls s = try StringMap.find s function_decls
+  let function_decls s = try StringMap.find s function_decls
      with Not_found -> raise (Failure ("unrecognized function "^s))
   in
 
   (*ensure "main" is defined*)
-  let _=function_decl "main" in 
+  let _=function_decls "main" in 
   let check_function func=
 
     List.iter(check_not_void (fun n ->
@@ -128,32 +128,41 @@ let check (globals, functoins) =
   let rec expr = function
 	Literal _ -> Int
       | FloatLit _ -> Float
-      | Noexpr _ -> Void
       | BoolLit _ -> Bool
-      | String s -> type_of_identifier s
-      | Assign(var, e) as ex -> let lt=type_of_identifier var 
-				and rt=expr e in
-        check_assign lt rt
-		(Failure ("illegal assignment "^ string_of_typ lt ^
-		 " =" ^ string_of_type rt ^" in " ^ string_of_expr ex))
-
+      | StringLit s -> type_of_identifier s
       | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
-        Add | Sub | Mult when t1 = Int && t2 = Int -> Int
+        Plus | Minus | Times when t1 = Int && t2 = Int -> Int
     | Equal  when t1=t2 -> Bool
-    | Less | Greater when t1 = Int && t2 = Int -> Bool
+    | Less | Great when t1 = Int && t2 = Int -> Bool
     | _ -> raise(Failure ("illegal binary operator "^ 
-		   string_of_type t1 ^ " " ^ string_of_op op ^ " " ^
-		   string_of_type t2 ^ " in " ^ string_of_expr e))
+		   string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
+		   string_of_typ t2 ^ " in " ^ string_of_expr e))
     )
+    
+      | Noexpr -> Void
+      | Assign(var, e) as ex -> let lt = type_of_identifier var 
+	 			                and rt = expr e in
+          check_assign lt rt (Failure ("illegal assignment " ^ string_of_typ lt ^
+		             " = "  ^ string_of_typ rt ^ " in " ^ string_of_expr ex))
 
-  
-    (*need to add some more expr and unop follow with function call*)
       | Unop(op, e) as ex -> let t = expr e in
     (match op with
        Not when t = Bool -> Bool 
     | _ -> raise (Failure ("illegal unary operator " ^ string_of_uop op ^ 
                 string_of_typ t ^ " in " ^ string_of_expr ex)))
+    | Call(fanme, actuals) as call -> let fd = function_decl fname in
+       if List.length actuals != List.length fd.formals then
+         raise (Failure ("expecting " ^ string_ofint
+           (List.length fd.formals) ^ " arguments in " ^ string_of_expr call))
+       else
+         List.iter2 (fun (ft,_) e -> let et = expr e in 
+            ignore (check_assign ft et
+              (Failure ("illegal actual argument found " ^ 
+                 string_of_typ et ^ " expected " ^
+                 string_of_typ ft ^ " in " ^ string_of_expr e ))))
+            fd.formals actuals;
+         fd.typ
 
     in
     (*statment*)

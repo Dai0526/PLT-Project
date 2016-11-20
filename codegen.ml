@@ -43,7 +43,7 @@ let translate(globals,functions) =
  
     (*declare external function printf*)
     let printf_t = L.var_arg_function_type i32_t [|L.pointer_type i8_t |] in  
-    let print_func = L.declare_function "printf" printf_t the_module in
+    let printf_func = L.declare_function "printf" printf_t the_module in
 
 
     (*file open and close*)
@@ -66,7 +66,7 @@ let translate(globals,functions) =
 	    StringMap.find fdecl.A.fname function_decls in
 	let builder = (*create an instruction builder*)
 	    L.builder_at_end context (L.entry_block the_function) in 
-	let int_formal_str = (*Format string for printf calls*)
+	let int_format_str = (*Format string for printf calls*)
 	    L.build_global_stringptr "%d\n" "fmt" builder in 
 
     (* formals and locals  *)
@@ -95,7 +95,7 @@ let translate(globals,functions) =
 	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
 	| A.FloatLit f -> L.const_float flt_t f
 	| A.Noexpr ->	L.const_int i32_t 0
-        | A.String s -> L.build_load (lookup s) s builder
+  | A.StringLit s -> L.build_load (lookup s) s builder
 	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
 	| A.Assign (s,e) -> let e' = expr builder e in
 		ignore (L.build_store e' (lookup s) builder); e'
@@ -103,14 +103,14 @@ let translate(globals,functions) =
 	    let e1' = expr builder e1
 	    and e2' = expr builder e2 in
 	    (match op with 
-		A.Plus -> L.build_plus
-	      | A.Minus -> L.build_minus
-	      | A.Times -> L.build_times
-              | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
-	      | A.Less  -> L.build_fcmp L.Fcmp.Ols
-	      | A.Great -> L.build_fcmp L.Fcmp.Pgt
-	      | A.Lesseq -> L.build_fcmp L.Fcmp.le
-	      | A.Greateq -> L.build_fcmp L.Fcmp.ge
+		A.Plus -> L.build_fadd
+	      | A.Minus -> L.build_fsub
+	      | A.Times -> L.build_fmul
+        | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
+	      | A.Less  -> L.build_fcmp L.Fcmp.Olt
+	      | A.Great -> L.build_fcmp L.Fcmp.Ogt
+	      | A.LessEQ -> L.build_fcmp L.Fcmp.Ole
+	      | A.GreatEQ -> L.build_fcmp L.Fcmp.Oge
 	    ) e1' e2' "tmp" builder
 
 	| A.Unop(op, e) ->
@@ -119,9 +119,10 @@ let translate(globals,functions) =
 		A.Not -> L.build_not) e' "tmp" builder
 
 	(*build in function filled below*)
-	| A.Call("print_s",[e]) -> L.build_call printf_func
-					[| int_format_str; (expr builder e)|]
-					"printf" builder
+	| A.Call("print_s",[e]) -> 
+    L.build_call printf_func
+			[| int_format_str; (expr builder e)|]
+			"printf" builder
 
 
 	| A.Call (f, act) ->
@@ -134,7 +135,7 @@ let translate(globals,functions) =
     in   
     (*statements*)	
     let add_terminal builder f = 
-	match L.block_terminator (L.inseartion_block builder) with
+	match L.block_terminator (L.insertion_block builder) with
 	    Some _ -> ()
 	  | None -> ignore (f builder) in
     let rec stmt builder = function
