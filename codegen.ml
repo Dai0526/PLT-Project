@@ -103,14 +103,14 @@ let translate(globals,functions) =
 	    let e1' = expr builder e1
 	    and e2' = expr builder e2 in
 	    (match op with 
-		A.Plus -> L.build_plus
-	      | A.Minus -> L.build_minus
-	      | A.Times -> L.build_times
-              | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
-	      | A.Less  -> L.build_fcmp L.Fcmp.Ols
-	      | A.Great -> L.build_fcmp L.Fcmp.Pgt
-	      | A.Lesseq -> L.build_fcmp L.Fcmp.le
-	      | A.Greateq -> L.build_fcmp L.Fcmp.ge
+		A.Plus -> L.build_fadd
+	      | A.Minus -> L.build_fsub
+	      | A.Times -> L.build_fmul
+        | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
+	      | A.Less  -> L.build_fcmp L.Fcmp.Olt
+	      | A.Great -> L.build_fcmp L.Fcmp.Ogt
+	      | A.LessEQ -> L.build_fcmp L.Fcmp.Ole
+	      | A.GreatEQ -> L.build_fcmp L.Fcmp.Oge
 	    ) e1' e2' "tmp" builder
 
 	| A.Unop(op, e) ->
