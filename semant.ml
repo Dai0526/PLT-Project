@@ -86,7 +86,7 @@ let check (globals, functions) =
                     built_in_decls functions
   in
 
-  let functoin_decls s = try StringMap.find s function_decls
+  let function_decls s = try StringMap.find s function_decls
      with Not_found -> raise (Failure ("unrecognized function "^s))
   in
 
