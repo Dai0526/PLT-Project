@@ -128,27 +128,24 @@ let check (globals, functions) =
   let rec expr = function
 	Literal _ -> Int
       | FloatLit _ -> Float
-      | Noexpr -> Void
       | BoolLit _ -> Bool
       | StringLit s -> type_of_identifier s
-      | Assign(var, e) as ex -> let lt = type_of_identifier var 
-				                        and rt = expr e in
-        check_assign lt rt
-		      (Failure ("illegal assignment " ^ string_of_typ lt ^
-		        " = "  ^ string_of_typ rt ^ " in " ^ string_of_expr ex))
-
       | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
-        Add | Sub | Mult when t1 = Int && t2 = Int -> Int
+        Plus | Minus | Times when t1 = Int && t2 = Int -> Int
     | Equal  when t1=t2 -> Bool
-    | Less | Greater when t1 = Int && t2 = Int -> Bool
+    | Less | Great when t1 = Int && t2 = Int -> Bool
     | _ -> raise(Failure ("illegal binary operator "^ 
 		   string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
 		   string_of_typ t2 ^ " in " ^ string_of_expr e))
     )
+    
+      | Noexpr -> Void
+      | Assign(var, e) as ex -> let lt = type_of_identifier var 
+	 			                and rt = expr e in
+          check_assign lt rt (Failure ("illegal assignment " ^ string_of_typ lt ^
+		             " = "  ^ string_of_typ rt ^ " in " ^ string_of_expr ex))
 
-  
-    (*need to add some more expr and unop follow with function call*)
       | Unop(op, e) as ex -> let t = expr e in
     (match op with
        Not when t = Bool -> Bool 
