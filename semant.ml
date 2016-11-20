@@ -135,10 +135,10 @@ let check (globals, functions) =
         Plus | Minus | Times when t1 = Int && t2 = Int -> Int
     | Equal  when t1=t2 -> Bool
     | Less | Great when t1 = Int && t2 = Int -> Bool
-    | _ -> raise(Failure ("illegal binary operator "^ 
-		   string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
-		   string_of_typ t2 ^ " in " ^ string_of_expr e))
-    )
+        | _ -> raise(Failure ("illegal binary operator "^ 
+		      string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
+		       string_of_typ t2 ^ " in " ^ string_of_expr e))
+        )
     
       | Noexpr -> Void
       | Assign(var, e) as ex -> let lt = type_of_identifier var 
@@ -164,11 +164,10 @@ let check (globals, functions) =
             fd.formals actuals;
          fd.typ
 
-    in
+    in 
     (*statment*)
     let check_bool_expr e = if expr e != Bool
-      then raise (Failure ("expected Boolean expression in " ^
-                  string_of_expr e))
+      then raise (Failure ("expected Boolean expression in " ^ string_of_expr e))
       else () in
 
     let rec stmt = function

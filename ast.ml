@@ -6,11 +6,6 @@ type uop = Not
 
 type crement = INCREMENT | DECREMENT
 
-type matching = Match
-
-
-
-
 type bind = typ * string
 
 type expr = Literal of int
