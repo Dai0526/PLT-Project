@@ -29,7 +29,7 @@
 %right NEG NOT
 
 %start program
-%type <Ast_test.program> program
+%type <ast.program> program
 
 %%
 program: decls EOF  { $1 }
