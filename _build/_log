@@ -1,26 +1,7 @@
 ### Starting build.
 # Target: tape.ml.depends, tags: { extension:ml, file:tape.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules tape.ml > tape.ml.depends # cached
-# Target: ast.ml.depends, tags: { extension:ml, file:ast.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules ast.ml > ast.ml.depends # cached
-# Target: ast.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:ast.cmo, file:ast.ml, implem, ocaml, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamlc -c -w +a-4 -package llvm.analysis -package llvm -o ast.cmo ast.ml # cached
-# Target: codegen.ml.depends, tags: { extension:ml, file:codegen.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules codegen.ml > codegen.ml.depends
-# Target: parser.mly, tags: { extension:mly, file:parser.mly, infer, ocaml, ocamlyacc, package(llvm), package(llvm.analysis), parser, quiet }
-/usr/bin/ocamlyacc parser.mly # cached
-# Target: parser.mli.depends, tags: { extension:mli, file:parser.mli, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules parser.mli > parser.mli.depends # cached
-# Target: scanner.mll, tags: { extension:mll, file:scanner.mll, lexer, ocaml, ocamllex, package(llvm), package(llvm.analysis), quiet }
-/usr/bin/ocamllex -q scanner.mll # cached
-# Target: scanner.ml.depends, tags: { extension:ml, file:scanner.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules scanner.ml > scanner.ml.depends # cached
-# Target: semant.ml.depends, tags: { extension:ml, file:semant.ml, ocaml, ocamldep, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamldep -package llvm.analysis -package llvm -modules semant.ml > semant.ml.depends # cached
-# Target: codegen.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:codegen.cmo, file:codegen.ml, implem, ocaml, package(llvm), package(llvm.analysis), quiet }
-ocamlfind ocamlc -c -w +a-4 -package llvm.analysis -package llvm -o codegen.cmo codegen.ml
-+ ocamlfind ocamlc -c -w +a-4 -package llvm.analysis -package llvm -o codegen.cmo codegen.ml
-File "codegen.ml", line 21, characters 3-9:
-Error: Unbound constructor A.None
+ocamlfind ocamldep -package llvm.analysis -package llvm -modules tape.ml > tape.ml.depends
++ ocamlfind ocamldep -package llvm.analysis -package llvm -modules tape.ml > tape.ml.depends
+ocamlfind: Package `llvm.analysis' not found
 Command exited with code 2.
 # Compilation unsuccessful.
