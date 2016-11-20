@@ -87,7 +87,7 @@ expr: LITERAL { Literal($1) }
     | SEARCHSTRING { Searchstring($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
-    | String LPAREN actuals_opt RPAREN { Call($1, $3) }
+    | STRING LPAREN actuals_opt RPAREN { Call($1, $3) }
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
