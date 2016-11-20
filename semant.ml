@@ -2,8 +2,8 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (globals, functoins) = 
-  let report_duplicate excetf list =
+let check (globals, functions) = 
+  let report_duplicate exceptf list =
     let rec helper = function
         n1 :: n2 :: _ when n1 = n2 -> raise (Failure (exceptf n1))
       | _ :: t -> helper t
@@ -86,7 +86,7 @@ let check (globals, functoins) =
                     built_in_decls functions
   in
 
-  let functoin_decls s = try StringMap.find s function_decls
+  let function_decls s = try StringMap.find s function_decls
      with Not_found -> raise (Failure ("unrecognized function "^s))
   in
 
