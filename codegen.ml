@@ -135,7 +135,7 @@ let translate(globals,functions) =
     in   
     (*statements*)	
     let add_terminal builder f = 
-	match L.block_terminator (L.inseartion_block builder) with
+	match L.block_terminator (L.insertion_block builder) with
 	    Some _ -> ()
 	  | None -> ignore (f builder) in
     let rec stmt builder = function
