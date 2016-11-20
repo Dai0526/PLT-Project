@@ -2,8 +2,8 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (globals, functoins) = 
-  let report_duplicate excetf list =
+let check (globals, functions) = 
+  let report_duplicate exceptf list =
     let rec helper = function
         n1 :: n2 :: _ when n1 = n2 -> raise (Failure (exceptf n1))
       | _ :: t -> helper t
@@ -49,7 +49,7 @@ let check (globals, functoins) =
   
   (* Use 2 array to hold the details then throw to the built_in_decls by list.fold *)
   let built_in_decls_funcs = [
-      { typ = Int; fname = "index"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = Int; fname = "index"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
       
       { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
 
@@ -57,7 +57,7 @@ let check (globals, functoins) =
   
       { typ = String; fname = "toupper"; formals = [(String, "x")]; locals = []; body = []};
 
-      { typ = String; fname = "TAPE"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = String; fname = "TAPE"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
  
       { typ = Void; fname = "print_i"; formals = [(Int, "x")] ; locals = []; body = [] };
 
@@ -65,7 +65,7 @@ let check (globals, functoins) =
 
       { typ = String; fname = "open_read"; formals = [(String, "x")]; locals = []; body = [] };
 
-      { typ = Int; fname = "write"; formals = [(String, "x"),(String, "y")]; locals = []; body = [] };
+      { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
 
   ]
 
@@ -77,9 +77,9 @@ let check (globals, functoins) =
 
   let built_in_decls = List.fold_right2 (StringMap.add)
                         built_in_decls_names
-                        built_in_decls_func
+                        built_in_decls_funcs
                         (StringMap.singleton "print_s"
-                                 { typ = Void; fname = "print_s"; formal = [(String, "x")]; locals = []; body = [] })
+                                 { typ = Void; fname = "print_s"; formals = [(String, "x")]; locals = []; body = [] })
     in
   let function_decls = 
      List.fold_left (fun m fd -> StringMap.add fd.fname fd m)
@@ -91,7 +91,7 @@ let check (globals, functoins) =
   in
 
   (*ensure "main" is defined*)
-  let _=function_decl "main" in 
+  let _=function_decls "main" in 
   let check_function func=
 
     List.iter(check_not_void (fun n ->
