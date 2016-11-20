@@ -11,14 +11,14 @@ let translate(globals,functions) =
 	and i8_t   = L.i8_type context
 	and i1_t   = L.i1_type context (*bool*)
 	and flt_t  = L.double_type context
-	and str_t  = L.pointer_type (L.i8_type context)
+	and ptr_t  = L.pointer_type (L.i8_type context)
 	and void_t = L.void_type context in
 
-    let rec ltype_of_typ = function
+    let ltype_of_typ = function
 	  A.Int -> i32_t
 	| A.Float -> flt_t
-	| A.String -> str_t
-	| A.None -> void_t
+	| A.String -> ptr_t
+	| A.Void -> void_t
 	| A.Bool -> i1_t       
     (*There may have more things need to be put*)
     in
@@ -32,9 +32,9 @@ let translate(globals,functions) =
     let function_decls = 
 	let function_decl m fdecl = 
 	    let name  = fdecl.A.fname
-	    and formal_types = Array.of_list (List.map find_type fdecl.A.formals)
+	    and formal_types = Array.of_list (List.map (fun (t,_) -> ltype_of_typ t) fdecl.A.formals)
 	in
-	    let ftype = L.function_type (lreturn_type fdecl.A.typ) formal_types in
+	    let ftype = L.function_type (ltype_of_typ fdecl.A.typ) formal_types in
 		StringMap.add name (L.define_function name ftype the_module, fdecl) m
 	in 
 	    List.fold_left function_decl StringMap.empty functions
@@ -74,7 +74,11 @@ let translate(globals,functions) =
 	let add_formal m (t,n) p = L.set_value_name n p;
 	    let local = L.build_alloca (ltype_of_typ t) n builder in
 	    ignore (L.build_store p local builder); 
-	    StringMap.add n local_var m in
+	    StringMap.add n local m in
+        
+        let add_local m (t, n) = 
+          let local_var = L.build_alloca (ltype_of_typ t) n builder
+          in StringMap.add n local_var m in
 
         let formals = List.fold_left2 add_formal StringMap.empty
 	    fdecl.A.formals (Array.to_list (L.params the_function)) in 
@@ -91,7 +95,7 @@ let translate(globals,functions) =
 	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
 	| A.FloatLit f -> L.const_float flt_t f
 	| A.Noexpr ->	L.const_int i32_t 0
-        | A.String s -> L.build_load (lookup s) s builder
+        | A.StringLit s -> L.build_load (lookup s) s builder
 	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
 	| A.Assign (s,e) -> let e' = expr builder e in
 		ignore (L.build_store e' (lookup s) builder); e'

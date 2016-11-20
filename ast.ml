@@ -22,6 +22,7 @@ type expr = Literal of int
           | Noexpr
           | Searchstring of string
           | BoolLit of bool
+          | Call of string * expr list
 
 type stmt = Block of stmt list
    | Expr of expr

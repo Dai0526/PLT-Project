@@ -154,6 +154,18 @@ let check (globals, functoins) =
        Not when t = Bool -> Bool 
     | _ -> raise (Failure ("illegal unary operator " ^ string_of_uop op ^ 
                 string_of_typ t ^ " in " ^ string_of_expr ex)))
+    | Call(fanme, actuals) as call -> let fd = function_decl fname in
+       if List.length actuals != List.length fd.formals then
+         raise (Failure ("expecting " ^ string_ofint
+           (List.length fd.formals) ^ " arguments in " ^ string_of_expr call))
+       else
+         List.iter2 (fun (ft,_) e -> let et = expr e in 
+            ignore (check_assign ft et
+              (Failure ("illegal actual argument found " ^ 
+                 string_of_typ et ^ " expected " ^
+                 string_of_typ ft ^ " in " ^ string_of_expr e ))))
+            fd.formals actuals;
+         fd.typ
 
     in
     (*statment*)
