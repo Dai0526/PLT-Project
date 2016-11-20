@@ -128,14 +128,14 @@ let check (globals, functions) =
   let rec expr = function
 	Literal _ -> Int
       | FloatLit _ -> Float
-      | Noexpr _ -> Void
+      | Noexpr -> Void
       | BoolLit _ -> Bool
-      | String s -> type_of_identifier s
-      | Assign(var, e) as ex -> let lt=type_of_identifier var 
-				and rt=expr e in
+      | StringLit s -> type_of_identifier s
+      | Assign(var, e) as ex -> let lt = type_of_identifier var 
+				                        and rt = expr e in
         check_assign lt rt
-		(Failure ("illegal assignment "^ string_of_typ lt ^
-		 " =" ^ string_of_type rt ^" in " ^ string_of_expr ex))
+		      (Failure ("illegal assignment " ^ string_of_typ lt ^
+		        " = "  ^ string_of_typ rt ^ " in " ^ string_of_expr ex))
 
       | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
@@ -143,8 +143,8 @@ let check (globals, functions) =
     | Equal  when t1=t2 -> Bool
     | Less | Greater when t1 = Int && t2 = Int -> Bool
     | _ -> raise(Failure ("illegal binary operator "^ 
-		   string_of_type t1 ^ " " ^ string_of_op op ^ " " ^
-		   string_of_type t2 ^ " in " ^ string_of_expr e))
+		   string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
+		   string_of_typ t2 ^ " in " ^ string_of_expr e))
     )
 
   
