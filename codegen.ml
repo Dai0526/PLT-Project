@@ -43,7 +43,7 @@ let translate(globals,functions) =
  
     (*declare external function printf*)
     let printf_t = L.var_arg_function_type i32_t [|L.pointer_type i8_t |] in  
-    let print_func = L.declare_function "printf" printf_t the_module in
+    let printf_func = L.declare_function "printf" printf_t the_module in
 
 
     (*file open and close*)
@@ -66,7 +66,7 @@ let translate(globals,functions) =
 	    StringMap.find fdecl.A.fname function_decls in
 	let builder = (*create an instruction builder*)
 	    L.builder_at_end context (L.entry_block the_function) in 
-	let int_formal_str = (*Format string for printf calls*)
+	let int_format_str = (*Format string for printf calls*)
 	    L.build_global_stringptr "%d\n" "fmt" builder in 
 
     (* formals and locals  *)
@@ -119,9 +119,10 @@ let translate(globals,functions) =
 		A.Not -> L.build_not) e' "tmp" builder
 
 	(*build in function filled below*)
-	| A.Call("print_s",[e]) -> L.build_call printf_func
-					[| int_format_str; (expr builder e)|]
-					"printf" builder
+	| A.Call("print_s",[e]) -> 
+    L.build_call printf_func
+			[| int_format_str; (expr builder e)|]
+			"printf" builder
 
 
 	| A.Call (f, act) ->
