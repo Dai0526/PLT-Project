@@ -87,7 +87,13 @@ expr: LITERAL { Literal($1) }
     | SEARCHSTRING { Searchstring($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
+    | String LPAREN actuals_opt RPAREN { Call($1, $3) }
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
 
+actual_opt: /* nothing */ { [] }
+          | actuals_list { List.rev $1 }
+
+actual_list: expr { [$1] }
+           | actuals_list COMA expr { $3 :: $1 }
