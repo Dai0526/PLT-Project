@@ -8,8 +8,9 @@ ocamlfind ocamldep -package llvm.analysis -package llvm -modules codegen.ml > co
 # Target: ast.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:ast.cmo, file:ast.ml, implem, ocaml, package(llvm), package(llvm.analysis), quiet }
 ocamlfind ocamlc -c -w +a-4 -package llvm.analysis -package llvm -o ast.cmo ast.ml
 + ocamlfind ocamlc -c -w +a-4 -package llvm.analysis -package llvm -o ast.cmo ast.ml
-File "ast.ml", line 47, characters 4-7:
+File "ast.ml", line 50, characters 4-11:
 Error: This variant pattern is expected to have type op
-       The constructor Neq does not belong to type op
+       The constructor Greater does not belong to type op
+Hint: Did you mean Great or GreatEQ?
 Command exited with code 2.
 # Compilation unsuccessful.
