@@ -44,7 +44,9 @@ let translate(globals,functions) =
     (*declare external function printf*)
     let printf_t = L.var_arg_function_type i32_t [|L.pointer_type i8_t |] in  
     let printf_func = L.declare_function "printf" printf_t the_module in
-
+    
+    let prints_t = L.var_arg_function_type ptr_t [|L.pointer_type i8_t|] in
+    let prints_func = L.declare_function "puts" prints_t the_module in
 
     (*file open and close*)
     let open_file_t = L.function_type ptr_t [| L.pointer_type i8_t |] in
@@ -120,9 +122,8 @@ let translate(globals,functions) =
 
 	(*build in function filled below*)
 	| A.Call("print_s",[e]) -> 
-    L.build_call printf_func
-			[| int_format_str; (expr builder e)|]
-			"printf" builder
+            L.build_call prints_func [|(expr builder e)|]
+            "puts" builder
 
 
 	| A.Call (f, act) ->

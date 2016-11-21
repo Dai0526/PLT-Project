@@ -1,5 +1,5 @@
 int main(){
-  print_s(); 
+  print_s("abc"); 
 # int i;
  return 1;
 }
