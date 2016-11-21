@@ -11,8 +11,8 @@
 %token INDEX SUBSTR TOUPPER TOLOWER
 
 %token <int> LITERAL VARIABLE
-%token <float> FLOAT FLITERAL
-%token <string> STRING SEARCHSTRING
+%token <float> FLOATLIT
+%token <string> STRINGLIT SEARCHSTRING
 %token EOF
 
 %nonassoc ELSE
@@ -39,24 +39,22 @@ decls: /* nothing */ { [], [] }
    | decls fdecl { fst $1, ($2 :: snd $1) }
 
 fdecl:
-   typ STRING LPAREN formals_opt RPAREN LBRACE vdecl_list stmt_list RBRACE { { typ = $1; fname = $2; formals = $4; locals = List.rev $7; body = List.rev $8 } }
+   typ STRINGLIT LPAREN formals_opt RPAREN LBRACE vdecl_list stmt_list RBRACE { { typ = $1; fname = $2; formals = $4; locals = List.rev $7; body = List.rev $8 } }
 
 formals_opt: /* nothing */ { [] }
            | formal_list { List.rev $1 }
 
-formal_list: typ STRING { [($1,$2)] } 
-           | formal_list COMMA typ STRING { ($3,$4) :: $1 }
+formal_list: typ STRINGLIT { [($1,$2)] } 
+           | formal_list COMMA typ STRINGLIT { ($3,$4) :: $1 }
    
 
 typ: INT { Int }
    | VOID { Void }
-   | FLOAT { Float }
    | BOOL { Bool }
-
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
-vdecl: typ STRING SEMI { ($1,$2) } 
+vdecl: typ STRINGLIT SEMI { ($1,$2) } 
 
 
 stmt_list: /* nothing */ { [] }
@@ -72,9 +70,9 @@ stmt:
     | WHILE LPAREN expr RPAREN stmt {While($3,$5)}
 
 expr: LITERAL { Literal($1) }
-    | FLITERAL { FloatLit($1) }
-    | STRING { StringLit($1) }
-    | STRING ASSIGN expr { Assign($1, $3) }
+    | FLOATLIT { FloatLit($1) }
+    | STRINGLIT { StringLit($1) }
+    | STRINGLIT ASSIGN expr { Assign($1, $3) }
     | expr PLUS expr { Binop($1, Plus, $3) }
     | expr MINUS expr { Binop($1, Minus, $3) }
     | expr TIMES expr { Binop($1, Times, $3) }
@@ -87,7 +85,7 @@ expr: LITERAL { Literal($1) }
     | SEARCHSTRING { Searchstring($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
-    | STRING LPAREN actual_opt RPAREN { Call($1, $3) }
+    | STRINGLIT LPAREN actual_opt RPAREN { Call($1, $3) }
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
