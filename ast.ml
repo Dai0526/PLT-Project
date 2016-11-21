@@ -44,13 +44,13 @@ let string_of_op = function
   | Minus -> "-"
   | Times -> "*"
   | Equal -> "=="
-  | Neq -> "!="
+ (* | Neq -> "!="*)
   | Less -> "<"
-  | Leq -> "<="
+  | LessEQ -> "<="
   | Greater -> ">"
-  | Geq -> ">="
-  | And -> "&&"
-  | Or -> "||"
+  | GreatEQ -> ">="
+ (* | And -> "&&"
+  | Or -> "||"*)
 
 let string_of_uop = function
     Neg -> "-"
