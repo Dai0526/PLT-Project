@@ -151,9 +151,9 @@ let check (globals, functions) =
        Not when t = Bool -> Bool 
     | _ -> raise (Failure ("illegal unary operator " ^ string_of_uop op ^ 
                 string_of_typ t ^ " in " ^ string_of_expr ex)))
-    | Call(fanme, actuals) as call -> let fd = function_decl fname in
+    | Call(fname, actuals) as call -> let fd = function_decls fname in
        if List.length actuals != List.length fd.formals then
-         raise (Failure ("expecting " ^ string_ofint
+         raise (Failure ("expecting " ^ string_of_int
            (List.length fd.formals) ^ " arguments in " ^ string_of_expr call))
        else
          List.iter2 (fun (ft,_) e -> let et = expr e in 
@@ -177,7 +177,7 @@ let check (globals, functions) =
       | For(e1,e2,e3,st)-> ignore(expr e1); check_bool_expr e2;
 			   ignore(expr e3); stmt st
    
-      | While(p,s) -> check_bool_expr p; stmt t
+      | While(p,s) -> check_bool_expr p; stmt s
 
       | Return e->
 	  let t = expr e in
