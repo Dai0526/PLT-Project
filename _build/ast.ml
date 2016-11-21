@@ -47,7 +47,7 @@ let string_of_op = function
  (* | Neq -> "!="*)
   | Less -> "<"
   | LessEQ -> "<="
-  | Great -> ">"
+  | Greater -> ">"
   | GreatEQ -> ">="
  (* | And -> "&&"
   | Or -> "||"*)
