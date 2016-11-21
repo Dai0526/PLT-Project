@@ -11,7 +11,7 @@
 %token INDEX SUBSTR TOUPPER TOLOWER
 
 %token <int> LITERAL VARIABLE
-%token <float> FLOAT FLITERAL
+%token <float> FLOATLIT
 %token <string> STRINGLIT SEARCHSTRING
 %token EOF
 
@@ -50,9 +50,7 @@ formal_list: typ STRINGLIT { [($1,$2)] }
 
 typ: INT { Int }
    | VOID { Void }
-   | FLOAT { Float }
    | BOOL { Bool }
-   | STRING { String }
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
@@ -72,7 +70,7 @@ stmt:
     | WHILE LPAREN expr RPAREN stmt {While($3,$5)}
 
 expr: LITERAL { Literal($1) }
-    | FLITERAL { FloatLit($1) }
+    | FLOATLIT { FloatLit($1) }
     | STRINGLIT { StringLit($1) }
     | STRINGLIT ASSIGN expr { Assign($1, $3) }
     | expr PLUS expr { Binop($1, Plus, $3) }

@@ -59,7 +59,6 @@ rule token = parse
 | '/'['a'-'z' 'A'-'Z' '0'-'9' '|' '!']* as lxm {SEARCHSTRING(lxm) }
 | eof {EOF}
 | "#" { comment lexbuf } (* Comments *)
-| _ as char { raise (Failure("illegal character")^ Char.escaped char)}
 
 and comment = parse
   "\n" { token lexbuf }
