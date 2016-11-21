@@ -51,8 +51,12 @@ rule token = parse
 | '~' {MATCH}
 | "?:" {CONDITION}
 | '!' {NOT}
+<<<<<<< HEAD
 | "int" {INT}
 | '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) }
+=======
+(*| '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) } *)
+>>>>>>> 7a3a7b34f5afa441f7e716e4ca523939b96cdbd0
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRINGLIT(lxm)}
 | ['0'-'9']*'.'['0'-'9']* as lxm { FLOAT(float_of_string lxm) }

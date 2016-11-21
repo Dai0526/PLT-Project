@@ -52,7 +52,7 @@ typ: INT { Int }
    | VOID { Void }
    | FLOAT { Float }
    | BOOL { Bool }
-
+   | STRING { String }
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
