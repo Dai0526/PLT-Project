@@ -44,6 +44,8 @@ semant.cmo : ast.cmo
 semant.cmx : ast.cmx
 parser.cmi : ast.cmo
 
+TARFILES = ast.ml codegen.ml Makefile microc.ml parser.mly README scanner.mll \
+		   semant.ml testall.sh $(TESTFILES:%=tests/%)
 tape-llvm.tar.gz: $(TARFILES)
 	cd .. && tar czf tape-llvm/tape-llvm.tar.gz \
 	$(TARFILES:%=tape-llvm/%) 
