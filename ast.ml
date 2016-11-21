@@ -1,4 +1,4 @@
-type typ = Int | Float | Char | String | File | Void | Bool
+type typ = Int | Float | Char | String | File | Void | Bool | Strg
 
 type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
 

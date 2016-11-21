@@ -1,5 +1,17 @@
-{ open Parser }
- 
+{ open Parser 
+  
+  let lineno =ref 1
+  let depth = ref 0
+  let filename = ref ""
+
+  let unescape s = 
+      Scanf.sscanf ("\""^ s ^ "\"") "%S%!" (fun x->x)
+}
+
+let ascii=[' '-'!' '#'-'[' ']'-'-' ]
+let escape_char= '\\' ['\\' ''' '"' 'n' 'r' 't']
+
+
 rule token = parse
   [' ' '\t' '\r' '\n' '\\' ] {token lexbuf} (* Whitespace *)
 | "(" {LPAREN}

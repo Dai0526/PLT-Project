@@ -13,7 +13,7 @@ clean:
 OBJS = ast.cmx codegen.cmx parser.cmx scanner.cmx semant.cmx tape.cmx
 
 tape: $(OBJS)
-	ocamlfind ocamlopt -linkpkg -package llvm -package llvm.analysis $(OBJS)
+	ocamlfind ocamlopt -linkpkg -package llvm -package llvm.analysis $(OBJS) -o tape
 
 scanner.ml: scanner.mll
 	ocamllex scanner.mll
