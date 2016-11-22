@@ -1,16 +1,13 @@
 { open Parser 
-  
-  let lineno =ref 1
-  let depth = ref 0
-  let filename = ref ""
 
   let unescape s = 
       Scanf.sscanf ("\""^ s ^ "\"") "%S%!" (fun x->x)
 }
 
-let ascii=[' '-'!' '#'-'[' ']'-'-' ]
-let escape_char= '\\' ['\\' ''' '"' 'n' 'r' 't']
+let ascii=[' '-'!' '#'-'[' ']'-'~' ]
+let escape= '\\' ['\\' ''' '"' 'n' 'r' 't']
 
+let newstring= '"' ((ascii|escape)* as s) '"'
 
 rule token = parse
   [' ' '\t' '\r' '\n' '\\' ] {token lexbuf} (* Whitespace *)
@@ -69,6 +66,7 @@ rule token = parse
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRINGLIT(lxm)}
 | ['0'-'9']*'.'['0'-'9']* as lxm { FLOATLIT(float_of_string lxm) }
 | '/'['a'-'z' 'A'-'Z' '0'-'9' '|' '!']* as lxm {SEARCHSTRING(lxm) }
+| newstring {NEWSTRINGLIT((unescape s))}
 | eof {EOF}
 | "#" { comment lexbuf } (* Comments *)
 

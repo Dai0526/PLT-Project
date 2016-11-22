@@ -7,12 +7,12 @@
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ 
 %token AND OR MATCH CONDITION NOT
-%token FILE INT CHAR VOID
+%token FILE INT CHAR VOID STRING
 %token INDEX SUBSTR TOUPPER TOLOWER
 
 %token <int> LITERAL VARIABLE
 %token <float> FLOATLIT
-%token <string> STRINGLIT SEARCHSTRING
+%token <string> STRINGLIT SEARCHSTRING NEWSTRINGLIT
 %token EOF
 
 %nonassoc ELSE
@@ -51,6 +51,7 @@ formal_list: typ STRINGLIT { [($1,$2)] }
 typ: INT { Int }
    | VOID { Void }
    | BOOL { Bool }
+   | STRING { String }
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
@@ -72,6 +73,7 @@ stmt:
 expr: LITERAL { Literal($1) }
     | FLOATLIT { FloatLit($1) }
     | STRINGLIT { StringLit($1) }
+    | NEWSTRINGLIT { NewstringLit($1) }
     | STRINGLIT ASSIGN expr { Assign($1, $3) }
     | expr PLUS expr { Binop($1, Plus, $3) }
     | expr MINUS expr { Binop($1, Minus, $3) }
