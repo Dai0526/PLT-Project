@@ -23,6 +23,7 @@ let translate (globals, functions) =
   and i32_t  = L.i32_type  context
   and i8_t   = L.i8_type   context
   and i1_t   = L.i1_type   context
+  and ptr_t  = L.pointer_type (L.i8_type context)
   and void_t = L.void_type context in
 
   let ltype_of_typ = function
@@ -40,6 +41,9 @@ let translate (globals, functions) =
   (* Declare printf(), which the print built-in function will call *)
   let printf_t = L.var_arg_function_type i32_t [| L.pointer_type i8_t |] in
   let printf_func = L.declare_function "printf" printf_t the_module in
+
+  let prints_t = L.var_arg_function_type ptr_t [|L.pointer_type i8_t|] in
+  let prints_func = L.declare_function "puts" prints_t the_module in
 
   (* Define each function (arguments and return type) so we can call it *)
   let function_decls =
@@ -110,9 +114,9 @@ let translate (globals, functions) =
           | A.Not     -> L.build_not) e' "tmp" builder
       | A.Assign (s, e) -> let e' = expr builder e in
 	                   ignore (L.build_store e' (lookup s) builder); e'
-      | A.Call ("print", [e]) | A.Call ("printb", [e]) ->
-	  L.build_call printf_func [| int_format_str ; (expr builder e) |]
-	    "printf" builder
+      | A.Call ("print", [e]) ->
+	    L.build_call prints_func [| (expr builder e) |]
+	    "puts" builder
       | A.Call (f, act) ->
          let (fdef, fdecl) = StringMap.find f function_decls in
 	 let actuals = List.rev (List.map (expr builder) (List.rev act)) in

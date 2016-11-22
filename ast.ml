@@ -1,4 +1,4 @@
-type typ = Int | Float | Char | String | File | Void | Bool | Strg
+type typ = Int | Float | Char | String | File | Void | Bool  
 
 type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
 
@@ -18,6 +18,7 @@ type expr = Literal of int
           | Searchstring of string
           | BoolLit of bool
           | Call of string * expr list
+          | NewstringLit of string 
 
 type stmt = Block of stmt list
    | Expr of expr
@@ -67,6 +68,7 @@ let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | BoolLit(true) -> "true"
   | BoolLit(false) -> "false"
+  | NewstringLit(s) -> s
   | StringLit(s) -> s
   | Binop(e1, o, e2) ->
       string_of_expr e1 ^ " " ^ string_of_op o ^ " " ^ string_of_expr e2
