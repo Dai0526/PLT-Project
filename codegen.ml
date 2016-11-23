@@ -106,9 +106,9 @@ let translate(globals,functions) =
 	    let e1' = expr builder e1
 	    and e2' = expr builder e2 in
 	    (match op with 
-		A.Plus -> L.build_fadd
-	      | A.Minus -> L.build_fsub
-	      | A.Times -> L.build_fmul
+		A.Plus -> L.build_add
+	      | A.Minus -> L.build_sub
+	      | A.Times -> L.build_mul
         | A.Equal -> L.build_fcmp L.Fcmp.Oeq  (*Fcmp is a module imported, no unequal*)
 	      | A.Less  -> L.build_fcmp L.Fcmp.Olt
 	      | A.Great -> L.build_fcmp L.Fcmp.Ogt
