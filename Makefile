@@ -9,7 +9,7 @@ clean:
 	ocamlbuild -clean
 	rm -rf scanner.ml parser.ml parser.mli
 	rm -rf *.cmx *.cmi *.cmo *.cmx *.o
-
+	rm -rf testall.log *.diff  
 OBJS = ast.cmx codegen.cmx parser.cmx scanner.cmx semant.cmx tape.cmx
 
 tape: $(OBJS)
@@ -43,6 +43,7 @@ scanner.cmx: parser.cmx
 semant.cmo : ast.cmo
 semant.cmx : ast.cmx
 parser.cmi : ast.cmo
+
 
 TARFILES = ast.ml codegen.ml Makefile microc.ml parser.mly README scanner.mll \
 		   semant.ml testall.sh $(TESTFILES:%=tests/%)
