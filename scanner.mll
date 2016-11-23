@@ -49,7 +49,6 @@ rule token = parse
 | "+=" {PLUSEQ}
 | "-=" {MINUSEQ}
 (*| "/=" {DIVIDEEQ}*)
-
 | "==" {EQUAL}
 | '<' {LESS}
 | "<=" {LESSEQ}
@@ -61,6 +60,8 @@ rule token = parse
 | "?:" {CONDITION}
 | '!' {NOT}
 | "int" {INT}
+| "string" {STRING}
+| "float" {FLOAT}
 | '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) }
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRINGLIT(lxm)}
