@@ -1,6 +1,6 @@
 #hello world program
 
 int main(){
- print_s("hello tape");
+ print_s("hello");
  return 0;
 }
