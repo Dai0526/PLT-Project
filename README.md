@@ -11,4 +11,8 @@ Read the Language Reference Manual [here](http://www.cs.columbia.edu/~sedwards/c
 Files with names ending in `test` are the files that we use to make changes to get rid of conflicts. Files with names not ending in `test` are older files that are not completely correct, but we do not want to lose.
 
 ### testing
-In terminal, run `python run.py`.
+####In terminal, run `python run.py` to test the shift/reduce error
+
+####In terminal, run `make` to make compiler
+
+####In terminal, run 'sh test-helloworld.sh' to run the helloworld.tape
