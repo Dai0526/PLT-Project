@@ -122,7 +122,10 @@ let translate(globals,functions) =
 		A.Not -> L.build_not) e' "tmp" builder
 
 	(*build in function filled below*)
-            
+        | A.Call("print_i",[e]) ->
+            L.build_call printf_func [|int_format_str; (expr builder e)|]
+            "printf" builder
+
 	| A.Call("print_s",[e]) -> 
             L.build_call prints_func [|(expr builder e)|]
             "puts" builder
