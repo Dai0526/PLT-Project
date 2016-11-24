@@ -111,7 +111,7 @@ let translate(globals,functions) =
 	      | A.Times -> L.build_mul
         | A.Equal -> L.build_icmp L.Icmp.Eq  (*Fcmp is a module imported, no unequal*)
 	      | A.Less  -> L.build_icmp L.Icmp.Slt
-	      | A.Great -> L.build_icmp L.Icmp.Sge
+	      | A.Great -> L.build_icmp L.Icmp.Sgt
 	      | A.LessEQ -> L.build_icmp L.Icmp.Sle
 	      | A.GreatEQ -> L.build_icmp L.Icmp.Sge
 	    ) e1' e2' "tmp" builder
