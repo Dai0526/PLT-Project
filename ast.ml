@@ -66,6 +66,7 @@ let string_of_typ = function
 
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
+  | FloatLit(l) -> string_of_float l
   | BoolLit(true) -> "true"
   | BoolLit(false) -> "false"
   | NewstringLit(s) -> s

@@ -49,6 +49,7 @@ formal_list: typ STRINGLIT { [($1,$2)] }
    
 
 typ: INT { Int }
+   | FLOAT { Float}
    | VOID { Void }
    | BOOL { Bool }
    | STRING { String }

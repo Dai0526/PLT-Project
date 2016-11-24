@@ -61,6 +61,7 @@ rule token = parse
 | "?:" {CONDITION}
 | '!' {NOT}
 | "int" {INT}
+| "float" {FLOAT}
 | "string" {STRING}
 | '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) }
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
