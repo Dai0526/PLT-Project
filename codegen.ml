@@ -20,7 +20,7 @@ let translate(globals,functions) =
 	| A.String -> ptr_t
 	| A.Void -> void_t
 	| A.Bool -> i1_t
-        | A.Char -> i8_t
+    | A.Char -> i8_t
        
     (*There may have more things need to be put*)
     in
