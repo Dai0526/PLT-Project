@@ -13,6 +13,7 @@
 %token <int> LITERAL VARIABLE
 %token <float> FLOATLIT
 %token <string> STRINGLIT SEARCHSTRING NEWSTRINGLIT
+%token <char> CHAR_LITERAL
 %token EOF
 
 %nonassoc ELSE
@@ -53,6 +54,7 @@ typ: INT { Int }
    | VOID { Void }
    | BOOL { Bool }
    | STRING { String }
+   | CHAR {Char}
 vdecl_list: /*nothing*/ {[]}
    | vdecl_list vdecl {$2 :: $1}
 
@@ -76,6 +78,7 @@ expr: LITERAL { Literal($1) }
     | STRINGLIT { StringLit($1) }
     | NEWSTRINGLIT { NewstringLit($1) }
     | STRINGLIT ASSIGN expr { Assign($1, $3) }
+    | CHAR_LITERAL {Char_Lit($1)}
     | expr PLUS expr { Binop($1, Plus, $3) }
     | expr MINUS expr { Binop($1, Minus, $3) }
     | expr TIMES expr { Binop($1, Times, $3) }
