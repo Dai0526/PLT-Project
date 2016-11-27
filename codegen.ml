@@ -60,6 +60,9 @@ let translate(globals,functions) =
 
     let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
     let write_func = L.declare_function "fgets" get_t the_module in
+ 
+    let toupper_t = L.function_type ptr_t [| ptr_t |] in
+    let toupper_func = L.declare_function "strupr" toupper_t the_module in
 
    
     (*build function body - fill in the body of the given function*)
@@ -129,6 +132,10 @@ let translate(globals,functions) =
 	| A.Call("print_s",[e]) -> 
             L.build_call prints_func [|(expr builder e)|]
             "puts" builder
+
+        | A.Call("toupper",[e]) ->
+            L.build_call toupper_func [|(expr builder e)|]
+            "strupr" builder
 
 
 	| A.Call (f, act) ->
