@@ -9,7 +9,7 @@ clean:
 	ocamlbuild -clean
 	rm -rf scanner.ml parser.ml parser.mli
 	rm -rf *.cmx *.cmi *.cmo *.cmx *.o
-	rm -rf testall.log *.diff  
+	rm -rf testall.log *.diff *.err *.ll 
 OBJS = ast.cmx codegen.cmx parser.cmx scanner.cmx semant.cmx tape.cmx
 
 tape: $(OBJS)
