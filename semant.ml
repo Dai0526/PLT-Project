@@ -129,17 +129,18 @@ let check (globals, functions) =
 	Literal _ -> Int
       | FloatLit _ -> Float
       | BoolLit _ -> Bool
+      | Char_Lit _ -> Char
       | StringLit s -> type_of_identifier s
       | NewstringLit _ -> String
       | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
-        Plus | Minus | Times when t1 = Int && t2 = Int -> Int
-    | Equal  when t1=t2 -> Bool
-    | Less | Great when t1 = Int && t2 = Int -> Bool
-        | _ -> raise(Failure ("illegal binary operator "^ 
+        Plus | Minus | Times when t1 = Int && t2 = Int -> Int 
+       | Equal  when t1=t2 -> Bool
+       | Less | Great when t1 = Int && t2 = Int -> Bool
+       | _ -> raise(Failure ("illegal binary operator "^ 
 		      string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
 		       string_of_typ t2 ^ " in " ^ string_of_expr e))
-        )
+     )
     
       | Noexpr -> Void
       | Assign(var, e) as ex -> let lt = type_of_identifier var 

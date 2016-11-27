@@ -105,8 +105,9 @@ let translate(globals,functions) =
 	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
 	| A.FloatLit f -> L.const_float flt_t f
 	| A.Noexpr ->	L.const_int i32_t 0
-    | A.StringLit s -> L.build_load (lookup s) s builder
-    | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
+        | A.Char_Lit c -> L.const_int i8_t (Char.code c)
+        | A.StringLit s -> L.build_load (lookup s) s builder
+        | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
 	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
 	| A.Assign (s,e) -> let e' = expr builder e in
 		ignore (L.build_store e' (lookup s) builder); e'
