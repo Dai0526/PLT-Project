@@ -53,9 +53,9 @@ let check (globals, functions) =
       
       { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
 
-      { typ = Int; fname = "tolower"; formals = [(Int, "x")]; locals = []; body = []};
+      { typ = Char; fname = "tolower"; formals = [(Char, "x")]; locals = []; body = []};
   
-      { typ = Int; fname = "toupper"; formals = [(Int, "x")]; locals = []; body = []};
+      { typ = Char; fname = "toupper"; formals = [(Char, "x")]; locals = []; body = []};
 
       { typ = String; fname = "TAPE"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
  
@@ -66,12 +66,12 @@ let check (globals, functions) =
       { typ = String; fname = "open_read"; formals = [(String, "x")]; locals = []; body = [] };
 
       { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
-
+      { typ = Void; fname ="print_c"; formals=[(Char, "x")]; locals=[]; body=[]};
   ]
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open_read"; "write"];
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open_read"; "write";"print_c"];
   
   in
 
@@ -134,7 +134,9 @@ let check (globals, functions) =
       | NewstringLit _ -> String
       | Binop(e1, op, e2) as e-> let t1 = expr e1 and t2 = expr e2 in
     (match op with
-        Plus | Minus | Times when t1 = Int && t2 = Int -> Int 
+        Plus -> (match(t1,t2) with (Int,Int)-> Int
+                                  |(Char,Char) -> String)
+       | Minus | Times when t1 = Int && t2 = Int -> Int 
        | Equal  when t1=t2 -> Bool
        | Less | Great when t1 = Int && t2 = Int -> Bool
        | _ -> raise(Failure ("illegal binary operator "^ 

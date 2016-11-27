@@ -63,10 +63,10 @@ let translate(globals,functions) =
     let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
     let write_func = L.declare_function "fgets" get_t the_module in
  
-    let toupper_t = L.function_type i32_t [| i32_t |] in
+    let toupper_t = L.function_type i8_t [| i8_t |] in
     let toupper_func = L.declare_function "toupper" toupper_t the_module in
 
-    let tolower_t = L.function_type i32_t [| i32_t |] in
+    let tolower_t = L.function_type i8_t [| i8_t |] in
     let tolower_func = L.declare_function "tolower" tolower_t the_module in
 
    
@@ -78,6 +78,7 @@ let translate(globals,functions) =
 	    L.builder_at_end context (L.entry_block the_function) in 
 	let int_format_str = (*Format string for printf calls*)
 	    L.build_global_stringptr "%d\n" "fmt" builder in 
+    let char_format_str = L.build_global_stringptr "%c\n" "fmt" builder in
 
     (* formals and locals  *)
     let local_vars = 
@@ -135,9 +136,13 @@ let translate(globals,functions) =
             L.build_call printf_func [|int_format_str; (expr builder e)|]
             "printf" builder
 
-	| A.Call("print_s",[e]) -> 
+	    | A.Call("print_s",[e]) -> 
             L.build_call prints_func [|(expr builder e)|]
             "puts" builder
+        | A.Call("print_c",[e]) ->
+                L.build_call printf_func [|char_format_str; (expr builder e)|]
+                "printf" builder
+
 
         | A.Call("toupper",[e]) ->
             L.build_call toupper_func [|(expr builder e)|]

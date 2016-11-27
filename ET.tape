@@ -3,13 +3,17 @@ int main(){
 
 char a;
 char b;
-char c;
+#string c;
 
 a = 'x';
-b = 'y';
+b = toupper(a);
+print_c(b);
 
-c = a + b;
 
+a=tolower('Y');
+print_c(a);
+#c = a + b;
+#print_s(c);
 
  return 0;
 }
