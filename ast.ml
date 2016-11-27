@@ -19,6 +19,7 @@ type expr = Literal of int
           | BoolLit of bool
           | Call of string * expr list
           | NewstringLit of string 
+          | Char_Lit of char
 
 type stmt = Block of stmt list
    | Expr of expr
@@ -63,13 +64,14 @@ let string_of_typ = function
   | Void   -> "void"
   | String -> "string"
   | Float  -> "float"
-
+  | Char -> "char"
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | FloatLit(l) -> string_of_float l
   | BoolLit(true) -> "true"
   | BoolLit(false) -> "false"
   | NewstringLit(s) -> s
+  | Char_Lit(s) -> Char.escaped s
   | StringLit(s) -> s
   | Binop(e1, o, e2) ->
       string_of_expr e1 ^ " " ^ string_of_op o ^ " " ^ string_of_expr e2
