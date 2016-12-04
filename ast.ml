@@ -1,5 +1,4 @@
-type typ = Int | Float | Char | String | File | Void | Bool  
-
+type typ = Int | Float | Char | String | Void | Bool
 type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
 
 type uop = Not
@@ -20,15 +19,16 @@ type expr = Literal of int
           | Call of string * expr list
           | NewstringLit of string 
           | Char_Lit of char
-
+         
 type stmt = Block of stmt list
    | Expr of expr
    | If of expr * stmt * stmt
    | For of expr * expr * expr * stmt
    | While of expr * stmt
    | Return of expr
-   
-
+(*   
+type include_stmt = Include of string
+*)
 type func_decl = {
    typ : typ;
    fname : string;
@@ -39,7 +39,10 @@ type func_decl = {
 
 
 type program = bind list * func_decl list
-
+(*
+type decls_val = bind list * func_decl list
+type program = Program of include_stmt list * decls_val
+*)
 
 let string_of_op = function
     Plus -> "+"

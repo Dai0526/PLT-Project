@@ -63,7 +63,7 @@ let check (globals, functions) =
 
       { typ = Void; fname = "print_f"; formals = [(Float, "x")]; locals = []; body = [] };
 
-      { typ = String; fname = "open_read"; formals = [(String, "x")]; locals = []; body = [] };
+      { typ = String; fname = "open"; formals = [(String, "x");(String,"x")]; locals = []; body = [] };
 
       { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
       { typ = Void; fname ="print_c"; formals=[(Char, "x")]; locals=[]; body=[]};
@@ -71,7 +71,7 @@ let check (globals, functions) =
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open_read"; "write";"print_c"];
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open"; "write";"print_c"];
   
   in
 

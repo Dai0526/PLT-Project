@@ -51,7 +51,7 @@ let translate(globals,functions) =
     let prints_func = L.declare_function "puts" prints_t the_module in
 
     (*file open and close*)
-    let open_file_t = L.function_type ptr_t [| L.pointer_type i8_t |] in
+    let open_file_t = L.function_type ptr_t [| L.pointer_type i8_t;L.pointer_type i8_t |] in
     let open_file_func = L.declare_function "fopen" open_file_t the_module in
 
     let close_file_t = L.function_type i32_t [| i32_t |] in
@@ -151,7 +151,8 @@ let translate(globals,functions) =
         | A.Call("tolower",[e]) ->
             L.build_call tolower_func [|(expr builder e)|]
             "tolower" builder
-
+        | A.Call("open", e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call open_file_func (Array.of_list actuals) "fopen" builder
 
 	| A.Call (f, act) ->
 	    let (fdef, fdecl) = StringMap.find f function_decls in 

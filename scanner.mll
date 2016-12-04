@@ -19,7 +19,6 @@ rule token = parse
 | "}" {RBRACE}
 | "[" {LBRACKET}
 | "]" {RBRACKET}
-| "file" {FILE}
 | "void" {VOID}
 | "true" {TRUE}
 | "false" {FALSE}
@@ -30,7 +29,7 @@ rule token = parse
 | "return" {RETURN}
 | "after" {AFTER}
 | "before" {BEFORE}
-| "open" {OPEN}
+(*| "open" {OPEN}*)
 | "close" {CLOSE}
 | "scan" {SCAN}
 | "copy" {COPY}
@@ -45,7 +44,7 @@ rule token = parse
 | '-' {MINUS}
 | '*' {TIMES}
 (* | '/' {DIVIDE} *)
-
+| ',' {COMMA}
 | '=' {ASSIGN}
 | "++" {INCREMENT}
 | "--" {DECREMENT}
