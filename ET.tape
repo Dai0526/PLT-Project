@@ -1,5 +1,14 @@
 int main(){
 
+int a;
+int b;
+
+a=5;
+b=6;
+
+if(a>=b){print_s("false");}else{ print_s("true");}
+
+
 #string a;
 #int b;
 
@@ -9,9 +18,9 @@ int main(){
 #a="test.txt";
 #b="r";
 
-string a;
-a=open("test.txt","r");
-print_s(a);
+#string a;
+#a=open("test.txt","r");
+#print_s(a);
 
 #char a;
 #char b;

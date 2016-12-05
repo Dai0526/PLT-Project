@@ -1,6 +1,4 @@
 int main()
 {
-  if (true) {}
-  if (false) {} else {}
-  if (42) {}
+  if(42) { print_s("wrong input"); } else{}
 }

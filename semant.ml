@@ -138,7 +138,7 @@ let check (globals, functions) =
                                   |(Char,Char) -> String)
        | Minus | Times when t1 = Int && t2 = Int -> Int 
        | Equal  when t1=t2 -> Bool
-       | Less | Great when t1 = Int && t2 = Int -> Bool
+       | Less | Great |LessEQ|GreatEQ when t1 = Int && t2 = Int -> Bool
        | _ -> raise(Failure ("illegal binary operator "^ 
 		      string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
 		       string_of_typ t2 ^ " in " ^ string_of_expr e))
