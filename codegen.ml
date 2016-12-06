@@ -56,20 +56,26 @@ let translate(globals,functions) =
 
     let close_file_t = L.function_type i32_t [| i32_t |] in
     let close_file_func = L.declare_function "fclose" close_file_t the_module in
-
+   
     let write_t = L.function_type i32_t [| i32_t; ptr_t |] in 
     let write_func = L.declare_function "fputs" write_t the_module in
 
     let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
-    let write_func = L.declare_function "fgets" get_t the_module in
- 
+    let get_func = L.declare_function "fgets" get_t the_module in
+   
+    let read_t = L.function_type i32_t [|ptr_t; i32_t; i32_t; ptr_t|] in
+    let read_func = L.declare_function "fread" read_t the_module in
+
     let toupper_t = L.function_type i8_t [| i8_t |] in
     let toupper_func = L.declare_function "toupper" toupper_t the_module in
 
     let tolower_t = L.function_type i8_t [| i8_t |] in
     let tolower_func = L.declare_function "tolower" tolower_t the_module in
 
-   
+    let calloc_t = L.function_type ptr_t [|i32_t; i32_t|] in
+    let calloc_fun = L.declare_function "calloc" calloc_t the_module in
+
+
     (*build function body - fill in the body of the given function*)
     let build_function_body fdecl = 
 	let (the_function, _) = 
@@ -106,11 +112,27 @@ let translate(globals,functions) =
 	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
 	| A.FloatLit f -> L.const_float flt_t f
 	| A.Noexpr ->	L.const_int i32_t 0
-        | A.Char_Lit c -> L.const_int i8_t (Char.code c)
-        | A.StringLit s -> L.build_load (lookup s) s builder
-        | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
+    | A.Char_Lit c -> L.const_int i8_t (Char.code c)
+    | A.StringLit s -> L.build_load (lookup s) s builder
+    | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
 	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
-	| A.Assign (s,e) -> let e' = expr builder e in
+    | A.Array(e1,e2) -> let para1=(expr builder (A.StringLit e1))
+        and  para2=(expr builder e2) in 
+        let k=L.build_in_bounds_gep para1 [|para2|] "tmpp" builder in
+        L.build_load k "deref" builder
+    | A.Arrayassign(e1,e2,e3) -> let para1 = (expr builder (A.StringLit e1))
+        and para2= (expr builder e2)
+        and para3= (expr builder e3)
+        in let k=L.build_in_bounds_gep para1 [|para2|] "tmpp" builder in
+        L.build_store para3 k builder
+    
+    | A.Init(e1,e2) -> let cnt1=(lookup e1) and cnt2= expr builder e2 in
+        let tp= L.element_type (L.type_of cnt1) in 
+        let sz=L.size_of tp in
+        let sz1=L.build_intcast sz (i32_t) "intc" builder in
+        let dt=L.build_bitcast (L.build_call calloc_fun [|cnt2;sz1|] "tmpa" builder) tp "tmpb" builder in
+        L.build_store dt cnt1 builder
+    | A.Assign (s,e) -> let e' = expr builder e in
 		ignore (L.build_store e' (lookup s) builder); e'
 	| A.Binop (e1, op, e2) ->
 	    let e1' = expr builder e1
@@ -125,7 +147,6 @@ let translate(globals,functions) =
 	      | A.LessEQ -> L.build_icmp L.Icmp.Sle
 	      | A.GreatEQ -> L.build_icmp L.Icmp.Sge
 	    ) e1' e2' "tmp" builder
-
 	| A.Unop(op, e) ->
 	    let e' = expr builder e in
 	    (match op with
@@ -153,7 +174,8 @@ let translate(globals,functions) =
             "tolower" builder
         | A.Call("open", e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call open_file_func (Array.of_list actuals) "fopen" builder
-
+        | A.Call("read", e) -> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call read_func (Array.of_list actuals) "tmpx" builder
 	| A.Call (f, act) ->
 	    let (fdef, fdecl) = StringMap.find f function_decls in 
    

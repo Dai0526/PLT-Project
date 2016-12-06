@@ -6,7 +6,7 @@
 %token PLUS MINUS TIMES ASSIGN BOOL TRUE FALSE
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ 
-%token AND OR MATCH CONDITION NOT
+%token AND OR MATCH CONDITION NOT NEW
 %token INT CHAR VOID STRING FLOAT
 %token INDEX SUBSTR TOUPPER TOLOWER
 
@@ -92,6 +92,9 @@ expr: LITERAL { Literal($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
     | STRINGLIT LPAREN actual_opt RPAREN { Call($1, $3) }
+    | STRINGLIT LBRACKET expr RBRACKET { Array($1,$3)}
+    | STRINGLIT ASSIGN NEW LBRACKET expr RBRACKET {Init($1,$5)}
+    | STRINGLIT LBRACKET expr RBRACKET ASSIGN expr {Arrayassign($1,$3,$6)}
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}

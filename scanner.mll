@@ -49,6 +49,7 @@ rule token = parse
 | "++" {INCREMENT}
 | "--" {DECREMENT}
 | "+=" {PLUSEQ}
+| "new" {NEW}
 | "-=" {MINUSEQ}
 (*| "/=" {DIVIDEEQ}*)
 | "==" {EQUAL}

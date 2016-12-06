@@ -19,7 +19,7 @@ let check (globals, functions) =
   let check_assign lvaluet rvaluet err = 
      if lvaluet == rvaluet then lvaluet else raise err
   in
-
+  
   (**** Checking Global Variables ****)
   List.iter (check_not_void (fun n -> "illegal void global " ^ n))
             globals;
@@ -66,12 +66,13 @@ let check (globals, functions) =
       { typ = String; fname = "open"; formals = [(String, "x");(String,"x")]; locals = []; body = [] };
 
       { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
-      { typ = Void; fname ="print_c"; formals=[(Char, "x")]; locals=[]; body=[]};
+      { typ = Void; fname ="print_c" ; formals=[(Char, "x")]; locals=[]; body=[]};
+      { typ = String; fname = "read" ; formals=[(String,"x");(Int, "w");(Int, "y");(String, "z")]; locals=[]; body=[]};
   ]
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open"; "write";"print_c"];
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open"; "write";"print_c";"read"];
   
   in
 
@@ -143,12 +144,20 @@ let check (globals, functions) =
 		      string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^
 		       string_of_typ t2 ^ " in " ^ string_of_expr e))
      )
-    
+      | Init(var, lit) -> let a = type_of_identifier var and b= expr lit in
+            (match b with Int -> a
+                   | _ -> raise (Failure("illegal "^ string_of_typ b ^", expected int")))
       | Noexpr -> Void
+      | Array(var, _)-> let k=function ptr_t -> Char
+                                      | _->  raise(Failure("illegal argument of an array"))
+                        in k (type_of_identifier var)
       | Assign(var, e) as ex -> let lt = type_of_identifier var 
 	 			                and rt = expr e in
           check_assign lt rt (Failure ("illegal assignment " ^ string_of_typ lt ^
 		             " = "  ^ string_of_typ rt ^ " in " ^ string_of_expr ex))
+      | Arrayassign(var, _ , _ ) -> let k=function ptr_t -> Char
+                                        | _ -> raise(Failure("illegal assign of array")) 
+                                    in k (type_of_identifier var)
 
       | Unop(op, e) as ex -> let t = expr e in
     (match op with
@@ -200,14 +209,4 @@ let check (globals, functions) =
 
   in stmt (Block func.body) (*body of check_function*)
 
-  in List.iter check_function functions (*body of check*)
-
-
-
-
-   
-
-  
-
-
-    
+  in List.iter check_function functions (*body of check*)  

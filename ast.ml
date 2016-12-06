@@ -19,7 +19,9 @@ type expr = Literal of int
           | Call of string * expr list
           | NewstringLit of string 
           | Char_Lit of char
-         
+          | Array of string * expr
+          | Arrayassign of string * expr * expr
+          | Init of string * expr 
 type stmt = Block of stmt list
    | Expr of expr
    | If of expr * stmt * stmt
@@ -80,10 +82,11 @@ let rec string_of_expr = function
       string_of_expr e1 ^ " " ^ string_of_op o ^ " " ^ string_of_expr e2
   | Unop(o, e) -> string_of_uop o ^ string_of_expr e
   | Assign(v, e) -> v ^ " = " ^ string_of_expr e
+  | Arrayassign(v,e1,e2) -> v ^ "[" ^ string_of_expr e1 ^ "]" ^ string_of_expr e2
   | Call(f, el) ->
       f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
   | Noexpr -> ""
-
+  | Init(v,e) -> v^ "=" ^ "new" ^ "[" ^ string_of_expr e ^ "]"
 let rec string_of_stmt = function 
     Block (stmts) -> "{\n" ^ String.concat "" (List.map string_of_stmt stmts) ^ "}\n"
   |  Expr(expr) -> string_of_expr expr ^ ";\n";
