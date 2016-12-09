@@ -35,7 +35,6 @@ rule token = parse
 | "copy" {COPY}
 | "count" {COUNT}
 | "readline" {READLINE}
-| "write" {WRITE}
 | "replace" {REPLACE}
 | "delete" {DELETE}
 | "bool" {BOOL}

@@ -62,7 +62,10 @@ let translate(globals,functions) =
 
     let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
     let get_func = L.declare_function "fgets" get_t the_module in
-   
+    
+    let fwrite_t = L.function_type i32_t [|ptr_t; i32_t; i32_t; ptr_t|] in
+    let fwrite_func = L.declare_function "fwrite" fwrite_t the_module in
+
     let read_t = L.function_type i32_t [|ptr_t; i32_t; i32_t; ptr_t|] in
     let read_func = L.declare_function "fread" read_t the_module in
 
@@ -172,8 +175,12 @@ let translate(globals,functions) =
         | A.Call("tolower",[e]) ->
             L.build_call tolower_func [|(expr builder e)|]
             "tolower" builder
+        | A.Call("write",e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call fwrite_func (Array.of_list actuals) "tmpy" builder
+
         | A.Call("open", e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call open_file_func (Array.of_list actuals) "fopen" builder
+
         | A.Call("read", e) -> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call read_func (Array.of_list actuals) "tmpx" builder
 	| A.Call (f, act) ->

@@ -64,8 +64,7 @@ let check (globals, functions) =
       { typ = Void; fname = "print_f"; formals = [(Float, "x")]; locals = []; body = [] };
 
       { typ = String; fname = "open"; formals = [(String, "x");(String,"x")]; locals = []; body = [] };
-
-      { typ = Int; fname = "write"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
+      { typ = Int; fname = "write"; formals = [(String, "x");(Int,"y");(Int,"z");(String, "a")]; locals = []; body = [] };
       { typ = Void; fname ="print_c" ; formals=[(Char, "x")]; locals=[]; body=[]};
       { typ = String; fname = "read" ; formals=[(String,"x");(Int, "w");(Int, "y");(String, "z")]; locals=[]; body=[]};
   ]

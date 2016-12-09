@@ -1,24 +1,41 @@
 int main(){
 
 string Array;
-string file;
+string Array2;
+
+string filea;
+string fileb;
+string filec;
 char temp;
+
 
 int i;
 i=0;
 
 
 Array = new[1000];
+Array2 = new[1000];
+filea=open("test.txt","r");
+fileb=open("test2.txt","r+");
+filec=open("test3.txt","w+");
+Array2[0]='a';
+Array2[1]='b';
 
-file=open("test.txt", "r");
-read(Array,125,1,file);
-print_s(Array);
+read(Array,1,125,filea);
+write(Array,1,125,fileb);
+write(Array2,1,125,fileb);
 
-if(Array=="testfile"){
-    print_s("true");
-}else{
-    print_s("false");
-}
+write(Array2,1,125,filec);
+
+#file=open("test.txt", "r");
+#read(Array,125,1,file);
+#print_s(Array);
+
+#if(Array=="testfile"){
+#    print_s("true");
+#}else{
+#    print_s("false");
+#}
 
 #for(i;i<8;i=i+1){
 #    print_c(Array[i]);
