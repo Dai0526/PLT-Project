@@ -2,30 +2,84 @@ int main(){
 
 string Array;
 string Array2;
+string handle;
+string null;
+string ans;
+string line;
 
-string filea;
-string fileb;
-string filec;
+file filea;
+file fileb;
+file filec;
 char temp;
 
 
-int i;
-i=0;
+handle="_func";
+null=find("","a");
+
+Array= new[1000000];
+filea=open("codegen.ml","r");
+
+#line=fget(Array,100,filea);
+#print_s(line);
+
+while(fget(Array,10000,filea)!=null){
+    if(find(Array,handle)!=null){
+        print_s(Array);
+    }else{
+    }
+}
 
 
-Array = new[1000];
-Array2 = new[1000];
-filea=open("test.txt","r");
-fileb=open("test2.txt","r+");
-filec=open("test3.txt","w+");
-Array2[0]='a';
-Array2[1]='b';
 
-read(Array,1,125,filea);
-write(Array,1,125,fileb);
-write(Array2,1,125,fileb);
 
-write(Array2,1,125,filec);
+
+
+
+
+#handle="aple";
+#Array= new[1000];
+#filea=open("test.txt","r");
+#fget(Array, 100, filea);
+#print_s(Array);
+
+#null=find(Array,"tape");
+
+if(find(Array,handle)!=null){
+    print_s("null work");
+}else{
+    print_s("not work");
+}
+
+
+#print_s(ans);
+
+
+
+
+
+
+
+
+
+#fget(Array, 100, filea);
+#print_s(Array);
+
+
+
+
+#Array = new[1000];
+#Array2 = new[1000];
+#filea=open("test.txt","r");
+#fileb=open("test2.txt","r+");
+#filec=open("test3.txt","w+");
+#Array2[0]='a';
+#Array2[1]='b';
+
+#read(Array,1,125,filea);
+#write(Array,1,125,fileb);
+#write(Array2,1,125,fileb);
+
+#write(Array2,1,125,filec);
 
 #file=open("test.txt", "r");
 #read(Array,125,1,file);

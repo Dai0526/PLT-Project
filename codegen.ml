@@ -60,7 +60,7 @@ let translate(globals,functions) =
     let write_t = L.function_type i32_t [| i32_t; ptr_t |] in 
     let write_func = L.declare_function "fputs" write_t the_module in
 
-    let get_t = L.function_type i32_t [|ptr_t; i32_t; ptr_t|] in 
+    let get_t = L.function_type ptr_t [|ptr_t; i32_t; ptr_t|] in 
     let get_func = L.declare_function "fgets" get_t the_module in
     
     let fwrite_t = L.function_type i32_t [|ptr_t; i32_t; i32_t; ptr_t|] in
@@ -78,6 +78,8 @@ let translate(globals,functions) =
     let calloc_t = L.function_type ptr_t [|i32_t; i32_t|] in
     let calloc_fun = L.declare_function "calloc" calloc_t the_module in
 
+    let strfind_t = L.function_type ptr_t [|ptr_t;ptr_t|] in
+    let strfind_func = L.declare_function "strstr" strfind_t the_module in
 
     (*build function body - fill in the body of the given function*)
     let build_function_body fdecl = 
@@ -144,8 +146,9 @@ let translate(globals,functions) =
 		A.Plus -> L.build_add
 	      | A.Minus -> L.build_sub
 	      | A.Times -> L.build_mul
-        | A.Equal -> L.build_icmp L.Icmp.Eq  (*Fcmp is a module imported, no unequal*)
-	      | A.Less  -> L.build_icmp L.Icmp.Slt
+          | A.Equal -> L.build_icmp L.Icmp.Eq  (*Fcmp is a module imported, no unequal*)
+          | A.Unequal -> L.build_icmp L.Icmp.Ne
+          | A.Less  -> L.build_icmp L.Icmp.Slt
 	      | A.Great -> L.build_icmp L.Icmp.Sgt
 	      | A.LessEQ -> L.build_icmp L.Icmp.Sle
 	      | A.GreatEQ -> L.build_icmp L.Icmp.Sge
@@ -180,10 +183,16 @@ let translate(globals,functions) =
 
         | A.Call("open", e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call open_file_func (Array.of_list actuals) "fopen" builder
+        | A.Call("fget",e) -> let actuals= List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call get_func (Array.of_list actuals) "tmpz" builder
 
         | A.Call("read", e) -> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call read_func (Array.of_list actuals) "tmpx" builder
-	| A.Call (f, act) ->
+	
+        | A.Call("find", e)-> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call strfind_func (Array.of_list actuals) "find" builder
+
+        | A.Call (f, act) ->
 	    let (fdef, fdecl) = StringMap.find f function_decls in 
    
   let actuals = List.rev (List.map (expr builder) (List.rev act)) in

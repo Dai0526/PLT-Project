@@ -62,16 +62,18 @@ let check (globals, functions) =
       { typ = Void; fname = "print_i"; formals = [(Int, "x")] ; locals = []; body = [] };
 
       { typ = Void; fname = "print_f"; formals = [(Float, "x")]; locals = []; body = [] };
-
+      { typ = String; fname = "fget"; formals=[(String,"x");(Int,"y");(String, "z")]; locals=[];body=[]};
       { typ = String; fname = "open"; formals = [(String, "x");(String,"x")]; locals = []; body = [] };
       { typ = Int; fname = "write"; formals = [(String, "x");(Int,"y");(Int,"z");(String, "a")]; locals = []; body = [] };
       { typ = Void; fname ="print_c" ; formals=[(Char, "x")]; locals=[]; body=[]};
       { typ = String; fname = "read" ; formals=[(String,"x");(Int, "w");(Int, "y");(String, "z")]; locals=[]; body=[]};
+      { typ =String; fname="find"; formals=[(String,"x");(String,"y")]; locals=[]; body=[]};
+
   ]
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f"; "open"; "write";"print_c";"read"];
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find"];
   
   in
 
@@ -137,7 +139,7 @@ let check (globals, functions) =
         Plus -> (match(t1,t2) with (Int,Int)-> Int
                                   |(Char,Char) -> String)
        | Minus | Times when t1 = Int && t2 = Int -> Int 
-       | Equal  when t1=t2 -> Bool
+       | Equal | Unequal  when t1=t2 -> Bool
        | Less | Great |LessEQ|GreatEQ when t1 = Int && t2 = Int -> Bool
        | _ -> raise(Failure ("illegal binary operator "^ 
 		      string_of_typ t1 ^ " " ^ string_of_op op ^ " " ^

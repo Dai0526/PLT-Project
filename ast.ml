@@ -1,5 +1,5 @@
 type typ = Int | Float | Char | String | Void | Bool
-type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ
+type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ| Unequal
 
 type uop = Not
 
@@ -56,6 +56,7 @@ let string_of_op = function
   | LessEQ -> "<="
   | Great -> ">"
   | GreatEQ -> ">="
+  | Unequal -> "!="
  (* | And -> "&&"
   | Or -> "||"*)
 

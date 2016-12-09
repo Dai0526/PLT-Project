@@ -52,6 +52,7 @@ rule token = parse
 | "-=" {MINUSEQ}
 (*| "/=" {DIVIDEEQ}*)
 | "==" {EQUAL}
+| "!=" {UNEQUAL}
 | '<' {LESS}
 | "<=" {LESSEQ}
 | '>' {GREAT}
@@ -65,6 +66,7 @@ rule token = parse
 | "int" {INT}
 | "float" {FLOAT}
 | "string" {STRING}
+| "file" {STRING}
 | '$'['0'-'9'] as lit { VARIABLE(int_of_char lit.[1] - 48) }
 | ['0'-'9']+ as lxm {LITERAL(int_of_string lxm)}
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { STRINGLIT(lxm)}

@@ -5,7 +5,7 @@
 %token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
 %token PLUS MINUS TIMES ASSIGN BOOL TRUE FALSE
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
-%token EQUAL LESS LESSEQ GREAT GREATEQ 
+%token EQUAL LESS LESSEQ GREAT GREATEQ UNEQUAL 
 %token AND OR MATCH CONDITION NOT NEW
 %token INT CHAR VOID STRING FLOAT
 %token INDEX SUBSTR TOUPPER TOLOWER
@@ -20,7 +20,7 @@
 %right ASSIGN
 %left OR
 %left AND
-%left EQUAL
+%left EQUAL UNEQUAL
 %left MATCH
 %left LESS GREAT LESSEQ GREATEQ
 %left PLUS MINUS
@@ -83,6 +83,7 @@ expr: LITERAL { Literal($1) }
     | expr MINUS expr { Binop($1, Minus, $3) }
     | expr TIMES expr { Binop($1, Times, $3) }
     | expr EQUAL expr { Binop($1, Equal, $3) }
+    | expr UNEQUAL expr {Binop($1, Unequal, $3)}
     | expr LESS expr { Binop($1, Less, $3) }
     | expr GREAT expr { Binop($1, Great, $3) }
     | expr LESSEQ expr { Binop($1, LessEQ, $3) }
