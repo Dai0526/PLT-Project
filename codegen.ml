@@ -81,6 +81,9 @@ let translate(globals,functions) =
     let strfind_t = L.function_type ptr_t [|ptr_t;ptr_t|] in
     let strfind_func = L.declare_function "strstr" strfind_t the_module in
 
+    let memcpy_t = L.function_type i32_t [|ptr_t; ptr_t; i32_t|] in
+    let memcpy_func = L.declare_function "memcpy" memcpy_t the_module in
+
     (*build function body - fill in the body of the given function*)
     let build_function_body fdecl = 
 	let (the_function, _) = 
@@ -191,6 +194,9 @@ let translate(globals,functions) =
 	
         | A.Call("find", e)-> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
             L.build_call strfind_func (Array.of_list actuals) "find" builder
+        
+        | A.Call("cpy",e) -> let actuals = List.rev (List.map (expr builder) (List.rev e)) in
+            L.build_call memcpy_func (Array.of_list actuals) "mcpy" builder
 
         | A.Call (f, act) ->
 	    let (fdef, fdecl) = StringMap.find f function_decls in 

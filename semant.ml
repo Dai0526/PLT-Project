@@ -68,12 +68,13 @@ let check (globals, functions) =
       { typ = Void; fname ="print_c" ; formals=[(Char, "x")]; locals=[]; body=[]};
       { typ = String; fname = "read" ; formals=[(String,"x");(Int, "w");(Int, "y");(String, "z")]; locals=[]; body=[]};
       { typ =String; fname="find"; formals=[(String,"x");(String,"y")]; locals=[]; body=[]};
+      { typ = Int; fname="cpy"; formals=[(String, "x");(String, "y");(Int,"z")]; locals = []; body = []};
 
   ]
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find"];
+  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find";"cpy"];
   
   in
 
