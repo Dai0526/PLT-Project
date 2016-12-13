@@ -29,8 +29,8 @@ file filec;
 
 
 temp=new[1];
-#handle="32";
-#null=find("","a");
+handle="32";
+null=find("","a");
 
 i=0;
 j=0;
@@ -69,16 +69,16 @@ cpy(arryhandlea,arraytemp,j);
 
 
 
-#Array= new[1000000];
-#filea=open("codegen.ml","r");
+Array= new[1000000];
+filea=open("codegen.ml","r");
 
 
-#while(fget(Array,10000,filea)!=null){
-#    if(find(Array,handle)!=null){
-#        print_s(Array);
-#    }else{
-#    }
-#}
+while(fget(Array,10000,filea)!=null){
+    if(find(Array,handle)!=null){
+        print_s(Array);
+    }else{
+    }
+}
 
 
 
