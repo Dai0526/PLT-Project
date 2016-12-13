@@ -7,27 +7,78 @@ string null;
 string ans;
 string line;
 
+string temp2;
+string arraytemp;
+string arraytemp2;
+string arraytemp3;
+int i;
+int j;
+string arryhandlea;
+string arryhandleb;
+string diff;
+
+int testa;
+string testb;
+char testc;
+string arry;
+string temp;
+
 file filea;
 file fileb;
 file filec;
-char temp;
 
 
-handle="_func";
-null=find("","a");
+temp=new[1];
+#handle="32";
+#null=find("","a");
 
-Array= new[1000000];
-filea=open("codegen.ml","r");
+i=0;
+j=0;
+arraytemp=new[20];
+arraytemp="abcdefg&hijklmn";
+arryhandlea=new[30];
+arryhandleb=new[30];
+arraytemp3=new[20];
 
-#line=fget(Array,100,filea);
-#print_s(line);
+arry=new[1];
 
-while(fget(Array,10000,filea)!=null){
-    if(find(Array,handle)!=null){
-        print_s(Array);
-    }else{
-    }
+#testa='a';
+arry[0]=arraytemp[5];
+temp[0]=toupper(arry[0]);
+print_s(temp);
+
+
+
+arraytemp2=new[20];
+arraytemp3="123456";
+arraytemp2=arraytemp;
+while(i<30){
+  if(arraytemp[i]=='&'){
+    j=i;
+    print_i(j);
+  }else{
+ 
+  }
+  i=i+1;
 }
+#print_i(j);
+cpy(arryhandlea,arraytemp,j);
+#cpy(arryhandleb,)
+
+
+
+
+
+#Array= new[1000000];
+#filea=open("codegen.ml","r");
+
+
+#while(fget(Array,10000,filea)!=null){
+#    if(find(Array,handle)!=null){
+#        print_s(Array);
+#    }else{
+#    }
+#}
 
 
 
@@ -44,11 +95,11 @@ while(fget(Array,10000,filea)!=null){
 
 #null=find(Array,"tape");
 
-if(find(Array,handle)!=null){
-    print_s("null work");
-}else{
-    print_s("not work");
-}
+#if(find(Array,handle)!=null){
+#    print_s("null work");
+#}else{
+#    print_s("not work");
+#}
 
 
 #print_s(ans);
