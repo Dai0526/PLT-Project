@@ -1,11 +1,13 @@
 testfile \n more words here
-LINE 2
-LINE 3
-adsa
-LINE 4
-LINE 5
-as
-LINE 6
-LINE more
+LINE 2 love apple
+LINE 3 hate apple
+test
+LINE 4 love plt testfile
+LINE 5 like plt file
+as     love
+LINE 6 love peace file
+LINE more 
 asda
-LINE LINE
+test
+LINE LINE test
+file

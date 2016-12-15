@@ -6,9 +6,9 @@ int main(){
 
     handle="apple"; 
     newword="orange";
-    original=open("demo/originalFile.txt", "r");
-    destination=open("demo/destinationFile.txt", "w")
-    print_s(target);
+    original=open("originalFile.txt", "r");
+    destination=open("destinationFile.txt", "w")
+    print_s(destination);
     findreplace(handle,newword, original, destination);
 
     return 0;

@@ -22,7 +22,7 @@ string testb;
 char testc;
 string arry;
 string temp;
-
+int len;
 file filea;
 file fileb;
 file filec;
@@ -34,11 +34,17 @@ null=find("","a");
 
 i=0;
 j=0;
-arraytemp=new[20];
+#arraytemp=new[4];
 arraytemp="abcdefg&hijklmn";
 arryhandlea=new[30];
 arryhandleb=new[30];
 arraytemp3=new[20];
+
+testc=arraytemp[2];
+print_c(testc);
+
+#len=length(arraytemp);
+#print_i(len);
 
 arry=new[1];
 
