@@ -2,8 +2,8 @@ int main(){
     file target;
     string handle;
 
-    handle="_func"; 
-    target=open("codegen.ml", "r");
+    handle="apple"; 
+    target=open("demo/originalFile.txt", "r");
     print_s(target);
     countWord(handle,target);
 
@@ -28,6 +28,7 @@ int countWord(string a, file f){
            
         }
     }
+    print_s("total number of apples eaten");
     print_i(intcount);
     return 1;
 
