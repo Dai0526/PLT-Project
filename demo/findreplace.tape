@@ -1,25 +1,37 @@
 int main(){
-    
-    file target;
+    file original;
+    file destination;
     string handle;
+    string newword;
 
     handle="apple"; 
-    target=open("originalFile.txt", "r");
+    newword="orange";
+    original=open("demo/originalFile.txt", "r");
+    destination=open("demo/destinationFile.txt", "w")
     print_s(target);
-    find&replace(handle, bananas, target, );
+    findreplace(handle,newword, original, destination);
 
     return 0;
 }
 
 
-string findreplace(string handle, string newword, file original, file destination){
+int findreplace(string old, string new, file orig, file dest){
+    string temp;
+    string null;
 
-    while(i<l){
-        temp[0]=target[i];
-        tempup[0]=toupper(temp[0]);
-        ans[i]=tempup[0];
-        i=i+1;            
+    temp=new[1000000];
+    null=find("","a");
+     
+    while(fget(temp,1000,f)!=null){
+        if(find(temp,old)!=null){
+            string tempstring;
+            tempstring = 
+        }else {
+           
+        }
     }
 
-    return ans;
+    return 1;
 }
+
+
