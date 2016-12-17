@@ -1,24 +1,31 @@
 int main(){
     file a;
     int i;
+
+    a=open("test.txt","r"); 
+    print_s("Search between :"); 
+    tape(a,"/LIT/*/LE/");
+ 
     
-    
-    a=open("test.txt","r");
-    
-    print_s("Search exclusive or:"); 
-    tape(a,"/test/^/file/");
+#    a=open("test.txt","r"); 
+#    print_s("Search between :"); 
+#    tape(a,"/www/-/com/");
+ 
+#    a=open("test.txt","r"); 
+#    print_s("Search exclusive or:"); 
+#    tape(a,"/test/^/file/");
   
-    a=open("test.txt","r");
-    print_s("Search and:"); 
-    tape(a,"/test/&/file/");
+#    a=open("test.txt","r");
+#    print_s("Search and:"); 
+#    tape(a,"/test/&/file/");
 
-    a=open("test.txt","r");
-    print_s("Search or:"); 
-    tape(a,"/test/|/file/");
+#    a=open("test.txt","r");
+#    print_s("Search or:"); 
+#    tape(a,"/test/|/file/");
 
-    a=open("test.txt","r");
-    print_s("Search condition ?:"); 
-    tape(a,"/test/?/file/");
+#    a=open("test.txt","r");
+#    print_s("Search condition ?:"); 
+#    tape(a,"/test/?/file/");
  
     return 0;
 }
@@ -45,6 +52,14 @@ int tape(file f, string re){
         
         if(find(re,"^")!=null){
             searchEOR(f,re);
+        }else{}
+
+        if(find(re,"-")!=null){
+            searchBetween(f,re);
+        }else{}
+
+        if(find(re,"*")!=null){
+            searchKleene(f,re);
         }else{}
     }else{
         #search(f,re);
@@ -204,6 +219,154 @@ int searchQ(file f, string re){
   
     return 1;
 }
+
+int searchBetween(file f, string re){
+    int idx;
+    int lt;
+    string t1;
+    string t2;    
+    string temp;
+    
+
+    #to find the intermediate string
+    int begin;
+    int end;
+    string middle;    
+    string ans;
+    string head;
+    string tail;
+    int len1;
+    int len2;    
+    int len;
+    int lent2;
+
+    string null;
+    null=find("","a");
+
+
+    lt=length(re);
+    idx=indexOf(re,'-');
+    t1=substring(1,idx-2,re);
+    t2=substring(idx+2,lt-2,re);
+
+    temp=new[1000];
+    head=new[1000];
+    tail=new[1000];
+    ans=new[1000]; 
+
+    while(fget(temp,1000,f)!=null){
+        head=find(temp,t1);
+        if(head!=null){
+            tail=find(temp,t2);
+            if(tail!=null){
+                len1=length(head);
+                len2=length(tail);
+                end=len1-len2;
+                lent2=length(t2);
+                end=end+lent2;
+                ans=substring(0,end,head);                                        
+                print_s(ans);
+            }else{}
+        }else{}
+    
+    }
+
+ 
+        
+    return 1;
+}
+
+
+int searchKleene(file f, string re){
+    int idx;
+    int lt;
+    string t1;
+    string t2;    
+    string temp;
+    
+
+    #to find the intermediate string
+    int begin;
+    int end;
+    string middle;    
+    string ans;
+    string head;
+    string tail;
+    int len1;
+    int len2;    
+    int len;
+    int lent2;
+
+
+    #to find index for intermediate
+    int idx1;
+    int idx2;
+    int tempidx;
+    string tempans;
+    int templen;
+    int totallen;
+    int j;  
+    int right;
+    int len5;
+    char key;
+    string null;
+    null=find("","a");
+    j=0;
+    right=1;
+    lt=length(re);
+    idx=indexOf(re,'*');
+    t1=substring(1,idx-3,re);
+    t2=substring(idx+2,lt-2,re);
+    key=re[idx-2];
+
+    temp=new[1000];
+    head=new[1000];
+    tail=new[1000];
+    ans=new[1000]; 
+
+    while(fget(temp,1000,f)!=null){
+        head=find(temp,t1);
+        if(head!=null){
+            tail=find(temp,t2);
+            if(tail!=null){
+                len1=length(head);
+                len2=length(tail);
+                end=len1-len2;
+                lent2=length(t2);
+                end=end+lent2-1;
+                ans=substring(0,end,head);                                        
+            
+                totallen=length(ans);
+                idx1=length(t1);
+                templen=length(t2);               
+                idx2=totallen-templen;
+                tempans=substring(idx1,idx2-1,ans);    
+                
+                if(idx1==idx2){
+                    print_s(ans);
+                }else{
+                    len5=length(tempans);
+                    while(j<len5){
+                        if(tempans[j]!=key){
+                            right=0;
+                         }else{}
+                        j=j+1;
+                    }
+                    if(right==1){
+                        print_s(ans);
+                    }else{}
+                }
+            }else{}
+        }else{}
+    
+    }
+
+    return 1;
+}
+
+
+
+
 
 
 int indexOf(string t, char c){
