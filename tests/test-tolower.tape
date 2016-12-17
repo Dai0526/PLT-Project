@@ -1,6 +1,6 @@
 int main(){
 	
-	char temp;
+    char temp;
     char ans;
 
     temp = 'C';
