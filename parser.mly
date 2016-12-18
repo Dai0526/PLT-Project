@@ -1,44 +1,40 @@
 %{ open Ast %}
 
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
-%token IF ELSE WHILE FOR RETURN INCLUDE 
+%token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
+%token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
 %token PLUS MINUS TIMES ASSIGN BOOL TRUE FALSE
 %token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ UNEQUAL 
-%token NOT NEW
+%token AND OR MATCH CONDITION NOT NEW
 %token INT CHAR VOID STRING FLOAT
+%token INDEX SUBSTR TOUPPER TOLOWER
 
-
-%token <int> LITERAL
-%token <string> STRINGLIT NEWSTRINGLIT
+%token <int> LITERAL VARIABLE
+%token <float> FLOATLIT
+%token <string> STRINGLIT SEARCHSTRING NEWSTRINGLIT
 %token <char> CHAR_LITERAL
 %token EOF
 
+%nonassoc ELSE
 %right ASSIGN
+%left OR
+%left AND
 %left EQUAL UNEQUAL
+%left MATCH
 %left LESS GREAT LESSEQ GREATEQ
 %left PLUS MINUS
 %left PLUSEQ MINUSEQ
 %left INCREMENT DECREMENT
 %left TIMES
-%right NOT
+%right NEG NOT
 
 %start program
 %type <Ast.program> program
 
 %%
-program: 
-    includes decls EOF  { Program($1,$2) }
+program: decls EOF  { $1 }
 
-includes: /* nothing */ { [] }
-    |include_list {List.rev $1}
-
-include_list:
-    include_decl  {[$1]}
-    | include_list include_decl {$2::$1}
-
-include_decl: 
-    INCLUDE LPAREN NEWSTRINGLIT RPAREN SEMI {Include($3)}
 decls: /* nothing */ { [], [] }
    | decls vdecl { ($2 :: fst $1), snd $1 }
    | decls fdecl { fst $1, ($2 :: snd $1) }
@@ -46,8 +42,7 @@ decls: /* nothing */ { [], [] }
 fdecl:
    typ STRINGLIT LPAREN formals_opt RPAREN LBRACE vdecl_list stmt_list RBRACE { { typ = $1; fname = $2; formals = $4; locals = List.rev $7; body = List.rev $8 } }
 
-formals_opt:
-            /* nothing */ { [] }
+formals_opt: /* nothing */ { [] }
            | formal_list { List.rev $1 }
 
 formal_list: typ STRINGLIT { [($1,$2)] } 
@@ -55,6 +50,7 @@ formal_list: typ STRINGLIT { [($1,$2)] }
    
 
 typ: INT { Int }
+   | FLOAT { Float}
    | VOID { Void }
    | BOOL { Bool }
    | STRING { String }
@@ -78,6 +74,7 @@ stmt:
     | WHILE LPAREN expr RPAREN stmt {While($3,$5)}
 
 expr: LITERAL { Literal($1) }
+    | FLOATLIT { FloatLit($1) }
     | STRINGLIT { StringLit($1) }
     | NEWSTRINGLIT { NewstringLit($1) }
     | STRINGLIT ASSIGN expr { Assign($1, $3) }
@@ -92,6 +89,7 @@ expr: LITERAL { Literal($1) }
     | expr LESSEQ expr { Binop($1, LessEQ, $3) }
     | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
     | NOT expr { Unop(Not, $2) }
+    | SEARCHSTRING { Searchstring($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
     | STRINGLIT LPAREN actual_opt RPAREN { Call($1, $3) }

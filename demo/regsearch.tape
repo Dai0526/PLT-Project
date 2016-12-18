@@ -3,14 +3,8 @@ int main(){
     int i;
 
     a=open("test.txt","r"); 
-    print_s("Search line :"); 
-    tape(a,"LINE");
- 
- 
-
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"/LIT/*/LE/");
+    print_s("Search between :"); 
+    tape(a,"/LIT/*/LE/");
  
     
 #    a=open("test.txt","r"); 
@@ -68,7 +62,7 @@ int tape(file f, string re){
             searchKleene(f,re);
         }else{}
     }else{
-        searchLine(f,re);
+        #search(f,re);
     }
   
     return 0;
@@ -370,25 +364,7 @@ int searchKleene(file f, string re){
     return 1;
 }
 
-int searchLine(file f,string a){
-    string temp;
-    string null;
-    
-    temp=new[1000000];
-      
-    null=find("","a");
-     
-    while(fget(temp,1000,f)!=null){
-        if(find(temp,a)!=null){
-            print_s(temp);
-        }else {
-           
-        }
-    }
 
-    return 1;
-
-}
 
 
 

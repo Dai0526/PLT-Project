@@ -27,10 +27,6 @@ file filea;
 file fileb;
 file filec;
 
-file filed;
-
-filed=open("test.txt","r");
-
 
 temp=new[1];
 handle="32";

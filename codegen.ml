@@ -3,13 +3,7 @@ module A = Ast
 module Fcmp = Llvm.Fcmp
 module StringMap = Map.Make(String)
 
-let translate(A.Program(first,second), A.Program(first1,second1)) =
-    let (globals,functions)=second
-    and (globals2,functions2)=second1 in
-    let functions=List.append functions2 functions in
-  
-  
-  
+let translate(globals,functions) =
     let context = L.global_context () in
     let the_module = L.create_module context "tape"
 	
@@ -132,6 +126,7 @@ let translate(A.Program(first,second), A.Program(first1,second1)) =
     | A.Char_Lit c -> L.const_int i8_t (Char.code c)
     | A.StringLit s -> L.build_load (lookup s) s builder
     | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
+	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
     | A.Array(e1,e2) -> let para1=(expr builder (A.StringLit e1))
         and  para2=(expr builder e2) in 
         let k=L.build_in_bounds_gep para1 [|para2|] "tmpp" builder in
