@@ -5,7 +5,7 @@ int main(){
     int i;
 
     target = "I love plt";
-    c = 'I'
+    c = 'I';
 
     i = indexOf(target, c);
     print_i(i);

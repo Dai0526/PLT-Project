@@ -3,7 +3,7 @@ int main(){
     string handle;
     int i;
 
-    handle="apple"; 
+    handle=""; 
     target="originalFile.txt";
     i = countWord(handle,target);
     print_s("some");
