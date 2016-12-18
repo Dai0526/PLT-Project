@@ -9,7 +9,7 @@ int main(){
     # original=open("originalFile.txt", "r");
     #destination=open("destinationFile.txt", "w")
     #print_s(destination);
-    findreplace(handle,newword, "demo/originalFile.txt", "demo/destinationFile.txt");
+    findreplace(handle,newword, "originalFile.txt", "destinationFile.txt");
 
     return 0;
 }
@@ -23,6 +23,12 @@ int findreplace(string a, string b, string orig, string dest){
     int lb;
     file origfile;
     file destfile;
+
+    #tianhua edited
+    int len1;
+    int len2;
+    string line;
+
 
     origfile=open(orig, "r");
     destfile=open(dest, "w");
@@ -45,9 +51,12 @@ int findreplace(string a, string b, string orig, string dest){
         }
     }
     else {
+        line=fget(temp,1000,origfile);
         print_s("I am in the else case");
-	while(fget(temp,1000,origfile)!=null){
-	    write(temp, 1, 125, destfile);
+	while(line!=null){
+        len1=length(line);
+	    write(temp, 1, len1, destfile);
+        line=fget(temp,1000,origfile);
 	}
         if (la > lb ){
         }
