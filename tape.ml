@@ -8,14 +8,17 @@ let _=
     let lexbuf = Lexing.from_channel stdin in
     let ast=Parser.program Scanner.token lexbuf in
     
-    Semant.check ast;
-
+    Semant.initial_check ast;
+    
+    let file_in = open_in "stdlib.tape" in
+    let lexbuf2 = Lexing.from_channel file_in in
+    let ast2 = Parser.program Scanner.token lexbuf2 in
     match action with
 	Ast -> print_string (Ast.string_of_program ast)
 
     | LLVM_IR -> print_string (Llvm.string_of_llmodule
-					(Codegen.translate ast))
+					(Codegen.translate (ast,ast2)))
 
-    | Compile -> let m = Codegen.translate ast in 
+    | Compile -> let m = Codegen.translate (ast,ast2) in 
       Llvm_analysis.assert_valid_module m;
       print_string (Llvm.string_of_llmodule m)

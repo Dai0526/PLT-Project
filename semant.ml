@@ -2,7 +2,8 @@ open Ast
 
 module StringMap = Map.Make(String)
 
-let check (globals, functions) = 
+let initial_check (Program(program1,decls_val))=
+let (globals, functions) = decls_val in
   let report_duplicate exceptf list =
     let rec helper = function
         n1 :: n2 :: _ when n1 = n2 -> raise (Failure (exceptf n1))
@@ -49,10 +50,6 @@ let check (globals, functions) =
   
   (* Use 2 array to hold the details then throw to the built_in_decls by list.fold *)
   let built_in_decls_funcs = [
-      { typ = Int; fname = "index"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
-      
-      { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
-
       { typ = Char; fname = "tolower"; formals = [(Char, "x")]; locals = []; body = []};
   
       { typ = Char; fname = "toupper"; formals = [(Char, "x")]; locals = []; body = []};
@@ -74,7 +71,7 @@ let check (globals, functions) =
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find";"cpy";"length"];
+  let built_in_decls_names = ["tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find";"cpy";"length"];
   
   in
 

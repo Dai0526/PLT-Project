@@ -14,7 +14,6 @@ type expr = Literal of int
           | Assign of string * expr
           | Unop of uop * expr
           | Noexpr
-          | Searchstring of string
           | BoolLit of bool
           | Call of string * expr list
           | NewstringLit of string 
@@ -29,6 +28,9 @@ type stmt = Block of stmt list
    | For of expr * expr * expr * stmt
    | While of expr * stmt
    | Return of expr
+
+type include_stmt = Include of string
+   
 (*   
 type include_stmt = Include of string
 *)
@@ -40,12 +42,9 @@ type func_decl = {
    body : stmt list;
 }
 
+type decl_val = bind list * func_decl list
 
-type program = bind list * func_decl list
-(*
-type decls_val = bind list * func_decl list
-type program = Program of include_stmt list * decls_val
-*)
+type program = Program of include_stmt list * decl_val
 
 let string_of_op = function
     Plus -> "+"
@@ -109,7 +108,8 @@ let string_of_fdecl fdecl =
   String.concat "" (List.map string_of_stmt fdecl.body) ^ "}\n"
 
 
-let rec string_of_program(vars, funcs) = 
+let rec string_of_program(Program(first,second)) =
+  let (vars,funcs) = second in  
   String.concat "" (List.map string_of_vdecl vars) ^ "\n" ^
   String.concat "\n" (List.map string_of_fdecl funcs)
 
