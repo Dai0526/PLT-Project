@@ -1,0 +1,12 @@
+print all ip:  
+[124.119.30.77] 
+[] 
+[202.113.11.31] 
+[61.164.212.231] 
+[102.113.11.31] 
+[117.149.7.48] 
+[111.124.46.139] 
+print page view event with game subpage: 
+[124.119.30.77]  [23/Jun/2016:12:00:00 +0800:1466654400.023] "GET /pv.gif?uigs_productid=bilibili_main&uigs_uuid=5a84d33a-da2f-42d1-8ac5-e074d92c70c9&uigs_t=1466654412805&pagetype=video&fQuery=lol&sub_pagetype=webgame&- HTTP/1.0 -" "https://www.bilibili.com/sie?hdq=AQxRG-0000&query=lol&ie=utf8" "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0" 
+
+print log whose query has star or starwars: 

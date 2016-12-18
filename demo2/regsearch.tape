@@ -1,48 +1,38 @@
 int main(){
-    file a;
-    int i;
+    string filename;
+    filename="pb_log.20160623.nginx";
     
+    #demo with search between
+    print_s("print all ip:  "); 
+    tape(filename,"/[/-/]/");   
 
-#    #print all the ip address form the ping back log
-#    a=open("pb_access_log.nginx","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"/~/-/ /");
- 
-#    #print user heavior for page view or click event
-#    a=open("pb_access_log.nginx","r"); 
-#    tape(a,"///-/.gif/");   
+    #demo with search AND
+    print_s("print page view event with game subpage: "); 
+    tape(filename,"/pv/&/game/");
+     
+    #demo with ?
+    print_s("print log whose query has star or starwars: ");
+    tape(filename,"/funny/?/_video/");
 
-    #print query
-#    print_s("print query: "); 
-#    a=open("pb_access_log.nginx","r"); 
-#    tape(a,"/fQuery/-/sub/");   
+    #demo with EXCLUSIVEOR
 
-    
-    #Regular expression with ?
-#    print_s("User agent is IE browser whether the version is 8.0: "); 
-#    a=open("pb_access_log.nginx","r"); 
-#    tape(a,"/MSIE/?/ 8.0/");   
+    #demo with OR
 
-    # regular expression with AND 
-    print_s("User event is both click and pageview(which is impossible): "); 
-    a=open("pb_access_log.nginx","r"); 
-    tape(a,"/pv.gif/&/cl.gif/");   
+    #demo with *
 
 
-
-
-    #count a unique ip visiter 
-    
     return 0;
 }
 
 
-int tape(file f, string re){
+int tape(string fn, string re){
     char key;
+    file f;
+
     string null;
     null=find("","a");
     
-
+    f=open(fn,"r");
     if(re[0]=='/'){
         if(find(re,"&")!=null){
             searchAnd(f,re);
