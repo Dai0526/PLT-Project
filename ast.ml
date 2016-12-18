@@ -1,5 +1,5 @@
-type typ = Int | Float | Char | String | Void | Bool
-type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | PLUSEQ | MINUSEQ| Unequal
+type typ = Int | Char | String | Void | Bool
+type op = Plus | Minus | Times | Equal | Less | LessEQ | Great | GreatEQ | Unequal
 
 type uop = Not
 
@@ -8,13 +8,11 @@ type crement = INCREMENT | DECREMENT
 type bind = typ * string
 
 type expr = Literal of int
-          | FloatLit of float
           | StringLit of string
           | Binop of expr * op * expr
           | Assign of string * expr
           | Unop of uop * expr
           | Noexpr
-          | Searchstring of string
           | BoolLit of bool
           | Call of string * expr list
           | NewstringLit of string 
@@ -29,9 +27,7 @@ type stmt = Block of stmt list
    | For of expr * expr * expr * stmt
    | While of expr * stmt
    | Return of expr
-(*   
-type include_stmt = Include of string
-*)
+
 type func_decl = {
    typ : typ;
    fname : string;
@@ -42,10 +38,6 @@ type func_decl = {
 
 
 type program = bind list * func_decl list
-(*
-type decls_val = bind list * func_decl list
-type program = Program of include_stmt list * decls_val
-*)
 
 let string_of_op = function
     Plus -> "+"
@@ -58,8 +50,6 @@ let string_of_op = function
   | Great -> ">"
   | GreatEQ -> ">="
   | Unequal -> "!="
- (* | And -> "&&"
-  | Or -> "||"*)
 
 let string_of_uop = function
     (* Neg -> "-" *)
@@ -70,11 +60,9 @@ let string_of_typ = function
   | Bool   -> "bool"
   | Void   -> "void"
   | String -> "string"
-  | Float  -> "float"
   | Char -> "char"
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
-  | FloatLit(l) -> string_of_float l
   | BoolLit(true) -> "true"
   | BoolLit(false) -> "false"
   | NewstringLit(s) -> s

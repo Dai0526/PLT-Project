@@ -35,23 +35,9 @@ let check (globals, functions) =
   report_duplicate (fun n -> "duplicate function " ^ n)
      (List.map (fun fd -> fd.fname) functions);
 
-  (* Function declaratoin for a named function (build in function) *)
-  (* Just comment the way in the ppt + myown thought*)
-  (*let built_in_decls = StringMap.add "index"
-     { typ = int; fname = "index"; formals = [(String, "x"),(String, "y")];
-       locals = []; body = [] }
-     StringMap.add "substr" { typ = string; fname = "substring"; formals = [(String, "x"),(int, "a"),(int, "b")]; locals = []; body = []}
-     StringMap.add "tolower" { typ = string; fname = "tolower"; formals = [(String, "x")]; locals = []; body = []}
-     StringMap.add "toupper" { typ = string; fname = "upper"; formals = [(String, "x")]; locals = []; body = []}
-     StringMap.add "TAPE" { typ = string; fname = "TAPE"; formals = [(String, "x"), (String, "y")]; locals = []; body = []}
-
-  in*)
-  
+  (* Function declaratoin for a named function (build in function) *)  
   (* Use 2 array to hold the details then throw to the built_in_decls by list.fold *)
   let built_in_decls_funcs = [
-      { typ = Int; fname = "index"; formals = [(String, "x");(String, "y")]; locals = []; body = [] };
-      
-      { typ = String; fname = "substring"; formals = [(String, "x")]; locals = []; body = []};
 
       { typ = Char; fname = "tolower"; formals = [(Char, "x")]; locals = []; body = []};
   
@@ -61,7 +47,6 @@ let check (globals, functions) =
  
       { typ = Void; fname = "print_i"; formals = [(Int, "x")] ; locals = []; body = [] };
 
-      { typ = Void; fname = "print_f"; formals = [(Float, "x")]; locals = []; body = [] };
       { typ = String; fname = "fget"; formals=[(String,"x");(Int,"y");(String, "z")]; locals=[];body=[]};
       { typ = String; fname = "open"; formals = [(String, "x");(String,"x")]; locals = []; body = [] };
       { typ = Int; fname = "write"; formals = [(String, "x");(Int,"y");(Int,"z");(String, "a")]; locals = []; body = [] };
@@ -74,7 +59,7 @@ let check (globals, functions) =
 
   in
 
-  let built_in_decls_names = [ "index"; "substring"; "tolower"; "toupper"; "TAPE"; "print_i"; "print_f";"fget"; "open"; "write";"print_c";"read";"find";"cpy";"length"];
+  let built_in_decls_names = [ "tolower"; "toupper"; "TAPE"; "print_i";"fget"; "open"; "write";"print_c";"read";"find";"cpy";"length"];
   
   in
 
@@ -130,7 +115,6 @@ let check (globals, functions) =
   (*expression-return the type of an expression or throw an exception*)
   let rec expr = function
 	Literal _ -> Int
-      | FloatLit _ -> Float
       | BoolLit _ -> Bool
       | Char_Lit _ -> Char
       | StringLit s -> type_of_identifier s
