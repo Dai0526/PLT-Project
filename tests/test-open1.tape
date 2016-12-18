@@ -1,6 +1,6 @@
 int main() 
 {
   file filea;
-  filea = open("codegen.ml", "r");
+  filea = open("test.txt", "r");
   return 0;
 }
