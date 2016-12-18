@@ -1,14 +1,12 @@
-include("stdlib.tape");
-
+include("");
 
 int main(){
+    int i;
     string s;
-    string s2;
-    int idx;
 
     s="iloveplt";
-    print_s(s);
-    idx=indexOf(s,'p');
-    print_i(idx);
+    i=indexOf(1,4);
+    print_i(i);    
+
     return 0;
 }
