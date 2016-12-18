@@ -4,7 +4,7 @@ int main(){
     string change;
 
     target = "I LOVE PLT";
-    change = str2Lowertarget);
+    change = str2Lower(target);
 
     print_s(change);
 	

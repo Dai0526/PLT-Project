@@ -2,10 +2,16 @@ int main(){
     file a;
     int i;
 
-    a=open("test.txt","r"); 
-    print_s("Search between :"); 
-    tape(a,"LINE");
- 
+    string ac;
+    string b;
+
+    ac = "i love plt";
+    b = substring(1000,10000,ac);
+    print_s(b);
+
+#    a=open("test.txt","r"); 
+#    print_s("Search between :"); 
+#    tape(a,"LINE");
     
 #    a=open("test.txt","r"); 
 #    print_s("Search between :"); 

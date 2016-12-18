@@ -3,8 +3,8 @@ int main(){
     string target;
     string change;
 
-    target = "i lover plt";
-    change = str2Lowertarget);
+    target = "i love plt";
+    change = str2Lower(target);
 
     print_s(change);
 	

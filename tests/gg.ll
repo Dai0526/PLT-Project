@@ -53,7 +53,7 @@
 @string.49 = private unnamed_addr constant [1 x i8] zeroinitializer
 @fmt.50 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
 @fmt.51 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
-@string.52 = private unnamed_addr constant [11 x i8] c"I loVe Plt\00"
+@string.52 = private unnamed_addr constant [11 x i8] c"I LoVe PlT\00"
 
 define i8* @str2Lower(i8* %a) {
 entry:
@@ -1287,14 +1287,14 @@ merge14:                                          ; preds = %while
 
 define i32 @main() {
 entry:
-  %target = alloca i8*
-  %change = alloca i8*
-  store i8* getelementptr inbounds ([11 x i8], [11 x i8]* @string.52, i32 0, i32 0), i8** %target
-  %target1 = load i8*, i8** %target
-  %str2Upper_result = call i8* @str2Upper(i8* %target1)
-  store i8* %str2Upper_result, i8** %change
-  %change2 = load i8*, i8** %change
-  %puts = call i8* (i8*, ...) @puts(i8* %change2)
+  %a = alloca i8*
+  %b = alloca i8*
+  store i8* getelementptr inbounds ([11 x i8], [11 x i8]* @string.52, i32 0, i32 0), i8** %a
+  %a1 = load i8*, i8** %a
+  %substring_result = call i8* @substring(i32 100, i32 1000, i8* %a1)
+  store i8* %substring_result, i8** %b
+  %b2 = load i8*, i8** %b
+  %puts = call i8* (i8*, ...) @puts(i8* %b2)
   ret i32 0
 }
 
