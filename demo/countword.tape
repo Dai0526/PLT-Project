@@ -1,10 +1,13 @@
 int main(){
     string target;
     string handle;
+    int i;
 
-    handle="apple"; 
-    target="demo/originalFile.txt";
-    countWord(handle,target);
+    handle=""; 
+    target="originalFile.txt";
+    i = countWord(handle,target);
+    print_s("some");
+    print_i(i);
 
     return 0;
 }
@@ -23,15 +26,13 @@ int countWord(string a, string f){
      
     while(fget(temp,1000,target)!=null){
        if(find(temp,a)!=null){
-            print_s(temp);
             intcount = intcount + 1;
         }else {
            
         }
     }
-    print_s("total number of apples eaten: ");
     print_i(intcount);
-    return 1;
+    return intcount;
 
 }
 

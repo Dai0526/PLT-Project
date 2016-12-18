@@ -1,41 +1,39 @@
 int main(){
-    file a;
-    int i;
 
-    string ac;
-    string b;
+    string target;
+    string change;
 
-    ac = "i love plt";
-    b = substring(1000,10000,ac);
-    print_s(b);
+    target = "I loVe Plt";
+    change = str2Upper(target);
 
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"LINE");
-    
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"/www/-/com/");
- 
-#    a=open("test.txt","r"); 
-#    print_s("Search exclusive or:"); 
-#    tape(a,"/test/^/file/");
-  
-#    a=open("test.txt","r");
-#    print_s("Search and:"); 
-#    tape(a,"/test/&/file/");
+    print_s(change);
+	
 
-#    a=open("test.txt","r");
-#    print_s("Search or:"); 
-#    tape(a,"/test/|/file/");
-
-#    a=open("test.txt","r");
-#    print_s("Search condition ?:"); 
-#    tape(a,"/test/?/file/");
- 
-    return 0;
+	return 0;
 }
 
+int countWord(string a, string f){
+    string temp;
+    string null;
+    file target;
+    int intcount; 
+    intcount = 0;
+     
+    target=open(f, "r");
+    temp=new[1000000];
+    null=find("","a");
+     
+    while(fget(temp,1000,target)!=null){
+       if(find(temp,a)!=null){
+            intcount = intcount + 1;
+        }else {
+           
+        }
+    }
+    print_i(intcount);
+    return intcount;
+
+}
 
 int tape(file f, string re){
     char key;
@@ -436,4 +434,66 @@ int searchLine(file f, string a){
 
     return 1;
 
+}
+
+string str2Upper(string a){
+    string temp;
+    string tempup;
+    string target;
+    
+    int i;
+    string ans;
+    char c;
+    int l;    
+   
+    l=length(a);
+
+    target=new[l];
+    target=a;
+    temp=new[1];
+    tempup=new[1];
+    i=0;
+
+    ans=new[l];
+    while(i<l){
+        temp[0]=target[i];
+        tempup[0]=toupper(temp[0]);
+        ans[i]=tempup[0];
+        i=i+1;            
+    }
+    
+
+
+    return ans;
+}
+
+string str2Lower(string a){
+    string temp;
+    string tempup;
+    string target;
+    
+    int i;
+    string ans;
+    char c;
+    int l;    
+   
+    l=length(a);
+
+    target=new[l];
+    target=a;
+    temp=new[1];
+    tempup=new[1];
+    i=0;
+
+    ans=new[l];
+    while(i<l){
+        temp[0]=target[i];
+        tempup[0]=tolower(temp[0]);
+        ans[i]=tempup[0];
+        i=i+1;            
+    }
+    
+
+
+    return ans;
 }

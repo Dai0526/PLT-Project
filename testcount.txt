@@ -1,0 +1,8 @@
+This file is for testing count
+apple
+apple
+orange
+I like apple
+I hate orange
+apple is good
+everyone like apple
