@@ -9,8 +9,8 @@ int main(){
     b = substring(1000,10000,ac);
     print_s(b);
 
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
+    a=open("test.txt","r"); 
+    print_s("Search between :"); 
 #    tape(a,"LINE");
     
 #    a=open("test.txt","r"); 
@@ -21,9 +21,9 @@ int main(){
 #    print_s("Search exclusive or:"); 
 #    tape(a,"/test/^/file/");
   
-#    a=open("test.txt","r");
-#    print_s("Search and:"); 
-#    tape(a,"/test/&/file/");
+    a=open("test.txt","r");
+    print_s("Search and:"); 
+    tape(a,"/tax/&/nothing/");
 
 #    a=open("test.txt","r");
 #    print_s("Search or:"); 
