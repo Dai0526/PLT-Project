@@ -4,7 +4,7 @@ int main(){
 
     a=open("test.txt","r"); 
     print_s("Search between :"); 
-    tape(a,"/LIT/*/LE/");
+    tape(a,"LINE");
  
     
 #    a=open("test.txt","r"); 
@@ -62,7 +62,7 @@ int tape(file f, string re){
             searchKleene(f,re);
         }else{}
     }else{
-        #search(f,re);
+        searchLine(f,re);
     }
   
     return 0;
@@ -412,3 +412,22 @@ string substring(int begin, int end, string s){
     return ans;
 }
 
+int searchLine(string a, file f){
+    string temp;
+    string null;
+    
+    temp=new[1000000];
+      
+    null=find("","a");
+     
+    while(fget(temp,1000,f)!=null){
+        if(find(temp,a)!=null){
+            print_s(temp);
+        }else {
+           
+        }
+    }
+
+    return 1;
+
+}
