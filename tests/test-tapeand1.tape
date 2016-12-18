@@ -1,5 +1,10 @@
 int main(){
-	
+    string input;
+    string handle;
+
+    input = "testtape.txt";
+    handle = "/apple/&/orange/";
+	tape(input,handle);
 
 	return 0;
 }
