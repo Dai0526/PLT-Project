@@ -412,7 +412,7 @@ string substring(int begin, int end, string s){
     return ans;
 }
 
-int searchLine(string a, file f){
+int searchLine(file f, string a){
     string temp;
     string null;
     
