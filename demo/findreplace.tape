@@ -8,8 +8,8 @@ int main(){
     newword="orange";
     # original=open("originalFile.txt", "r");
     #destination=open("destinationFile.txt", "w")
-    print_s(destination);
-    findreplace(handle,newword, "originalFile.txt", "destinationFile.txt");
+    #print_s(destination);
+    findreplace(handle,newword, "demo/originalFile.txt", "demo/destinationFile.txt");
 
     return 0;
 }
@@ -31,11 +31,11 @@ int findreplace(string a, string b, string orig, string dest){
     lb=length(b);
     #newword=new[lb];
     #newword=b;
-    temp=new[1000000];
+    temp=new[100000];
     null=find("","a");
-
+	
     if(la==lb){
-        while(fget(temp,1000,orig)!=null){
+        while(fget(temp,1000,origfile)!=null){
             if(find(temp,a)!=null){
                 print_s("I am in here");
                 
@@ -46,6 +46,9 @@ int findreplace(string a, string b, string orig, string dest){
     }
     else {
         print_s("I am in the else case");
+	while(fget(temp,1000,origfile)!=null){
+	    write(temp, 1, 125, destfile);
+	}
         if (la > lb ){
         }
         else {

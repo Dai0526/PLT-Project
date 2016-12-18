@@ -1,34 +1,35 @@
 int main(){
-    file target;
+    string target;
     string handle;
 
     handle="apple"; 
-    target=open("originalFile.txt", "r");
-    #print_s(target);
+    target="demo/originalFile.txt";
     countWord(handle,target);
 
     return 0;
 }
 
 
-int countWord(string a, file f){
+int countWord(string a, string f){
     string temp;
     string null;
-    int intcount;
+    file target;
+    int intcount; 
     intcount = 0;
-
+     
+    target=open(f, "r");
     temp=new[1000000];
     null=find("","a");
      
-    while(fget(temp,1000,f)!=null){
-        if(find(temp,a)!=null){
+    while(fget(temp,1000,target)!=null){
+       if(find(temp,a)!=null){
             print_s(temp);
             intcount = intcount + 1;
         }else {
            
         }
     }
-    print_s("total number of apples eaten");
+    print_s("total number of apples eaten: ");
     print_i(intcount);
     return 1;
 
