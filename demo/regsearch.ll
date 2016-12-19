@@ -32,18 +32,22 @@
 @fmt.28 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
 @string.29 = private unnamed_addr constant [2 x i8] c"a\00"
 @string.30 = private unnamed_addr constant [1 x i8] zeroinitializer
-@string.31 = private unnamed_addr constant [2 x i8] c"&\00"
-@string.32 = private unnamed_addr constant [2 x i8] c"|\00"
-@string.33 = private unnamed_addr constant [2 x i8] c"?\00"
-@string.34 = private unnamed_addr constant [2 x i8] c"^\00"
-@string.35 = private unnamed_addr constant [2 x i8] c"-\00"
-@string.36 = private unnamed_addr constant [2 x i8] c"*\00"
-@fmt.37 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
-@fmt.38 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
-@string.39 = private unnamed_addr constant [2 x i8] c"r\00"
-@string.40 = private unnamed_addr constant [9 x i8] c"test.txt\00"
-@string.41 = private unnamed_addr constant [17 x i8] c"Search between :\00"
-@string.42 = private unnamed_addr constant [11 x i8] c"/LIT/*/LE/\00"
+@fmt.31 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+@fmt.32 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
+@string.33 = private unnamed_addr constant [2 x i8] c"a\00"
+@string.34 = private unnamed_addr constant [1 x i8] zeroinitializer
+@string.35 = private unnamed_addr constant [2 x i8] c"r\00"
+@string.36 = private unnamed_addr constant [2 x i8] c"&\00"
+@string.37 = private unnamed_addr constant [2 x i8] c"|\00"
+@string.38 = private unnamed_addr constant [2 x i8] c"?\00"
+@string.39 = private unnamed_addr constant [2 x i8] c"^\00"
+@string.40 = private unnamed_addr constant [2 x i8] c"-\00"
+@string.41 = private unnamed_addr constant [2 x i8] c"*\00"
+@fmt.42 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
+@fmt.43 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
+@string.44 = private unnamed_addr constant [9 x i8] c"test.txt\00"
+@string.45 = private unnamed_addr constant [52 x i8] c"show logs has query wo*w such as ww wow woow wooow:\00"
+@string.46 = private unnamed_addr constant [11 x i8] c"/LIT/*/LE/\00"
 
 define i8* @substring(i32 %begin, i32 %end, i8* %s) {
 entry:
@@ -305,7 +309,7 @@ then33:                                           ; preds = %then
   store i8* %substring_result63, i8** %tempans
   %idx164 = load i32, i32* %idx1
   %idx265 = load i32, i32* %idx2
-  %tmp66 = icmp eq i32 %idx164, %idx265
+  %tmp66 = icmp sle i32 %idx164, %idx265
   br i1 %tmp66, label %then68, label %else
 
 merge67:                                          ; preds = %merge91, %then68
@@ -418,20 +422,20 @@ entry:
   %tmp12 = add i32 %idx11, 2
   %substring_result13 = call i8* @substring(i32 %tmp12, i32 %tmp10, i8* %re8)
   store i8* %substring_result13, i8** %t2
-  %tmpa = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  %tmpa = call i8* @calloc(i32 100000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
   store i8* %tmpa, i8** %temp
-  %tmpa14 = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  %tmpa14 = call i8* @calloc(i32 100000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
   store i8* %tmpa14, i8** %head
-  %tmpa15 = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  %tmpa15 = call i8* @calloc(i32 100000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
   store i8* %tmpa15, i8** %tail
-  %tmpa16 = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  %tmpa16 = call i8* @calloc(i32 100000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
   store i8* %tmpa16, i8** %ans
   br label %while
 
 while:                                            ; preds = %merge, %entry
   %f48 = load i8*, i8** %f1
   %temp49 = load i8*, i8** %temp
-  %tmpz = call i8* @fgets(i8* %temp49, i32 1000, i8* %f48)
+  %tmpz = call i8* @fgets(i8* %temp49, i32 100000, i8* %f48)
   %null50 = load i8*, i8** %null
   %tmp51 = icmp ne i8* %tmpz, %null50
   br i1 %tmp51, label %while_body, label %merge52
@@ -916,137 +920,187 @@ merge31:                                          ; preds = %while
   ret i32 1
 }
 
-define i32 @tape(i8* %f, i8* %re) {
+define i32 @searchLine(i8* %f, i8* %a) {
 entry:
   %f1 = alloca i8*
   store i8* %f, i8** %f1
+  %a2 = alloca i8*
+  store i8* %a, i8** %a2
+  %temp = alloca i8*
+  %null = alloca i8*
+  %tmpa = call i8* @calloc(i32 1000000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  store i8* %tmpa, i8** %temp
+  %find = call i8* @strstr(i8* getelementptr inbounds ([1 x i8], [1 x i8]* @string.30, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.29, i32 0, i32 0))
+  store i8* %find, i8** %null
+  br label %while
+
+while:                                            ; preds = %merge, %entry
+  %f8 = load i8*, i8** %f1
+  %temp9 = load i8*, i8** %temp
+  %tmpz = call i8* @fgets(i8* %temp9, i32 1000, i8* %f8)
+  %null10 = load i8*, i8** %null
+  %tmp11 = icmp ne i8* %tmpz, %null10
+  br i1 %tmp11, label %while_body, label %merge12
+
+while_body:                                       ; preds = %while
+  %a3 = load i8*, i8** %a2
+  %temp4 = load i8*, i8** %temp
+  %find5 = call i8* @strstr(i8* %temp4, i8* %a3)
+  %null6 = load i8*, i8** %null
+  %tmp = icmp ne i8* %find5, %null6
+  br i1 %tmp, label %then, label %else
+
+merge:                                            ; preds = %else, %then
+  br label %while
+
+then:                                             ; preds = %while_body
+  %temp7 = load i8*, i8** %temp
+  %puts = call i8* (i8*, ...) @puts(i8* %temp7)
+  br label %merge
+
+else:                                             ; preds = %while_body
+  br label %merge
+
+merge12:                                          ; preds = %while
+  ret i32 1
+}
+
+define i32 @tape(i8* %fn, i8* %re) {
+entry:
+  %fn1 = alloca i8*
+  store i8* %fn, i8** %fn1
   %re2 = alloca i8*
   store i8* %re, i8** %re2
   %key = alloca i8
+  %f = alloca i8*
   %null = alloca i8*
-  %find = call i8* @strstr(i8* getelementptr inbounds ([1 x i8], [1 x i8]* @string.30, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.29, i32 0, i32 0))
+  %find = call i8* @strstr(i8* getelementptr inbounds ([1 x i8], [1 x i8]* @string.34, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.33, i32 0, i32 0))
   store i8* %find, i8** %null
-  %re3 = load i8*, i8** %re2
-  %tmpp = getelementptr inbounds i8, i8* %re3, i32 0
+  %fn3 = load i8*, i8** %fn1
+  %fopen = call i8* @fopen(i8* %fn3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.35, i32 0, i32 0))
+  store i8* %fopen, i8** %f
+  %re4 = load i8*, i8** %re2
+  %tmpp = getelementptr inbounds i8, i8* %re4, i32 0
   %deref = load i8, i8* %tmpp
   %tmp = icmp eq i8 %deref, 47
-  br i1 %tmp, label %then, label %else57
+  br i1 %tmp, label %then, label %else58
 
-merge:                                            ; preds = %else57, %merge52
+merge:                                            ; preds = %else58, %merge53
   ret i32 0
 
 then:                                             ; preds = %entry
-  %re4 = load i8*, i8** %re2
-  %find5 = call i8* @strstr(i8* %re4, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.31, i32 0, i32 0))
-  %null6 = load i8*, i8** %null
-  %tmp7 = icmp ne i8* %find5, %null6
-  br i1 %tmp7, label %then9, label %else
+  %re5 = load i8*, i8** %re2
+  %find6 = call i8* @strstr(i8* %re5, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.36, i32 0, i32 0))
+  %null7 = load i8*, i8** %null
+  %tmp8 = icmp ne i8* %find6, %null7
+  br i1 %tmp8, label %then10, label %else
 
-merge8:                                           ; preds = %else, %then9
-  %re12 = load i8*, i8** %re2
-  %find13 = call i8* @strstr(i8* %re12, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.32, i32 0, i32 0))
-  %null14 = load i8*, i8** %null
-  %tmp15 = icmp ne i8* %find13, %null14
-  br i1 %tmp15, label %then17, label %else20
+merge9:                                           ; preds = %else, %then10
+  %re13 = load i8*, i8** %re2
+  %find14 = call i8* @strstr(i8* %re13, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.37, i32 0, i32 0))
+  %null15 = load i8*, i8** %null
+  %tmp16 = icmp ne i8* %find14, %null15
+  br i1 %tmp16, label %then18, label %else21
 
-then9:                                            ; preds = %then
-  %re10 = load i8*, i8** %re2
-  %f11 = load i8*, i8** %f1
-  %searchAnd_result = call i32 @searchAnd(i8* %f11, i8* %re10)
-  br label %merge8
+then10:                                           ; preds = %then
+  %re11 = load i8*, i8** %re2
+  %f12 = load i8*, i8** %f
+  %searchAnd_result = call i32 @searchAnd(i8* %f12, i8* %re11)
+  br label %merge9
 
 else:                                             ; preds = %then
-  br label %merge8
+  br label %merge9
 
-merge16:                                          ; preds = %else20, %then17
-  %re21 = load i8*, i8** %re2
-  %find22 = call i8* @strstr(i8* %re21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.33, i32 0, i32 0))
-  %null23 = load i8*, i8** %null
-  %tmp24 = icmp ne i8* %find22, %null23
-  br i1 %tmp24, label %then26, label %else29
+merge17:                                          ; preds = %else21, %then18
+  %re22 = load i8*, i8** %re2
+  %find23 = call i8* @strstr(i8* %re22, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.38, i32 0, i32 0))
+  %null24 = load i8*, i8** %null
+  %tmp25 = icmp ne i8* %find23, %null24
+  br i1 %tmp25, label %then27, label %else30
 
-then17:                                           ; preds = %merge8
-  %re18 = load i8*, i8** %re2
-  %f19 = load i8*, i8** %f1
-  %searchOr_result = call i32 @searchOr(i8* %f19, i8* %re18)
-  br label %merge16
+then18:                                           ; preds = %merge9
+  %re19 = load i8*, i8** %re2
+  %f20 = load i8*, i8** %f
+  %searchOr_result = call i32 @searchOr(i8* %f20, i8* %re19)
+  br label %merge17
 
-else20:                                           ; preds = %merge8
-  br label %merge16
+else21:                                           ; preds = %merge9
+  br label %merge17
 
-merge25:                                          ; preds = %else29, %then26
-  %re30 = load i8*, i8** %re2
-  %find31 = call i8* @strstr(i8* %re30, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.34, i32 0, i32 0))
-  %null32 = load i8*, i8** %null
-  %tmp33 = icmp ne i8* %find31, %null32
-  br i1 %tmp33, label %then35, label %else38
+merge26:                                          ; preds = %else30, %then27
+  %re31 = load i8*, i8** %re2
+  %find32 = call i8* @strstr(i8* %re31, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.39, i32 0, i32 0))
+  %null33 = load i8*, i8** %null
+  %tmp34 = icmp ne i8* %find32, %null33
+  br i1 %tmp34, label %then36, label %else39
 
-then26:                                           ; preds = %merge16
-  %re27 = load i8*, i8** %re2
-  %f28 = load i8*, i8** %f1
-  %searchQ_result = call i32 @searchQ(i8* %f28, i8* %re27)
-  br label %merge25
+then27:                                           ; preds = %merge17
+  %re28 = load i8*, i8** %re2
+  %f29 = load i8*, i8** %f
+  %searchQ_result = call i32 @searchQ(i8* %f29, i8* %re28)
+  br label %merge26
 
-else29:                                           ; preds = %merge16
-  br label %merge25
+else30:                                           ; preds = %merge17
+  br label %merge26
 
-merge34:                                          ; preds = %else38, %then35
-  %re39 = load i8*, i8** %re2
-  %find40 = call i8* @strstr(i8* %re39, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.35, i32 0, i32 0))
-  %null41 = load i8*, i8** %null
-  %tmp42 = icmp ne i8* %find40, %null41
-  br i1 %tmp42, label %then44, label %else47
+merge35:                                          ; preds = %else39, %then36
+  %re40 = load i8*, i8** %re2
+  %find41 = call i8* @strstr(i8* %re40, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.40, i32 0, i32 0))
+  %null42 = load i8*, i8** %null
+  %tmp43 = icmp ne i8* %find41, %null42
+  br i1 %tmp43, label %then45, label %else48
 
-then35:                                           ; preds = %merge25
-  %re36 = load i8*, i8** %re2
-  %f37 = load i8*, i8** %f1
-  %searchEOR_result = call i32 @searchEOR(i8* %f37, i8* %re36)
-  br label %merge34
+then36:                                           ; preds = %merge26
+  %re37 = load i8*, i8** %re2
+  %f38 = load i8*, i8** %f
+  %searchEOR_result = call i32 @searchEOR(i8* %f38, i8* %re37)
+  br label %merge35
 
-else38:                                           ; preds = %merge25
-  br label %merge34
+else39:                                           ; preds = %merge26
+  br label %merge35
 
-merge43:                                          ; preds = %else47, %then44
-  %re48 = load i8*, i8** %re2
-  %find49 = call i8* @strstr(i8* %re48, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.36, i32 0, i32 0))
-  %null50 = load i8*, i8** %null
-  %tmp51 = icmp ne i8* %find49, %null50
-  br i1 %tmp51, label %then53, label %else56
+merge44:                                          ; preds = %else48, %then45
+  %re49 = load i8*, i8** %re2
+  %find50 = call i8* @strstr(i8* %re49, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.41, i32 0, i32 0))
+  %null51 = load i8*, i8** %null
+  %tmp52 = icmp ne i8* %find50, %null51
+  br i1 %tmp52, label %then54, label %else57
 
-then44:                                           ; preds = %merge34
-  %re45 = load i8*, i8** %re2
-  %f46 = load i8*, i8** %f1
-  %searchBetween_result = call i32 @searchBetween(i8* %f46, i8* %re45)
-  br label %merge43
+then45:                                           ; preds = %merge35
+  %re46 = load i8*, i8** %re2
+  %f47 = load i8*, i8** %f
+  %searchBetween_result = call i32 @searchBetween(i8* %f47, i8* %re46)
+  br label %merge44
 
-else47:                                           ; preds = %merge34
-  br label %merge43
+else48:                                           ; preds = %merge35
+  br label %merge44
 
-merge52:                                          ; preds = %else56, %then53
+merge53:                                          ; preds = %else57, %then54
   br label %merge
 
-then53:                                           ; preds = %merge43
-  %re54 = load i8*, i8** %re2
-  %f55 = load i8*, i8** %f1
-  %searchKleene_result = call i32 @searchKleene(i8* %f55, i8* %re54)
-  br label %merge52
+then54:                                           ; preds = %merge44
+  %re55 = load i8*, i8** %re2
+  %f56 = load i8*, i8** %f
+  %searchKleene_result = call i32 @searchKleene(i8* %f56, i8* %re55)
+  br label %merge53
 
-else56:                                           ; preds = %merge43
-  br label %merge52
+else57:                                           ; preds = %merge44
+  br label %merge53
 
-else57:                                           ; preds = %entry
+else58:                                           ; preds = %entry
+  %re59 = load i8*, i8** %re2
+  %f60 = load i8*, i8** %f
+  %searchLine_result = call i32 @searchLine(i8* %f60, i8* %re59)
   br label %merge
 }
 
 define i32 @main() {
 entry:
-  %a = alloca i8*
-  %i = alloca i32
-  %fopen = call i8* @fopen(i8* getelementptr inbounds ([9 x i8], [9 x i8]* @string.40, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.39, i32 0, i32 0))
-  store i8* %fopen, i8** %a
-  %puts = call i8* (i8*, ...) @puts(i8* getelementptr inbounds ([17 x i8], [17 x i8]* @string.41, i32 0, i32 0))
-  %a1 = load i8*, i8** %a
-  %tape_result = call i32 @tape(i8* %a1, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @string.42, i32 0, i32 0))
+  %filename = alloca i8*
+  store i8* getelementptr inbounds ([9 x i8], [9 x i8]* @string.44, i32 0, i32 0), i8** %filename
+  %puts = call i8* (i8*, ...) @puts(i8* getelementptr inbounds ([52 x i8], [52 x i8]* @string.45, i32 0, i32 0))
+  %filename1 = load i8*, i8** %filename
+  %tape_result = call i32 @tape(i8* %filename1, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @string.46, i32 0, i32 0))
   ret i32 0
 }
 
