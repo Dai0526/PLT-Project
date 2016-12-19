@@ -1,11 +1,11 @@
 int main(){
-	string x;
-	int i;
+  string x;
+  int i;
 
-	x = "";
-	i = length(x);
+  x = "";
+  i = length(x);
 
-	print_i(i);
+  print_i(i);
 
-	return 1;
+  return 0;
 }

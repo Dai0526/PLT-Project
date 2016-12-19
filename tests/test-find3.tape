@@ -9,7 +9,7 @@ int main(){
 
 	x = "i love apple and plt";
 	handle = "orange";
-	y = find(x, handle)
+	y = find(x, handle);
 	if(y == null){
 		print_s("not found");
 	}else{}
