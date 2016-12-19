@@ -3,7 +3,7 @@ int main(){
   string newword;
 
   handle="apple"; 
-  newword="age";
+  newword="cho";
   findreplace(handle,newword, "demo/originalFile.txt", "demo/destinationFile.txt");
 
   return 0;
@@ -27,6 +27,7 @@ int findreplace(string a, string b, string orig, string dest){
   int len_index;
   int len_before_find;
   int len_diff;
+  int len_ans;
   string line;
   int index_temp;
   string line_before_find;
@@ -56,35 +57,18 @@ int findreplace(string a, string b, string orig, string dest){
           index_temp=index_temp+1;
           len_before_find=len_before_find+1;
         }
+ 	write(temp,1,len_line,destfile);
       }
       else {
-        if(la > lb){
-          index_temp=0;
-          #shift to lefti
-          len_diff = la-lb;
-          print_i(len_diff);
-          new_index=new[len_index-len_diff];
-          print_s(index);
-          while(len_diff < len_index - 1) {
-            if(index_temp < lb) {
-              new_index[index_temp] = newword[index_temp];
-            } 
-            else {
-              new_index[index_temp] = index[len_diff];
-            }
-            len_diff = len_diff + 1;
-            index_temp = index_temp + 1;            
-          }
-          ans_beg=substring(0, len_before_find, temp);
-          ans=mergeString(ans_beg, new_index);
-          print_s(new_index);
-        } else {
-
-        }
+    	new_index=substring(la, len_index, index);
+        ans=mergeString(newword,new_index);
+        ans_beg=substring(0, len_before_find-1, temp);
+        ans=mergeString(ans_beg, ans);
+        len_ans=length(ans);
+	
+	write(ans,1,len_ans,destfile);
       }
     }else {}
-    print_s(ans);
-    write(ans,1,len_line,destfile);
     line=fget(temp, 1000, origfile); #get next line
   }
 
