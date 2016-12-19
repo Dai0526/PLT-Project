@@ -14,8 +14,9 @@
 @string.10 = private unnamed_addr constant [1 x i8] zeroinitializer
 @fmt.11 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
 @fmt.12 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
-@string.13 = private unnamed_addr constant [7 x i8] c"I love\00"
-@string.14 = private unnamed_addr constant [5 x i8] c"plt!\00"
+@string.13 = private unnamed_addr constant [2 x i8] c"r\00"
+@string.14 = private unnamed_addr constant [9 x i8] c"test.txt\00"
+@string.15 = private unnamed_addr constant [11 x i8] c"/go/*/gle/\00"
 
 define i8* @substring(i32 %begin, i32 %end, i8* %s) {
 entry:
@@ -278,11 +279,13 @@ entry:
   %right = alloca i32
   %i = alloca i32
   %j = alloca i32
+  %ltemp = alloca i32
   %key = alloca i8
   %ft = alloca i8*
   %sn = alloca i8*
   %temp = alloca i8*
   %word = alloca i8*
+  %snmerge = alloca i8*
   %iffind = alloca i8*
   %null = alloca i8*
   %find = call i8* @strstr(i8* getelementptr inbounds ([1 x i8], [1 x i8]* @string.10, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string, i32 0, i32 0))
@@ -295,14 +298,14 @@ entry:
   store i32 %len5, i32* %lre
   %re6 = load i8*, i8** %re2
   %idx7 = load i32, i32* %idx
-  %tmp = sub i32 %idx7, 2
+  %tmp = sub i32 %idx7, 3
   %substring_result = call i8* @substring(i32 1, i32 %tmp, i8* %re6)
   store i8* %substring_result, i8** %ft
   %re8 = load i8*, i8** %re2
   %lre9 = load i32, i32* %lre
-  %tmp10 = sub i32 %lre9, 1
+  %tmp10 = sub i32 %lre9, 2
   %idx11 = load i32, i32* %idx
-  %tmp12 = add i32 %idx11, 1
+  %tmp12 = add i32 %idx11, 2
   %substring_result13 = call i8* @substring(i32 %tmp12, i32 %tmp10, i8* %re8)
   store i8* %substring_result13, i8** %sn
   %re14 = load i8*, i8** %re2
@@ -323,88 +326,99 @@ entry:
   %lsn23 = load i32, i32* %lsn
   %lft24 = load i32, i32* %lft
   %tmp25 = add i32 %lsn23, %lft24
-  store i32 %tmp25, i32* %l
+  %tmp26 = sub i32 %tmp25, 1
+  store i32 %tmp26, i32* %l
   store i32 0, i32* %j
   store i32 0, i32* %i
   store i32 1, i32* %right
+  %tmpa = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  store i8* %tmpa, i8** %temp
   br label %while
 
-while:                                            ; preds = %merge57, %entry
-  %a58 = load i8*, i8** %a1
-  %temp59 = load i8*, i8** %temp
-  %tmpz = call i8* @fgets(i8* %temp59, i32 1000, i8* %a58)
-  %null60 = load i8*, i8** %null
-  %tmp61 = icmp ne i8* %tmpz, %null60
-  br i1 %tmp61, label %while_body, label %merge62
+while:                                            ; preds = %merge58, %entry
+  %a63 = load i8*, i8** %a1
+  %temp64 = load i8*, i8** %temp
+  %tmpz = call i8* @fgets(i8* %temp64, i32 1000, i8* %a63)
+  %null65 = load i8*, i8** %null
+  %tmp66 = icmp ne i8* %tmpz, %null65
+  br i1 %tmp66, label %while_body, label %merge67
 
 while_body:                                       ; preds = %while
-  br label %while26
+  br label %while27
 
-while26:                                          ; preds = %merge48, %while_body
-  %l54 = load i32, i32* %l
-  %la55 = load i32, i32* %la
-  %tmp56 = icmp sle i32 %l54, %la55
-  br i1 %tmp56, label %while_body27, label %merge57
+while27:                                          ; preds = %merge49, %while_body
+  %l56 = load i32, i32* %l
+  %tmp57 = icmp sle i32 %l56, 10
+  br i1 %tmp57, label %while_body28, label %merge58
 
-while_body27:                                     ; preds = %while26
-  %l28 = load i32, i32* %l
-  %tmpa = call i8* @calloc(i32 %l28, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
-  store i8* %tmpa, i8** %word
-  %ft29 = load i8*, i8** %ft
-  %word30 = load i8*, i8** %word
-  %mergeString_result = call i8* @mergeString(i8* %word30, i8* %ft29)
+while_body28:                                     ; preds = %while27
+  %tmpa29 = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  store i8* %tmpa29, i8** %word
+  %ft30 = load i8*, i8** %ft
+  %word31 = load i8*, i8** %word
+  %mergeString_result = call i8* @mergeString(i8* %word31, i8* %ft30)
   store i8* %mergeString_result, i8** %word
-  br label %while31
+  br label %while32
 
-while31:                                          ; preds = %while_body32, %while_body27
-  %j37 = load i32, i32* %j
-  %i38 = load i32, i32* %i
-  %tmp39 = icmp slt i32 %j37, %i38
-  br i1 %tmp39, label %while_body32, label %merge
+while32:                                          ; preds = %while_body33, %while_body28
+  %j38 = load i32, i32* %j
+  %i39 = load i32, i32* %i
+  %tmp40 = icmp slt i32 %j38, %i39
+  br i1 %tmp40, label %while_body33, label %merge
 
-while_body32:                                     ; preds = %while31
-  %key33 = load i8, i8* %key
-  %word34 = load i8*, i8** %word
-  %appendChar_result = call i8* @appendChar(i8* %word34, i8 %key33)
+while_body33:                                     ; preds = %while32
+  %key34 = load i8, i8* %key
+  %word35 = load i8*, i8** %word
+  %appendChar_result = call i8* @appendChar(i8* %word35, i8 %key34)
   store i8* %appendChar_result, i8** %word
-  %j35 = load i32, i32* %j
-  %tmp36 = add i32 %j35, 1
-  store i32 %tmp36, i32* %j
-  br label %while31
+  %j36 = load i32, i32* %j
+  %tmp37 = add i32 %j36, 1
+  store i32 %tmp37, i32* %j
+  br label %while32
 
-merge:                                            ; preds = %while31
-  %sn40 = load i8*, i8** %sn
-  %word41 = load i8*, i8** %word
-  %mergeString_result42 = call i8* @mergeString(i8* %word41, i8* %sn40)
-  store i8* %mergeString_result42, i8** %word
-  %word43 = load i8*, i8** %word
-  %temp44 = load i8*, i8** %temp
-  %find45 = call i8* @strstr(i8* %temp44, i8* %word43)
-  %null46 = load i8*, i8** %null
-  %tmp47 = icmp ne i8* %find45, %null46
-  br i1 %tmp47, label %then, label %else
+merge:                                            ; preds = %while32
+  %sn41 = load i8*, i8** %sn
+  %word42 = load i8*, i8** %word
+  %mergeString_result43 = call i8* @mergeString(i8* %word42, i8* %sn41)
+  store i8* %mergeString_result43, i8** %word
+  %word44 = load i8*, i8** %word
+  %temp45 = load i8*, i8** %temp
+  %find46 = call i8* @strstr(i8* %temp45, i8* %word44)
+  %null47 = load i8*, i8** %null
+  %tmp48 = icmp ne i8* %find46, %null47
+  br i1 %tmp48, label %then, label %else
 
-merge48:                                          ; preds = %else, %then
-  %i50 = load i32, i32* %i
-  %tmp51 = add i32 %i50, 1
-  store i32 %tmp51, i32* %i
-  %l52 = load i32, i32* %l
-  %tmp53 = add i32 %l52, 1
-  store i32 %tmp53, i32* %l
-  br label %while26
+merge49:                                          ; preds = %else, %then
+  store i32 0, i32* %j
+  %i52 = load i32, i32* %i
+  %tmp53 = add i32 %i52, 1
+  store i32 %tmp53, i32* %i
+  %l54 = load i32, i32* %l
+  %tmp55 = add i32 %l54, 1
+  store i32 %tmp55, i32* %l
+  br label %while27
 
 then:                                             ; preds = %merge
-  %word49 = load i8*, i8** %word
-  %puts = call i8* (i8*, ...) @puts(i8* %word49)
-  br label %merge48
+  %word50 = load i8*, i8** %word
+  %puts = call i8* (i8*, ...) @puts(i8* %word50)
+  br label %merge49
 
 else:                                             ; preds = %merge
-  br label %merge48
+  %tmpa51 = call i8* @calloc(i32 1000, i32 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i32))
+  store i8* %tmpa51, i8** %word
+  br label %merge49
 
-merge57:                                          ; preds = %while26
+merge58:                                          ; preds = %while27
+  store i32 0, i32* %i
+  %lsn59 = load i32, i32* %lsn
+  %lft60 = load i32, i32* %lft
+  %tmp61 = add i32 %lsn59, %lft60
+  %tmp62 = sub i32 %tmp61, 1
+  store i32 %tmp62, i32* %l
+  store i32 0, i32* %j
   br label %while
 
-merge62:                                          ; preds = %while
+merge67:                                          ; preds = %while
   ret i32 1
 }
 
@@ -414,19 +428,12 @@ entry:
   %b = alloca i8*
   %c = alloca i8*
   %d = alloca i8*
-  store i8* getelementptr inbounds ([7 x i8], [7 x i8]* @string.13, i32 0, i32 0), i8** %a
-  store i8* getelementptr inbounds ([5 x i8], [5 x i8]* @string.14, i32 0, i32 0), i8** %b
-  %b1 = load i8*, i8** %b
-  %a2 = load i8*, i8** %a
-  %mergeString_result = call i8* @mergeString(i8* %a2, i8* %b1)
-  store i8* %mergeString_result, i8** %c
-  %c3 = load i8*, i8** %c
-  %puts = call i8* (i8*, ...) @puts(i8* %c3)
-  %c4 = load i8*, i8** %c
-  %appendChar_result = call i8* @appendChar(i8* %c4, i8 104)
-  store i8* %appendChar_result, i8** %d
-  %d5 = load i8*, i8** %d
-  %puts6 = call i8* (i8*, ...) @puts(i8* %d5)
+  %fn = alloca i8*
+  %f = alloca i8*
+  %fopen = call i8* @fopen(i8* getelementptr inbounds ([9 x i8], [9 x i8]* @string.14, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.13, i32 0, i32 0))
+  store i8* %fopen, i8** %f
+  %f1 = load i8*, i8** %f
+  %kleene_result = call i32 @kleene(i8* %f1, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @string.15, i32 0, i32 0))
   ret i32 1
 }
 

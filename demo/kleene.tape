@@ -3,15 +3,13 @@ int main(){
     string b;
     string c;
     string d;
-    a="I love";
-    b="plt!";
-    c=mergeString(a,b);
-    print_s(c);
-    d=appendChar(c,'h');
-    print_s(d);
+    string fn;
+    file f;
 
-
+   
+    f=open("test.txt","r");
     
+    kleene(f,"/go/*/gle/");   
 
 
     return 1;
@@ -29,52 +27,63 @@ int kleene(file a, string re){
     int right;
     int i;
     int j;
-
+    int ltemp;
     char key;
     string ft;
     string sn;
     
     string temp;
     string word;
+    string snmerge;
     string iffind;
     string null;
+    
     null=find("","a");
 
 
 
     idx=indexOf(re,'*');
     lre=length(re);    
-    ft=substring(1,idx-2, re);
-    sn=substring(idx+1, lre-1, re); 
+    ft=substring(1,idx-3, re);
+    sn=substring(idx+2, lre-2, re); 
     key=re[idx-2];       
+    
+   # print_c(key);    
     
     la=length(a);
     lft=length(ft);
     lsn=length(sn);
     #/ab/*/c/
-    l=lsn+lft;
+    l=lsn+lft-1;
     
     j=0;    
     i=0;
     right=1;
+    temp=new[1000];
     while(fget(temp,1000,a)!=null){
-
-        while(l<=la){
-           word=new[l];
+        while(l<=10){
+           word=new[1000];
            word=mergeString(word,ft);
+ 
            while(j<i){
                word=appendChar(word,key);
-               j=j+1;    
-           } 
-           word=mergeString(word,sn); 
+               j=j+1;  
+           }
+
+           word=mergeString(word,sn);
            if(find(temp,word)!=null){
                 print_s(word);
-           }else{}
-
+           }else{
+                word=new[1000];
+           }
+          
+           j=0;
            i=i+1;
            l=l+1;
         }
-
+        i=0;
+        l=lsn+lft-1;
+        j=0;
     }
     return 1;
 }
