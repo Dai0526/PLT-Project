@@ -1,5 +1,12 @@
 int main(){
-	
+    string x;
+    string y;
+    string z;
+
+    x = "i like ";
+    y = "";
+    z = mergeString(x,y);
+    print_s(z);	
 
 	return 0;
 }
@@ -275,76 +282,90 @@ int searchBetween(file f, string re){
 }
 
 
-int  searchKleene(file a, string re){
-
+int searchKleene(file f, string re){
     int idx;
-    int la;
-    int lre;
-    int len;
-    int lft;
-    int lsn;
-    int l;    
-    int right;
-    int i;
-    int j;
-    int ltemp;
-    char key;
-    string ft;
-    string sn;
-    
+    int lt;
+    string t1;
+    string t2;    
     string temp;
-    string word;
-    string snmerge;
-    string iffind;
+    
+
+    #to find the intermediate string
+    int begin;
+    int end;
+    string middle;    
+    string ans;
+    string head;
+    string tail;
+    int len1;
+    int len2;    
+    int len;
+    int lent2;
+
+
+    #to find index for intermediate
+    int idx1;
+    int idx2;
+    int tempidx;
+    string tempans;
+    int templen;
+    int totallen;
+    int j;  
+    int right;
+    int len5;
+    char key;
     string null;
-    
     null=find("","a");
-
-
-
-    idx=indexOf(re,'*');
-    lre=length(re);    
-    ft=substring(1,idx-3, re);
-    sn=substring(idx+2, lre-2, re); 
-    key=re[idx-2];       
-    
-   # print_c(key);    
-    
-    la=length(a);
-    lft=length(ft);
-    lsn=length(sn);
-    #/ab/*/c/
-    l=lsn+lft-1;
-    
-    j=0;    
-    i=0;
+    j=0;
     right=1;
-    temp=new[1000];
-    while(fget(temp,1000,a)!=null){
-        while(l<=10){
-           word=new[1000];
-           word=mergeString(word,ft);
- 
-           while(j<i){
-               word=appendChar(word,key);
-               j=j+1;  
-           }
+    lt=length(re);
+    idx=indexOf(re,'*');
+    t1=substring(1,idx-3,re);
+    t2=substring(idx+2,lt-2,re);
+    key=re[idx-2];
 
-           word=mergeString(word,sn);
-           if(find(temp,word)!=null){
-                print_s(word);
-           }else{
-                word=new[1000];
-           }
-          
-           j=0;
-           i=i+1;
-           l=l+1;
-        }
-        i=0;
-        l=lsn+lft-1;
-        j=0;
+    temp=new[1000];
+    head=new[1000];
+    tail=new[1000];
+    ans=new[1000]; 
+
+    while(fget(temp,1000,f)!=null){
+        head=find(temp,t1);
+        if(head!=null){
+            tail=find(temp,t2);
+            if(tail!=null){
+                len1=length(head);
+                len2=length(tail);
+                end=len1-len2;
+                lent2=length(t2);
+                end=end+lent2-1;
+                ans=substring(0,end,head);                                        
+            
+                totallen=length(ans);
+                idx1=length(t1);
+                templen=length(t2);               
+                idx2=totallen-templen;
+                tempans=substring(idx1,idx2-1,ans);    
+                
+                if(idx1==idx2){
+                    print_s(ans);
+                }else{
+                    len5=length(tempans);
+                    while(j<len5){
+                        if(tempans[j]!=key){
+                            right=0;
+                         }else{}
+                        j=j+1;
+                    }
+                    if(right==1){
+                        print_s(ans);
+                    }else{}
+                }
+            }else{}
+        }else{}
+    
     }
+
     return 1;
 }
 
