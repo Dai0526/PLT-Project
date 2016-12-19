@@ -14,7 +14,7 @@ LILO www.LITTLE.com
 
 LINE LINE
 search website:www.google.com  www.wrong.com 
-www.bing.com goooooogle
+go www.bing.com goooooogle
 Columbia University: www.columbia.edu
 Streaming: www.twitch.com
 LITTTTTTTTTTTTTTTTTTTTTTTTTTTLE
