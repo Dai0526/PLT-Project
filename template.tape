@@ -527,3 +527,68 @@ string appendChar(string s, char a){
     return temp;
 
 }
+
+int findreplace(string a, string b, string orig, string dest){
+  string temp;
+  string newword;
+  string null;
+  int la;
+  int lb;
+  file origfile;
+  file destfile;
+  string index;
+  string new_index;
+  string ans_beg;
+  string ans;
+
+  int len_line;
+  int len_index;
+  int len_before_find;
+  int len_diff;
+  int len_ans;
+  string line;
+  int index_temp;
+  string line_before_find;
+
+
+  origfile=open(orig, "r");
+  destfile=open(dest, "w");
+
+  la=length(a);
+  lb=length(b);
+  newword=new[lb];
+  newword=b;
+  temp=new[100000];
+  null=find("","a");
+ 
+  line=fget(temp,1000,origfile);
+  while(line!=null){
+  len_line=length(line);
+    index=find(temp,a);
+    if(index!=null){
+      len_index=length(index);
+      len_before_find=len_line-len_index;
+      if(la==lb){
+        index_temp=0;
+        while(index_temp < lb) {
+          temp[len_before_find] = newword[index_temp];
+          index_temp=index_temp+1;
+          len_before_find=len_before_find+1;
+        }
+    write(temp,1,len_line,destfile);
+      }
+      else {
+        new_index=substring(la, len_index, index);
+        ans=mergeString(newword,new_index);
+        ans_beg=substring(0, len_before_find-1, temp);
+        ans=mergeString(ans_beg, ans);
+        len_ans=length(ans);
+    
+    write(ans,1,len_ans,destfile);
+      }
+    }else {}
+    line=fget(temp, 1000, origfile); #get next line
+  }
+
+  return 1;
+}
