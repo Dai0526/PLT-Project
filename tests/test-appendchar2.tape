@@ -1,10 +1,10 @@
 int main(){
     string x;
-    char y
+    char y;
     string z;
 
-    x = "i like ";
-    y = '';
+    x = "";
+    y = 'p';
     z = appendChar(x,y);
     print_s(z);	
 

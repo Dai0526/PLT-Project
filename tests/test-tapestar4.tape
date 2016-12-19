@@ -3,7 +3,7 @@ int main(){
     string handle;
 
     input = "testtape.txt";
-    handle = "//*/e/";
+    handle = "/ /*/e/";
     tape(input,handle);
 
     return 0;

@@ -1,6 +1,6 @@
 int main(){
     string x;
-    char y
+    char y;
     string z;
 
     x = "i like ";
