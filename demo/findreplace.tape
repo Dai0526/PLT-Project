@@ -20,6 +20,8 @@ int findreplace(string a, string b, string orig, string dest){
   file destfile;
   string index;
   string new_index;
+  string ans_beg;
+  string ans;
 
   int len_line;
   int len_index;
@@ -63,8 +65,7 @@ int findreplace(string a, string b, string orig, string dest){
           print_i(len_diff);
           new_index=new[len_index-len_diff];
           print_s(index);
-          len_index = len_index -1;
-          while(len_diff < len_index) {
+          while(len_diff < len_index - 1) {
             if(index_temp < lb) {
               new_index[index_temp] = newword[index_temp];
             } 
@@ -74,22 +75,16 @@ int findreplace(string a, string b, string orig, string dest){
             len_diff = len_diff + 1;
             index_temp = index_temp + 1;            
           }
-          index_temp=0;
-          len_before_find=len_line-len_index;
-          len_line=len_line-len_diff;
-          while(index_temp < len_line) {
-            temp[len_before_find] = new_index[index_temp];
-            index_temp=index_temp+1;
-            len_before_find=len_before_find+1;
-          }
+          ans_beg=substring(0, len_before_find, temp);
+          ans=mergeString(ans_beg, new_index);
           print_s(new_index);
         } else {
 
         }
       }
     }else {}
-    print_s(temp);
-    write(temp,1,len_line,destfile);
+    print_s(ans);
+    write(ans,1,len_line,destfile);
     line=fget(temp, 1000, origfile); #get next line
   }
 
