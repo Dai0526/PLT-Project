@@ -1,7 +1,12 @@
 int main(){
-	
+    string input;
+    string handle;
 
-	return 0;
+    input = "testtape.txt";
+    handle = "/w/*/./";
+    tape(input,handle);
+
+    return 0;
 }
 
 int countWord(string a, string f){
