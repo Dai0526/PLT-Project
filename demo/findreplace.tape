@@ -96,3 +96,34 @@ int findreplace(string a, string b, string orig, string dest){
 }
 
 
+string mergeString(string a, string b){
+    string temp;
+    int la;
+    int lb;
+    int l;
+    int i;
+    int j;
+
+    la=length(a);
+    lb=length(b);
+
+    l=la+lb;
+    temp=new[l];    
+    
+    i=0;
+    j=0;
+    while(j<la){
+        temp[j]=a[i];
+        i=i+1;
+        j=j+1;    
+    }
+    i=0;
+    while(j<l){
+        temp[j]=b[i];
+        j=j+1;
+        i=i+1;
+        
+    }
+
+    return temp;
+}
