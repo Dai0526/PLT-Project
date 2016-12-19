@@ -3,24 +3,30 @@ int main(){
     filename="pb_log.20160623.nginx";
     
     #demo with search between
-    print_s("print all ip:  "); 
-    tape(filename,"/[/-/]/");   
+#    print_s("print all ip:  "); 
+#    tape(filename,"/[/-/]/");   
 
     #demo with search AND
-    print_s("print page view event with game subpage: "); 
-    tape(filename,"/pv/&/game/");
+#    print_s("print click event with game subpage: "); 
+#    tape(filename,"/cl.gif/&/game/");
      
+    #demo with search OR
+#    print_s("print either movie page log or manga movie page: ");
+#    tape(filename,"/movie/|/manga/");
+
     #demo with ?
-    print_s("print log whose query has star or starwars: ");
-    tape(filename,"/funny/?/_video/");
+#    print_s("print log whose query has star or starwars: ");
+#    tape(filename,"/star/?/wars/");
 
-    #demo with EXCLUSIVEOR
+    #demo with EXCLUSIVEOR movie xor starwar
+#    print_s("show logs movie and starwar cannot appear at the same time: ");
+#    tape(filename, "/movie/^/starwars/");
+    
+    #demo with * 
+    print_s("show logs has query wo*w such as ww wow woow wooow:");
+    tape(filename,"/fo/*/l/");    
 
-    #demo with OR
-
-    #demo with *
-
-
+    
     return 0;
 }
 
@@ -43,7 +49,8 @@ int tape(string fn, string re){
         }else{}
 
         if(find(re,"?")!=null){
-            searchQ(f,re);
+            searchQ(
+f,re);
         }else{}
         
         if(find(re,"^")!=null){
@@ -342,7 +349,9 @@ int searchKleene(file f, string re){
     ans=new[1000]; 
 
     while(fget(temp,1000,f)!=null){
+       
         head=find(temp,t1);
+        print_s(head);
         if(head!=null){
             tail=find(temp,t2);
             if(tail!=null){
@@ -351,8 +360,7 @@ int searchKleene(file f, string re){
                 end=len1-len2;
                 lent2=length(t2);
                 end=end+lent2-1;
-                ans=substring(0,end,head);                                        
-            
+                ans=substring(0,end,head);                                         
                 totallen=length(ans);
                 idx1=length(t1);
                 templen=length(t2);               

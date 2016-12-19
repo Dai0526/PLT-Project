@@ -1,48 +1,44 @@
 int main(){
-    file a;
-    int i;
-
-    string ac;
-    string b;
-
-    ac = "i love plt";
-    b = substring(1000,10000,ac);
-    print_s(b);
-
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"LINE");
+    string filename;
+    filename="test.txt";
     
-#    a=open("test.txt","r"); 
-#    print_s("Search between :"); 
-#    tape(a,"/www/-/com/");
- 
-#    a=open("test.txt","r"); 
-#    print_s("Search exclusive or:"); 
-#    tape(a,"/test/^/file/");
-  
-#    a=open("test.txt","r");
-#    print_s("Search and:"); 
-#    tape(a,"/test/&/file/");
+    #demo with search between
+#    print_s("print all ip:  "); 
+#    tape(filename,"/[/-/]/");   
 
-#    a=open("test.txt","r");
-#    print_s("Search or:"); 
-#    tape(a,"/test/|/file/");
+    #demo with search AND
+#    print_s("print click event with game subpage: "); 
+#    tape(filename,"/cl.gif/&/game/");
+     
+    #demo with search OR
+#    print_s("print either movie page log or manga movie page: ");
+#    tape(filename,"/movie/|/manga/");
 
-#    a=open("test.txt","r");
-#    print_s("Search condition ?:"); 
-#    tape(a,"/test/?/file/");
- 
+    #demo with ?
+#    print_s("print log whose query has star or starwars: ");
+#    tape(filename,"/star/?/wars/");
+
+    #demo with EXCLUSIVEOR movie xor starwar
+#    print_s("show logs movie and starwar cannot appear at the same time: ");
+#    tape(filename, "/movie/^/starwars/");
+    
+    #demo with * 
+    print_s("show logs has query wo*w such as ww wow woow wooow:");
+    tape(filename,"/LIT/*/LE/");    
+
+    
     return 0;
 }
 
 
-int tape(file f, string re){
+int tape(string fn, string re){
     char key;
+    file f;
+
     string null;
     null=find("","a");
     
-
+    f=open(fn,"r");
     if(re[0]=='/'){
         if(find(re,"&")!=null){
             searchAnd(f,re);
@@ -53,7 +49,8 @@ int tape(file f, string re){
         }else{}
 
         if(find(re,"?")!=null){
-            searchQ(f,re);
+            searchQ(
+f,re);
         }else{}
         
         if(find(re,"^")!=null){
@@ -73,6 +70,27 @@ int tape(file f, string re){
   
     return 0;
 }
+
+int searchLine(file f, string a){
+    string temp;
+    string null;
+    
+    temp=new[1000000];
+      
+    null=find("","a");
+     
+    while(fget(temp,1000,f)!=null){
+        if(find(temp,a)!=null){
+            print_s(temp);
+        }else {
+           
+        }
+    }
+
+    return 1;
+
+}
+
 
 int searchAnd(file f, string re){
     int idx;
@@ -255,12 +273,12 @@ int searchBetween(file f, string re){
     t1=substring(1,idx-2,re);
     t2=substring(idx+2,lt-2,re);
 
-    temp=new[1000];
-    head=new[1000];
-    tail=new[1000];
-    ans=new[1000]; 
+    temp=new[100000];
+    head=new[100000];
+    tail=new[100000];
+    ans=new[100000]; 
 
-    while(fget(temp,1000,f)!=null){
+    while(fget(temp,100000,f)!=null){
         head=find(temp,t1);
         if(head!=null){
             tail=find(temp,t2);
@@ -324,12 +342,13 @@ int searchKleene(file f, string re){
     t1=substring(1,idx-3,re);
     t2=substring(idx+2,lt-2,re);
     key=re[idx-2];
-
+        
+    
+    
     temp=new[1000];
     head=new[1000];
     tail=new[1000];
     ans=new[1000]; 
-
     while(fget(temp,1000,f)!=null){
         head=find(temp,t1);
         if(head!=null){
@@ -340,15 +359,13 @@ int searchKleene(file f, string re){
                 end=len1-len2;
                 lent2=length(t2);
                 end=end+lent2-1;
-                ans=substring(0,end,head);                                        
-            
+                ans=substring(0,end,head);                                         
                 totallen=length(ans);
                 idx1=length(t1);
                 templen=length(t2);               
                 idx2=totallen-templen;
-                tempans=substring(idx1,idx2-1,ans);    
-                
-                if(idx1==idx2){
+                tempans=substring(idx1,idx2-1,ans);     
+                if(idx1<=idx2){
                     print_s(ans);
                 }else{
                     len5=length(tempans);
@@ -418,22 +435,3 @@ string substring(int begin, int end, string s){
     return ans;
 }
 
-int searchLine(file f, string a){
-    string temp;
-    string null;
-    
-    temp=new[1000000];
-      
-    null=find("","a");
-     
-    while(fget(temp,1000,f)!=null){
-        if(find(temp,a)!=null){
-            print_s(temp);
-        }else {
-           
-        }
-    }
-
-    return 1;
-
-}
