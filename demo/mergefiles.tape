@@ -1,6 +1,9 @@
 int main(){
 
+string target;
+target="demo1/projectgrades/alltafiles.csv";
  mergeFiles("demo1/projectgrades/rachel.csv", "demo1/projectgrades/david.csv", "demo1/projectgrades/alltafiles.csv", 1);
+ mergeFiles(target, "demo1/projectgrades/graham.csv", target, 1));
 
   return 0;
 }
