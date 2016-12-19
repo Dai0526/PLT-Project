@@ -1,9 +1,13 @@
 int main(){
 
-string target;
-target="demo1/projectgrades/alltafiles.csv";
- mergeFiles("demo1/projectgrades/rachel.csv", "demo1/projectgrades/david.csv", "demo1/projectgrades/alltafiles.csv", 1);
- mergeFiles(target, "demo1/projectgrades/graham.csv", target, 1));
+	string target;
+	string a;
+	string b;
+	a = "demo1/projectgrades/rachel.csv";
+	b = "demo1/projectgrades/graham.csv";
+	target="demo1/projectgrades/alltafiles.csv";
+ #	mergeFiles(a, b, target, 1);
+       mergeFiles(target, "demo1/projectgrades/daniel.csv", "newfile.csv", 1);
 
   return 0;
 }
@@ -26,21 +30,21 @@ int mergeFiles(string a, string b, string c, int same_first_line){
 
 	file_a = open(a, "r");
 	file_b = open(b, "r");
+        print_s("before file_c");
 	file_c = open(c, "w");
+        print_s("after file_c");
 
 	line_a=fget(temp_a,10000,file_a);
 	line_b=fget(temp_b,10000,file_b);
 	len_a=length(line_a);
 	len_b=length(line_b);
-
+	
 	# write all of file a in file
 	while(line_a!=null){
 		len_a=length(line_a);
 		write(temp_a, 1, len_a, file_c);
 		line_a=fget(temp_a,10000,file_a);
 	}
-
-
 	if (same_first_line == 1){
 		line_b=fget(temp_b,10000,file_b);
 	}
