@@ -3,16 +3,15 @@ int main(){
 	string target;
 	string a;
 	string b;
-	a = "demo1/projectgrades/rachel.csv";
-	b = "demo1/projectgrades/graham.csv";
+	string c;
 	target="demo1/projectgrades/alltafiles.csv";
- #	mergeFiles(a, b, target, 1);
-       mergeFiles(target, "demo1/projectgrades/daniel.csv", "newfile.csv", 1);
-
+# 	a = mergeFiles("demo1/projectgrades/rachel.csv", "demo1/projectgrades/graham.csv", "demo1/projectgrades/rg.csv", 1);
+ #       b = mergeFiles("demo1/projectgrades/alexandra.csv", "demo1/projectgrades/jacob.csv", "demo1/projectgrades/aj.csv", 1);
+	c = mergeFiles( "demo1/projectgrades/rg.csv", "demo1/projectgrades/aj.csv", target, 1);
   return 0;
 }
 
-int mergeFiles(string a, string b, string c, int same_first_line){
+string mergeFiles(string a, string b, string c, int same_first_line){
 	file file_a;
 	file file_b;
 	file file_c;
@@ -28,17 +27,18 @@ int mergeFiles(string a, string b, string c, int same_first_line){
 	temp_b=new[10000];
 	null=find("","a");
 
-	file_a = open(a, "r");
-	file_b = open(b, "r");
+	file_a = open(a, "r+");
+	file_b = open(b, "r+");
         print_s("before file_c");
-	file_c = open(c, "w");
+	file_c = open(c, "w+");
         print_s("after file_c");
 
 	line_a=fget(temp_a,10000,file_a);
 	line_b=fget(temp_b,10000,file_b);
 	len_a=length(line_a);
 	len_b=length(line_b);
-	
+        print_s(line_a);
+        print_s(line_b);	
 	# write all of file a in file
 	while(line_a!=null){
 		len_a=length(line_a);
@@ -54,5 +54,6 @@ int mergeFiles(string a, string b, string c, int same_first_line){
 		write(temp_b, 1, len_b, file_c);
 		line_b=fget(temp_b,10000,file_b);
 	}
+	return c;
 }
 
