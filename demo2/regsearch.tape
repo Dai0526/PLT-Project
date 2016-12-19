@@ -1,9 +1,11 @@
 int main(){
+  
     string filename;
     filename="pb_log.20160623.nginx";
-    
+        
+
     #demo with search between
-#    print_s("print all ip:  "); 
+#   print_s("print all ip:  "); 
 #    tape(filename,"/[/-/]/");   
 
     #demo with search AND
@@ -11,7 +13,7 @@ int main(){
 #    tape(filename,"/cl.gif/&/game/");
      
     #demo with search OR
-#    print_s("print either movie page log or manga movie page: ");
+#    print_s("print either movie page log or manga page: ");
 #    tape(filename,"/movie/|/manga/");
 
     #demo with ?
@@ -23,10 +25,13 @@ int main(){
 #    tape(filename, "/movie/^/starwars/");
     
     #demo with * 
-    print_s("show logs has query wo*w such as ww wow woow wooow:");
-    tape(filename,"/fo/*/d/");    
+#    print_s("show logs has query wo*w such as ww wow woow wooow:");
+#    tape(filename,"/fo/*/d/");    
 
     
+#    countWord("pv",filename);
+#    countWord("111.111.111.111",filename);
+   
     return 0;
 }
 
@@ -443,12 +448,12 @@ int indexOf(string t, char c){
     while(idx<l){
         if(t[idx]==c){
             ans=idx;
+            return ans;
         }else{}
         
         idx=idx+1;
     }
     
-    return ans;
 }
 
 
@@ -474,3 +479,89 @@ string substring(int begin, int end, string s){
     return ans;
 }
 
+int countWord(string a, string f){
+    string temp;
+    string null;
+    file target;
+    int intcount; 
+    intcount = 0;
+     
+    target=open(f, "r");
+    temp=new[1000000];
+    null=find("","a");
+     
+    while(fget(temp,1000,target)!=null){
+       if(find(temp,a)!=null){
+            intcount = intcount + 1;
+        }else {
+           
+        }
+    }
+    print_i(intcount);
+    return intcount;
+
+}
+
+
+
+string str2Upper(string a){
+    string temp;
+    string tempup;
+    string target;
+    
+    int i;
+    string ans;
+    char c;
+    int l;    
+   
+    l=length(a);
+
+    target=new[l];
+    target=a;
+    temp=new[1];
+    tempup=new[1];
+    i=0;
+
+    ans=new[l];
+    while(i<l){
+        temp[0]=target[i];
+        tempup[0]=toupper(temp[0]);
+        ans[i]=tempup[0];
+        i=i+1;            
+    }
+    
+
+
+    return ans;
+}
+
+string str2Lower(string a){
+    string temp;
+    string tempup;
+    string target;
+    
+    int i;
+    string ans;
+    char c;
+    int l;    
+   
+    l=length(a);
+
+    target=new[l];
+    target=a;
+    temp=new[1];
+    tempup=new[1];
+    i=0;
+
+    ans=new[l];
+    while(i<l){
+        temp[0]=target[i];
+        tempup[0]=tolower(temp[0]);
+        ans[i]=tempup[0];
+        i=i+1;            
+    }
+    
+
+
+    return ans;
+}

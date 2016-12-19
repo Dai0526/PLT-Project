@@ -22,9 +22,9 @@ int main(){
 #    print_s("show logs movie and starwar cannot appear at the same time: ");
 #    tape(filename, "/movie/^/starwars/");
     
-    #demo with * 
-    print_s("show logs has query wo*w such as ww wow woow wooow:");
-    tape(filename,"/LIT/*/LE/");    
+     #demo with * 
+#    print_s("show logs has query wo*w such as ww wow woow wooow:");
+#    tape(filename,"/LIT/*/LE/");    
    
     return 0;
 }
