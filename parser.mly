@@ -87,7 +87,6 @@ expr: LITERAL { Literal($1) }
     | STRINGLIT LBRACKET expr RBRACKET { Array($1,$3)}
     | STRINGLIT ASSIGN NEW LBRACKET expr RBRACKET {Init($1,$5)}
     | STRINGLIT LBRACKET expr RBRACKET ASSIGN expr {Arrayassign($1,$3,$6)}
-    | STRINGLIT ASSIGN ASSIGN ASSIGN STRINGLIT LBRACKET expr RBRACKET {Arrayaccess($1,$5,$7)}
 
 expr_opt: /* nothing */ { Noexpr }
         | expr {$1}
