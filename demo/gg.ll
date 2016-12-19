@@ -45,6 +45,13 @@
 @fmt.41 = private unnamed_addr constant [4 x i8] c"%d\0A\00"
 @fmt.42 = private unnamed_addr constant [4 x i8] c"%c\0A\00"
 @string.43 = private unnamed_addr constant [11 x i8] c"i love plt\00"
+@string.44 = private unnamed_addr constant [2 x i8] c"r\00"
+@string.45 = private unnamed_addr constant [9 x i8] c"test.txt\00"
+@string.46 = private unnamed_addr constant [17 x i8] c"Search between :\00"
+@string.47 = private unnamed_addr constant [2 x i8] c"r\00"
+@string.48 = private unnamed_addr constant [9 x i8] c"test.txt\00"
+@string.49 = private unnamed_addr constant [12 x i8] c"Search and:\00"
+@string.50 = private unnamed_addr constant [16 x i8] c"/tax/&/nothing/\00"
 
 define i32 @searchLine(i8* %f, i8* %a) {
 entry:
@@ -1099,6 +1106,14 @@ entry:
   store i8* %substring_result, i8** %b
   %b2 = load i8*, i8** %b
   %puts = call i8* (i8*, ...) @puts(i8* %b2)
+  %fopen = call i8* @fopen(i8* getelementptr inbounds ([9 x i8], [9 x i8]* @string.45, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.44, i32 0, i32 0))
+  store i8* %fopen, i8** %a
+  %puts3 = call i8* (i8*, ...) @puts(i8* getelementptr inbounds ([17 x i8], [17 x i8]* @string.46, i32 0, i32 0))
+  %fopen4 = call i8* @fopen(i8* getelementptr inbounds ([9 x i8], [9 x i8]* @string.48, i32 0, i32 0), i8* getelementptr inbounds ([2 x i8], [2 x i8]* @string.47, i32 0, i32 0))
+  store i8* %fopen4, i8** %a
+  %puts5 = call i8* (i8*, ...) @puts(i8* getelementptr inbounds ([12 x i8], [12 x i8]* @string.49, i32 0, i32 0))
+  %a6 = load i8*, i8** %a
+  %tape_result = call i32 @tape(i8* %a6, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @string.50, i32 0, i32 0))
   ret i32 0
 }
 

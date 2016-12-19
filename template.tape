@@ -27,12 +27,14 @@ int countWord(string a, string f){
 
 }
 
-int tape(file f, string re){
+int tape(string fn, string re){
     char key;
+    file f;
+
     string null;
     null=find("","a");
     
-
+    f=open(fn,"r");
     if(re[0]=='/'){
         if(find(re,"&")!=null){
             searchAnd(f,re);

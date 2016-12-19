@@ -1,18 +1,14 @@
 %{ open Ast %}
 
 %token SEMI LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET COMMA
-%token IF ELSE WHILE FOR RETURN AFTER BEFORE OPEN CLOSE 
-%token SCAN COPY COUNT READLINE WRITE REPLACE DELETE
+%token IF ELSE WHILE FOR RETURN
 %token PLUS MINUS TIMES ASSIGN BOOL TRUE FALSE
-%token INCREMENT DECREMENT PLUSEQ MINUSEQ
 %token EQUAL LESS LESSEQ GREAT GREATEQ UNEQUAL 
-%token AND OR MATCH CONDITION NOT NEW
-%token INT CHAR VOID STRING FLOAT
-%token INDEX SUBSTR TOUPPER TOLOWER
+%token NOT NEW
+%token INT CHAR VOID STRING
 
-%token <int> LITERAL VARIABLE
-%token <float> FLOATLIT
-%token <string> STRINGLIT SEARCHSTRING NEWSTRINGLIT
+%token <int> LITERAL
+%token <string> STRINGLIT NEWSTRINGLIT
 %token <char> CHAR_LITERAL
 %token EOF
 
@@ -24,8 +20,6 @@
 %left MATCH
 %left LESS GREAT LESSEQ GREATEQ
 %left PLUS MINUS
-%left PLUSEQ MINUSEQ
-%left INCREMENT DECREMENT
 %left TIMES
 %right NEG NOT
 
@@ -50,7 +44,6 @@ formal_list: typ STRINGLIT { [($1,$2)] }
    
 
 typ: INT { Int }
-   | FLOAT { Float}
    | VOID { Void }
    | BOOL { Bool }
    | STRING { String }
@@ -74,7 +67,6 @@ stmt:
     | WHILE LPAREN expr RPAREN stmt {While($3,$5)}
 
 expr: LITERAL { Literal($1) }
-    | FLOATLIT { FloatLit($1) }
     | STRINGLIT { StringLit($1) }
     | NEWSTRINGLIT { NewstringLit($1) }
     | STRINGLIT ASSIGN expr { Assign($1, $3) }
@@ -89,7 +81,6 @@ expr: LITERAL { Literal($1) }
     | expr LESSEQ expr { Binop($1, LessEQ, $3) }
     | expr GREATEQ expr { Binop($1, GreatEQ, $3) }
     | NOT expr { Unop(Not, $2) }
-    | SEARCHSTRING { Searchstring($1) }
     | TRUE { BoolLit(true)}
     | FALSE { BoolLit(false)}
     | STRINGLIT LPAREN actual_opt RPAREN { Call($1, $3) }

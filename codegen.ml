@@ -16,7 +16,6 @@ let translate(globals,functions) =
 
     let ltype_of_typ = function
 	  A.Int -> i32_t
-	| A.Float -> flt_t
 	| A.String -> ptr_t
 	| A.Void -> void_t
 	| A.Bool -> i1_t
@@ -121,12 +120,10 @@ let translate(globals,functions) =
     (*expression*)
     let rec expr builder = function
 	  A.Literal i -> L.const_int i32_t i   (*boolean not included*)
-	| A.FloatLit f -> L.const_float flt_t f
 	| A.Noexpr ->	L.const_int i32_t 0
     | A.Char_Lit c -> L.const_int i8_t (Char.code c)
     | A.StringLit s -> L.build_load (lookup s) s builder
     | A.NewstringLit sl -> L.build_global_stringptr sl "string" builder
-	| A.Searchstring ss -> L.build_load (lookup ss) ss builder
     | A.Array(e1,e2) -> let para1=(expr builder (A.StringLit e1))
         and  para2=(expr builder e2) in 
         let k=L.build_in_bounds_gep para1 [|para2|] "tmpp" builder in
